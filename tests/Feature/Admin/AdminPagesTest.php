@@ -45,7 +45,7 @@ class AdminPagesTest extends TestCase
             "/admin/contents/{$content->id}/edit",
             '/admin/categories', '/admin/tags', '/admin/media', '/admin/media?display=list', '/admin/media/upload',
             '/admin/menus', "/admin/menus/{$menu->id}/edit", '/admin/comments', '/admin/redirects',
-            '/admin/users', '/admin/users/create', '/admin/audit-logs',
+            '/admin/users', '/admin/users/create', '/admin/audit-logs', '/admin/migration/migration-maps',
             '/admin/manage-site', '/admin/manage-contact', '/admin/manage-social', '/admin/manage-seo', '/admin/manage-analytics',
         ] as $url) {
             $this->assertSame(200, $this->get($url)->status(), "GET {$url}");

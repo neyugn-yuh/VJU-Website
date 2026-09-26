@@ -65,6 +65,10 @@ class HtmlTransformer
         $this->rewriteLinks($xpath, $ctx);
         $this->normalizeHeadings($doc, $xpath);
         $this->unwrap($root);
+        // Page-builder markup leaves indentation runs inside text; collapse them (never inside <pre>).
+        foreach (iterator_to_array($xpath->query('//text()[not(ancestor::pre)]')) as $text) {
+            $text->nodeValue = preg_replace('/[ \t\r\n]+/', ' ', $text->nodeValue);
+        }
         $this->paragraphize($doc, $root);
 
         $out = '';
@@ -302,7 +306,7 @@ class HtmlTransformer
                 return $block;
             }
 
-            return '<p>'.preg_replace('/(?<!>)\n/', "<br>\n", $block).'</p>';
+            return '<p>'.preg_replace('/(?<!>)\n/', '<br>', $block).'</p>';
         }, $blocks));
     }
 

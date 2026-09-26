@@ -409,6 +409,10 @@ class WordPressImporter
                 }
             }
 
+            // Files found only in content keep their original upload month (…/uploads/2024/12/…).
+            if (empty($attributes['created_at']) && preg_match('#/wp-content/uploads/(\d{4})/(\d{2})/#', $url, $m)) {
+                $attributes['created_at'] = Carbon::create((int) $m[1], (int) $m[2], 1);
+            }
             $media = $this->media->store($path, $attributes);
 
             // Old upload URLs (linked from other sites, social posts, PDFs) keep working.

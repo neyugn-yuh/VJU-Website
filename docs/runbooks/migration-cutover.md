@@ -44,7 +44,7 @@ Rehearsal 2 adds an incremental run and the full cutover simulation below.
 | T-0 | WordPress read-only (freeze); fresh dump + uploads sync |
 | | `php artisan wp:import --type=all --source=db --since=last-run` |
 | | `php artisan wp:validate --source=db` + `php artisan wp:report` |
-| | URL smoke test: crawl `url-inventory.csv` (expect 200, or one 301 → 200) |
+| | URL smoke test: `node tools/check-urls.mjs --inventory=storage/app/private/migration/url-inventory.csv --base=https://<new-site>` (200, or one 301 → 200) |
 | | SEO smoke: `/sitemap.xml`, `/robots.txt`, canonical + hreflang on sample pages; **Discourage indexing OFF** |
 | | switch DNS / reverse proxy to the new site |
 | | production smoke tests, Google login for each role, create/publish test post then delete |
