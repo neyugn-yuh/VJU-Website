@@ -46,6 +46,11 @@ class FakeWordPressSource implements WordPressSource
         return $this->data['comments'] ?? [];
     }
 
+    public function redirects(): iterable
+    {
+        return $this->data['redirects'] ?? [];
+    }
+
     public function inventory(): array
     {
         return ['source' => 'fake', 'counts' => []];

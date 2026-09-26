@@ -68,6 +68,12 @@ class WordPressImporterTest extends TestCase
                     ['id' => 4, 'parent' => 0, 'title' => 'VNU', 'url' => 'https://vnu.edu.vn', 'type' => 'custom', 'object' => 'custom', 'object_id' => 0, 'target' => '_blank', 'order' => 3],
                 ],
             ]],
+            'redirects' => [
+                ['id' => 'r1', 'origin' => 'academics/post-graduate', 'target' => 'https://vju.ac.vn/en/scientific-seminar/', 'status' => 301, 'format' => 'plain'],
+                ['id' => 'r2', 'origin' => '/cu/da-go/', 'target' => '', 'status' => 410, 'format' => 'plain'],
+                ['id' => 'r3', 'origin' => '^/old-(.*)$', 'target' => '/$1', 'status' => 301, 'format' => 'regex'],
+                ['id' => 'r4', 'origin' => '/hoi-thao-khoa-hoc/', 'target' => '/khac/', 'status' => 301, 'format' => 'plain'],
+            ],
             'comments' => [['id' => 1, 'post' => 45422, 'parent' => 0, 'author_name' => 'Sinh viên', 'author_email' => 'sv@example.com', 'content' => 'Hay quá', 'date_gmt' => '2025-05-03T00:00:00', 'status' => 'approved']],
         ]);
 
@@ -77,7 +83,7 @@ class WordPressImporterTest extends TestCase
     private function importAll(bool $dryRun = false): array
     {
         $stats = [];
-        foreach (['users', 'taxonomies', 'media', 'pages', 'posts', 'structured', 'comments', 'menus'] as $type) {
+        foreach (['users', 'taxonomies', 'media', 'pages', 'posts', 'structured', 'comments', 'menus', 'redirects'] as $type) {
             $stats[$type] = app(WordPressImporter::class)->run($this->source, $type, dryRun: $dryRun);
         }
 
@@ -139,6 +145,12 @@ class WordPressImporterTest extends TestCase
         // comments
         $this->assertSame(1, Comment::where('content_id', $post->id)->where('status', 'approved')->count());
         $this->assertTrue($post->fresh()->is_commentable);
+
+        // Yoast Premium redirects: plain rules imported (site host stripped), 410 kept, regex reported, live URLs never shadowed
+        $this->assertSame('/en/scientific-seminar/', Redirect::where('old_url', '/academics/post-graduate')->value('new_url'));
+        $this->assertSame(410, Redirect::where('old_url', '/cu/da-go')->value('status_code'));
+        $this->assertSame('skipped', WpMigrationMap::where('source_type', 'redirect')->where('source_id', 'r3')->value('status'));
+        $this->assertNull(Redirect::where('old_url', '/hoi-thao-khoa-hoc')->first());
 
         // menus: tree, content/category links resolved, external kept
         $menu = Menu::where('location', 'header')->where('locale', 'vi')->firstOrFail();

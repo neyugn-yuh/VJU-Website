@@ -147,6 +147,11 @@ class RestApiSource implements WordPressSource
         }
     }
 
+    public function redirects(): iterable
+    {
+        return []; // Yoast Premium redirects live in wp_options; only the DB source can read them.
+    }
+
     public function inventory(): array
     {
         $root = $this->http()->get($this->baseUrl.'/wp-json/')->json();

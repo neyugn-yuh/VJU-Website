@@ -19,6 +19,7 @@ use App\Models\Content;
 use App\Models\ContentTranslation;
 use App\Models\Media;
 use App\Models\Menu;
+use App\Models\Redirect;
 use App\Models\Tag;
 use App\Models\User;
 use App\Models\WpMigrationMap;
@@ -41,7 +42,7 @@ use Throwable;
  */
 class WordPressImporter
 {
-    public const TYPES = ['users', 'taxonomies', 'media', 'pages', 'posts', 'structured', 'comments', 'menus', 'seo'];
+    public const TYPES = ['users', 'taxonomies', 'media', 'pages', 'posts', 'structured', 'comments', 'menus', 'redirects', 'seo'];
 
     private const POST_TYPES = [
         'pages' => ['page'],
@@ -112,6 +113,7 @@ class WordPressImporter
                 'pages', 'posts', 'structured', 'seo' => $this->importPostTypes(self::POST_TYPES[$type], $filters, seoOnly: $type === 'seo'),
                 'comments' => $this->each('comment', $source->comments($filters), fn ($c) => $this->importComment($c)),
                 'menus' => $this->each('menu', $source->menus(), fn ($m) => $this->importMenu($m)),
+                'redirects' => $this->each('redirect', $source->redirects(), fn ($r) => $this->importRedirect($r)),
             };
 
             $run->update(['status' => 'completed', 'stats' => $this->stats, 'finished_at' => now()]);
@@ -551,7 +553,8 @@ class WordPressImporter
         if (! $isNew && WpMigrationMap::where('source_type', $p['type'])->where('target_id', $content->id)->where('locale', $locale)
             ->where('source_id', '!=', (string) $p['id'])->where('status', 'success')->exists()) {
             $warnings[] = "translation_group_conflict: content {$content->id}";
-            $sourceKey = (string) $p['id'];
+            // This post may itself be the group's key (content.source_id); then use a per-locale key.
+            $sourceKey = $content->source_id === (string) $p['id'] ? "{$p['id']}:{$locale}" : (string) $p['id'];
             $content = Content::withTrashed()->where('source_system', 'wordpress')->where('source_id', $sourceKey)->whereKeyNot($content->id)->first();
             $isNew = ! $content;
         }
@@ -798,6 +801,52 @@ class WordPressImporter
         $this->success('comment', $c['id'], $c, 'comment', $comment->id, $checksum);
 
         return $comment->wasRecentlyCreated ? 'imported' : 'updated';
+    }
+
+    // ------------------------------------------------------------------ redirects
+
+    /** Yoast Premium redirects. Regex rules cannot be expressed in the redirects table and are reported. */
+    private function importRedirect(array $r): string
+    {
+        $checksum = $this->checksum($r);
+        if ($this->unchanged('redirect', $r['id'], $checksum)) {
+            return 'unchanged';
+        }
+
+        $origin = '/'.ltrim(preg_replace('#^https?://[^/]+#i', '', $r['origin']), '/');
+        if ($r['format'] !== 'plain') {
+            $this->map->record('redirect', $r['id'], ['status' => 'skipped', 'source_url' => $r['origin'], 'error' => 'regex redirect: recreate manually or as an nginx rule']);
+
+            return 'skipped';
+        }
+
+        [$locale, $rest] = Locales::split(RedirectResolver::nfc(rawurldecode($origin)));
+        if (ContentTranslation::where('locale', $locale)->where('path', $rest)->exists()) {
+            $this->map->record('redirect', $r['id'], ['status' => 'skipped', 'source_url' => $origin, 'error' => 'origin is live content in the CMS']);
+
+            return 'skipped';
+        }
+
+        if (in_array($r['status'], [410, 451], true)) {
+            $redirect = Redirect::updateOrCreate(['old_url' => RedirectResolver::normalize($origin)], ['new_url' => null, 'status_code' => 410, 'source' => 'migration']);
+        } else {
+            // Same-site absolute targets become paths; a target that itself moved is followed once (no chains).
+            $target = preg_replace('#^https?://(www\.)?('.implode('|', array_map('preg_quote', $this->transformContext()->legacyHosts())).')#i', '', $r['target']) ?: '/';
+            $target = str_starts_with($target, 'http') || str_starts_with($target, '/') ? $target : '/'.$target;
+            $target = RedirectResolver::find($target)->new_url ?? $target;
+            RedirectResolver::record($origin, $target, 'migration');
+            $redirect = RedirectResolver::find($origin);
+            $redirect?->update(['status_code' => in_array($r['status'], [301, 302, 307, 308], true) ? ($r['status'] === 307 ? 302 : ($r['status'] === 308 ? 301 : $r['status'])) : 301]);
+        }
+
+        if (! $redirect) {
+            $this->map->record('redirect', $r['id'], ['status' => 'skipped', 'source_url' => $origin, 'error' => 'origin equals target']);
+
+            return 'skipped';
+        }
+        $this->success('redirect', $r['id'], $r, 'redirect', $redirect->id, $checksum, [], $redirect->new_url);
+
+        return 'imported';
     }
 
     // ------------------------------------------------------------------ menus

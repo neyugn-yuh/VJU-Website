@@ -209,6 +209,25 @@ class DatabaseSource implements WordPressSource
         }
     }
 
+    public function redirects(): iterable
+    {
+        // Yoast SEO Premium stores rules as [['origin', 'url', 'type', 'format'], ...].
+        foreach (['wpseo-premium-redirects-base'] as $option) {
+            foreach ((array) $this->unserialize($this->option($option)) as $i => $rule) {
+                if (! is_array($rule) || empty($rule['origin'])) {
+                    continue;
+                }
+                yield [
+                    'id' => md5(($rule['format'] ?? 'plain').'|'.$rule['origin']),
+                    'origin' => (string) $rule['origin'],
+                    'target' => (string) ($rule['url'] ?? ''),
+                    'status' => (int) ($rule['type'] ?? 301),
+                    'format' => $rule['format'] ?? 'plain',
+                ];
+            }
+        }
+    }
+
     public function inventory(): array
     {
         $posts = $this->t('posts');

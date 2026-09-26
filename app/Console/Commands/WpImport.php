@@ -11,7 +11,7 @@ use Illuminate\Console\Command;
 class WpImport extends Command
 {
     protected $signature = 'wp:import
-        {--type=all : users|taxonomies|media|pages|posts|structured|comments|menus|seo|all}
+        {--type=all : users|taxonomies|media|pages|posts|structured|comments|menus|redirects|seo|all}
         {--source=rest : rest (public API) or db (restored dump in the "wordpress" connection)}
         {--dry-run : Run everything, then roll back each record}
         {--force : Re-import records even when their checksum is unchanged}
@@ -25,7 +25,7 @@ class WpImport extends Command
     public function handle(WordPressImporter $importer): int
     {
         $types = $this->option('type') === 'all'
-            ? ['users', 'taxonomies', 'media', 'pages', 'posts', 'structured', 'comments', 'menus']
+            ? ['users', 'taxonomies', 'media', 'pages', 'posts', 'structured', 'comments', 'menus', 'redirects']
             : [$this->option('type')];
 
         if (array_diff($types, WordPressImporter::TYPES)) {

@@ -17,7 +17,11 @@
 
 ## Order and idempotency
 
-`--type=all` runs: users → taxonomies → media → pages → posts → structured → comments → menus.
+`--type=all` runs: users → taxonomies → media → pages → posts → structured → comments → menus → redirects.
+`redirects` imports the **Yoast Premium Redirect Manager** rules (option `wpseo-premium-redirects-base`, DB source
+only; regex rules are reported for manual/nginx handling). With the REST source, run
+`php artisan wp:validate && php artisan wp:harvest-redirects` instead: it asks the live WordPress site where it
+redirects every broken internal link and records the redirect when the target exists in the CMS.
 Each record is keyed by its WordPress identity in `wp_migration_map`; unchanged checksums are skipped, changed
 records update in place, nothing is duplicated. `--force` re-transforms everything (e.g. after a transformer fix).
 Every run is logged in `wp_migration_runs`; recoverable problems (missing image, unknown shortcode, unsupported

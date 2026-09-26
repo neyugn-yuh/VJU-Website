@@ -50,6 +50,7 @@ php artisan wp:import --type=all               # users, taxonomies, media, pages
 php artisan wp:import --type=posts --since=last-run   # incremental
 php artisan wp:validate                        # counts, every legacy URL = 200 or one 301, content checks
 php artisan wp:report                          # migration-report.json/csv + url-inventory.csv
+php artisan wp:harvest-redirects               # REST source: copy redirects the live WordPress site applies
 ```
 
 Options: `--source=rest|db`, `--locale=vi`, `--id=123`, `--since="2026-08-01 00:00:00"|last-run`, `--limit=100`, `--force`.

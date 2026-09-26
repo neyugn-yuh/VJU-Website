@@ -42,6 +42,9 @@ interface WordPressSource
     /** @return iterable<array> */
     public function comments(array $filters = []): iterable;
 
+    /** Existing redirect rules (Yoast Premium Redirect Manager): {origin, target, status, format(plain|regex)} */
+    public function redirects(): iterable;
+
     /** Inventory for wp:inspect and reconciliation: counts by type/locale, plugins, etc. */
     public function inventory(): array;
 }

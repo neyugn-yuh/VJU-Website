@@ -52,6 +52,29 @@ Japanese slugs are percent-encoded in WordPress; the CMS stores them decoded and
 Header: two horizontal Elementor nav widgets (Tuyển sinh / Đào tạo / … ~120 links); footer/mega-menu columns:
 vertical nav widgets. JetMenu mega-menu content is not reproducible from REST — **needs VJU** DB rehearsal.
 
+## Rehearsal results (REST source, 2026-09-26, clean database)
+
+| Check | Result |
+|---|---|
+| Posts VI/EN/JA | 1,153 / 647 / 66 = source ✓ |
+| Pages VI/EN/JA | 174 / 155 / 45 = source ✓ |
+| Structured (documents, notifications, tuition fees, opportunities) | 74 = source ✓ |
+| Comments | 20 ✓ |
+| Menus | header + footer × VI/EN/JA (6) |
+| Media | ~3,400 files pulled (attachments + files referenced in content), ~5.4 GB with derivatives |
+| Legacy URLs | 2,333 identical (200) + 45 changed (single 301), **0 failures** |
+| Redirects | ~3,500 (uploads → media, changed slugs, harvested WordPress redirects) |
+| Duration | ~50 min (dominated by media downloads); re-runs with `--force` ~5 min |
+
+Findings that changed the importer: decomposed-Unicode (NFD) Vietnamese slugs, accent-insensitive collation,
+inconsistent Polylang groups (two EN pages → one VI page), images on the former domain `vju.vnu.edu.vn`,
+EN menus nested deeper than 4 levels, and **existing Yoast Premium redirects** (e.g. `/academics/post-graduate/` →
+`/en/academics/post-graduate/`) that must be migrated (`--type=redirects` / `wp:harvest-redirects`).
+
+Remaining, not fixable by migration (report to VJU): ~190 links in old posts that are already broken on the live
+site (`/upload_images/…`, old paths), 14 images already missing, 21 posts with an empty body in WordPress too,
+author archives `/author/{user}/` (live on WordPress, no CMS equivalent — decide 301 to home or 410).
+
 ## Known content issues found during rehearsal
 
 - Old posts (2019) reference `/upload_images/images/...` — these already return 404 on the live site; reported as

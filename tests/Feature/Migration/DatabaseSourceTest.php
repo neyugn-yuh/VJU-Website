@@ -74,6 +74,9 @@ class DatabaseSourceTest extends TestCase
 
         $this->assertSame('approved', iterator_to_array($source->comments())[0]['status']);
 
+        $redirect = iterator_to_array($source->redirects())[0];
+        $this->assertSame(['academics/post-graduate', 'en/academics/post-graduate', 301, 'plain'], [$redirect['origin'], $redirect['target'], $redirect['status'], $redirect['format']]);
+
         $inv = $source->inventory();
         $this->assertContains('polylang-pro/polylang.php', $inv['active_plugins']);
         $this->assertSame(1, $inv['published_by_language']['vi']['post']);
@@ -161,6 +164,7 @@ class DatabaseSourceTest extends TestCase
             ['option_name' => 'stylesheet', 'option_value' => 'vju'],
             ['option_name' => 'active_plugins', 'option_value' => serialize(['polylang-pro/polylang.php', 'wordpress-seo/wp-seo.php'])],
             ['option_name' => 'polylang', 'option_value' => serialize(['nav_menus' => ['vju' => ['primary' => ['en' => 30]]]])],
+            ['option_name' => 'wpseo-premium-redirects-base', 'option_value' => serialize([['origin' => 'academics/post-graduate', 'url' => 'en/academics/post-graduate', 'type' => 301, 'format' => 'plain']])],
         ]);
         $db->table('wptest_users')->insert(['ID' => 7, 'user_login' => 'bientap', 'user_email' => 'BienTap@vju.ac.vn', 'display_name' => 'Biên tập']);
 
