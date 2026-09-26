@@ -19,6 +19,12 @@ services:
   app:
     <<: *app
     command: php artisan serve --host=0.0.0.0 --port=8000
+    environment:
+      DB_HOST: mysql
+      REDIS_HOST: redis
+      MAIL_HOST: mailpit
+      # Parallel requests for the dev server (Vite HMR, Livewire, crawlers).
+      PHP_CLI_SERVER_WORKERS: 8
     ports:
       - "${APP_PORT:-8000}:8000"
 

@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-RUN echo "memory_limit=1G\nupload_max_filesize=64M\npost_max_size=64M" > /usr/local/etc/php/conf.d/vju.ini
+# opcache + realpath cache: the Windows/macOS bind mount makes uncached file stats slow.
+RUN printf "memory_limit=1G\nupload_max_filesize=64M\npost_max_size=64M\nopcache.enable=1\nopcache.enable_cli=1\nopcache.revalidate_freq=2\nrealpath_cache_size=4096K\nrealpath_cache_ttl=600\n" > /usr/local/etc/php/conf.d/vju.ini
 
 WORKDIR /var/www/html
