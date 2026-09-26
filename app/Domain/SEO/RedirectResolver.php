@@ -13,10 +13,16 @@ class RedirectResolver
     public static function normalize(?string $url): string
     {
         $path = parse_url((string) $url, PHP_URL_PATH) ?: '/';
-        $path = mb_strtolower(rawurldecode($path));
+        // NFC: WordPress stored some Vietnamese slugs decomposed (e + combining tilde).
+        $path = mb_strtolower(self::nfc(rawurldecode($path)));
         $path = '/'.trim(preg_replace('#/+#', '/', $path), '/');
 
         return $path;
+    }
+
+    public static function nfc(string $value): string
+    {
+        return \Normalizer::normalize($value, \Normalizer::FORM_C) ?: $value;
     }
 
     public static function find(string $url): ?Redirect

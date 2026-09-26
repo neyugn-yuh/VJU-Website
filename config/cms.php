@@ -63,6 +63,9 @@ return [
         'uploads_path' => env('WP_UPLOADS_PATH'),
         'prefix' => env('WP_DB_PREFIX', 'wp_'),
 
+        // Former domains still referenced in content (links/images are rewritten like the main host).
+        'legacy_hosts' => ['vju.ac.vn', 'vju.vnu.edu.vn'],
+
         // WordPress theme menu location => CMS location. Fill in from `wp:inspect --source=db`.
         'menu_locations' => [
             'header' => 'header',

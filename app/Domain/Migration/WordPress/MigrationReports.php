@@ -99,7 +99,7 @@ class MigrationReports
 
         // --- content quality
         $mediaUrls = Media::get(['disk', 'path', 'metadata'])->flatMap(fn (Media $m) => [
-            parse_url($m->url(), PHP_URL_PATH), ...array_map(fn ($d) => parse_url(\Storage::disk($m->disk)->url($d['path']), PHP_URL_PATH), $m->metadata['derivatives'] ?? []),
+            parse_url($m->url(), PHP_URL_PATH), ...array_values(array_map(fn ($d) => parse_url(\Storage::disk($m->disk)->url($d['path']), PHP_URL_PATH), $m->metadata['derivatives'] ?? [])),
         ])->filter()->flip();
         $referenced = [];
         $counters = ['empty_title' => 0, 'empty_body' => 0, 'broken_image' => 0, 'broken_link' => 0];

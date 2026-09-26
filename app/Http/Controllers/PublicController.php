@@ -41,7 +41,7 @@ class PublicController extends Controller
             abort(405);
         }
 
-        $rawPath = rawurldecode($request->getPathInfo());
+        $rawPath = RedirectResolver::nfc(rawurldecode($request->getPathInfo()));
 
         if ($legacy = $this->legacyQueryRedirect($request)) {
             return $legacy;

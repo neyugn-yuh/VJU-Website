@@ -98,6 +98,16 @@ class PublicSiteTest extends TestCase
         $this->assertSame(2, Redirect::where('old_url', '/trang-cu')->value('hits'));
     }
 
+    public function test_decomposed_unicode_legacy_urls_redirect(): void
+    {
+        $this->makeContent(['translations' => ['vi' => ['title' => 'Lễ ký kết']]]);
+        $nfd = "/le\u{0303}-ky-ket/"; // "lẽ" as e + combining tilde, as WordPress stored it
+        Redirect::create(['old_url' => $nfd, 'new_url' => '/le-ky-ket/', 'status_code' => 301]);
+
+        $this->visit('/'.rawurlencode("le\u{0303}-ky-ket").'/')->assertStatus(301)->assertHeader('Location', 'http://localhost/le-ky-ket/');
+        $this->visit('/'.rawurlencode('lẽ-ky-ket').'/')->assertStatus(301); // NFC form of the same URL
+    }
+
     public function test_live_content_beats_a_stale_redirect(): void
     {
         $this->makeContent(['translations' => ['vi' => ['title' => 'Song song']]]);

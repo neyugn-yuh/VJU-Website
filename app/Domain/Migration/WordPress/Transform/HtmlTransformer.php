@@ -326,7 +326,7 @@ class HtmlTransformer
         }
         $host = parse_url(str_starts_with($url, '//') ? "https:{$url}" : $url, PHP_URL_HOST);
 
-        return $host !== null && (strcasecmp($host, $ctx->legacyHost) === 0 || strcasecmp($host, 'www.'.$ctx->legacyHost) === 0);
+        return $host !== null && in_array(strtolower(preg_replace('/^www\./i', '', $host)), $ctx->legacyHosts(), true);
     }
 
     private function absolute(string $url, TransformContext $ctx): string

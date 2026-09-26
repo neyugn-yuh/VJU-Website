@@ -29,6 +29,12 @@ class TransformContext
         return new self(fn (string $url) => $url, fn (int $id) => null, $legacyHost);
     }
 
+    /** The site host plus former domains (config cms.wordpress.legacy_hosts), all treated as "same site". */
+    public function legacyHosts(): array
+    {
+        return array_values(array_unique(array_map('strtolower', [$this->legacyHost, ...(array) config('cms.wordpress.legacy_hosts', [])])));
+    }
+
     public function warn(string $code, string $detail = ''): void
     {
         $message = $detail === '' ? $code : "{$code}: {$detail}";

@@ -41,9 +41,9 @@ return new class extends Migration
             $table->foreignId('content_id')->constrained()->cascadeOnDelete();
             $table->string('locale', 5);
             $table->string('title', 500);
-            $table->string('slug');
+            $table->string('slug')->collation('utf8mb4_bin');
             // URL path without locale prefix, e.g. "tuyen-sinh/dai-hoc" or "tuition-fees/slug".
-            $table->string('path', 700);
+            $table->string('path', 700)->collation('utf8mb4_bin');
             $table->text('excerpt')->nullable();
             $table->longText('body')->nullable();
             // Page content modules (hero, cards, FAQ, documents...) rendered by the public site.

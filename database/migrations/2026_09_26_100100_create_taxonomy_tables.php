@@ -26,9 +26,9 @@ return new class extends Migration
             $table->string('locale', 5);
             $table->string('name');
             $table->text('description')->nullable();
-            $table->string('slug');
+            $table->string('slug')->collation('utf8mb4_bin');
             // URL path without locale prefix, e.g. "news-vn/dao-tao". Derived from the parent chain.
-            $table->string('path', 700);
+            $table->string('path', 700)->collation('utf8mb4_bin');
             $table->timestamps();
 
             $table->unique(['category_id', 'locale']);
@@ -50,7 +50,7 @@ return new class extends Migration
             $table->foreignId('tag_id')->constrained()->cascadeOnDelete();
             $table->string('locale', 5);
             $table->string('name');
-            $table->string('slug');
+            $table->string('slug')->collation('utf8mb4_bin');
             $table->timestamps();
 
             $table->unique(['tag_id', 'locale']);

@@ -205,6 +205,23 @@ class WordPressImporterTest extends TestCase
         $this->assertContains('missing_featured_media: 99999', $row->warnings);
     }
 
+    public function test_inconsistent_polylang_groups_never_overwrite_a_translation(): void
+    {
+        $B = 'https://vju.ac.vn';
+        $this->source->data['posts'] = [
+            FakeWordPressSource::post(['id' => 1, 'lang' => 'vi', 'translations' => ['vi' => 1, 'en' => 2], 'slug' => 'a', 'title' => 'A', 'link' => "$B/a/"]),
+            FakeWordPressSource::post(['id' => 2, 'lang' => 'en', 'translations' => ['vi' => 1, 'en' => 2], 'slug' => 'a-en', 'title' => 'A en', 'link' => "$B/en/a-en/"]),
+            // Second English post claiming the same Vietnamese original.
+            FakeWordPressSource::post(['id' => 3, 'lang' => 'en', 'translations' => ['vi' => 1, 'en' => 3], 'slug' => 'b-en', 'title' => 'B en', 'link' => "$B/en/b-en/"]),
+        ];
+
+        app(WordPressImporter::class)->run($this->source, 'posts');
+
+        $this->assertSame('/en/a-en/', Content::where('source_id', '1')->first()->url('en'));
+        $this->assertSame('/en/b-en/', Content::where('source_id', '3')->first()->url('en'));
+        $this->assertContains('translation_group_conflict: content '.Content::where('source_id', '1')->value('id'), WpMigrationMap::where('source_id', '3')->value('warnings'));
+    }
+
     public function test_validation_and_reports(): void
     {
         $this->importAll();

@@ -15,7 +15,7 @@ class Slug
      */
     public static function make(string $text, string $locale): string
     {
-        $text = str_replace(['đ', 'Đ'], 'd', $text);
+        $text = str_replace(['đ', 'Đ'], 'd', \Normalizer::normalize($text, \Normalizer::FORM_C) ?: $text);
         $slug = Str::slug($text, '-', $locale === 'ja' ? null : 'vi');
 
         return mb_substr($slug, 0, 190);

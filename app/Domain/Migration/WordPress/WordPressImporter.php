@@ -21,6 +21,7 @@ use App\Models\Media;
 use App\Models\Menu;
 use App\Models\Tag;
 use App\Models\User;
+use App\Models\WpMigrationMap;
 use App\Models\WpMigrationRun;
 use App\Support\Locales;
 use Closure;
@@ -543,6 +544,17 @@ class WordPressImporter
         $content = $contentId ? Content::withTrashed()->find($contentId) : null;
         $isNew = ! $content;
         $warnings = [];
+        $sourceKey = (string) min($group);
+
+        // Inconsistent Polylang groups: another WordPress post already owns this language on that content.
+        // Never overwrite it; this post becomes its own content item.
+        if (! $isNew && WpMigrationMap::where('source_type', $p['type'])->where('target_id', $content->id)->where('locale', $locale)
+            ->where('source_id', '!=', (string) $p['id'])->where('status', 'success')->exists()) {
+            $warnings[] = "translation_group_conflict: content {$content->id}";
+            $sourceKey = (string) $p['id'];
+            $content = Content::withTrashed()->where('source_system', 'wordpress')->where('source_id', $sourceKey)->whereKeyNot($content->id)->first();
+            $isNew = ! $content;
+        }
 
         // One status per content: a less-visible translation never inherits a more-visible status.
         if (! $isNew && self::STATUS_PRIORITY[$status->value] < self::STATUS_PRIORITY[$content->status->value] && $content->translation($locale) === null) {
@@ -551,7 +563,7 @@ class WordPressImporter
             return 'skipped';
         }
         if ($isNew) {
-            $content = (new Content)->forceFill(['source_system' => 'wordpress', 'source_id' => (string) min($group)]);
+            $content = (new Content)->forceFill(['source_system' => 'wordpress', 'source_id' => $sourceKey]);
         }
         if ($content->trashed()) {
             $content->restoreQuietly();
@@ -807,17 +819,29 @@ class WordPressImporter
 
         $warnings = [];
         $byParent = collect($m['items'])->groupBy('parent');
-        $build = function (int $parent) use (&$build, $byParent, &$warnings) {
-            return collect($byParent[$parent] ?? [])->sortBy('order')->map(function ($item) use ($build, &$warnings) {
+        $descendants = function (int $parent) use (&$descendants, $byParent) {
+            return collect($byParent[$parent] ?? [])->sortBy('order')->flatMap(fn ($i) => [$i, ...$descendants($i['id'])])->all();
+        };
+        $build = function (int $parent, int $depth) use (&$build, $byParent, $descendants, &$warnings) {
+            return collect($byParent[$parent] ?? [])->sortBy('order')->map(function ($item) use ($build, $descendants, $depth, $byParent, &$warnings) {
                 $node = $this->menuNode($item, $warnings);
+                if (! $node) {
+                    return null;
+                }
+                // Deeper than the CMS allows: keep every link, flattened into the last level.
+                if ($depth === MenuService::MAX_DEPTH - 2 && count($deep = $descendants($item['id'])) > count($byParent[$item['id']] ?? [])) {
+                    $warnings[] = 'menu_flattened: '.$item['title'];
 
-                return $node ? [...$node, 'children' => $build($item['id'])] : null;
+                    return [...$node, 'children' => collect($deep)->map(fn ($d) => $this->menuNode($d, $warnings))->filter()->map(fn ($n) => [...$n, 'children' => []])->values()->all()];
+                }
+
+                return [...$node, 'children' => $build($item['id'], $depth + 1)];
             })->filter()->values()->all();
         };
 
         $menu = Menu::firstOrNew(['location' => $location, 'locale' => $locale]);
         $menu->fill(['name' => $m['name']])->forceFill(['source_system' => 'wordpress', 'source_id' => (string) $m['id']])->save();
-        $this->menus->sync($menu, $build(0));
+        $this->menus->sync($menu, $build(0, 0));
         $this->success('menu', $m['id'], $m, 'menu', $menu->id, $checksum, $warnings, null, $locale);
 
         return 'imported';
@@ -847,9 +871,8 @@ class WordPressImporter
             return [...$base, 'label' => $label, 'item_type' => 'custom', 'url' => '#'];
         }
 
-        $host = parse_url($url, PHP_URL_HOST);
-        $legacyHost = parse_url(config('cms.wordpress.base_url'), PHP_URL_HOST);
-        if ($host && strcasecmp($host, (string) $legacyHost) !== 0) {
+        $host = strtolower(preg_replace('/^www\./i', '', (string) parse_url($url, PHP_URL_HOST)));
+        if ($host !== '' && ! in_array($host, $this->transformContext()->legacyHosts(), true)) {
             return [...$base, 'label' => $label, 'item_type' => 'external_url', 'url' => $url];
         }
 

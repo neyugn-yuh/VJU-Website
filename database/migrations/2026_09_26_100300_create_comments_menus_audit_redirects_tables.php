@@ -77,7 +77,7 @@ return new class extends Migration
         Schema::create('redirects', function (Blueprint $table) {
             $table->id();
             // Normalized path, see RedirectResolver::normalize().
-            $table->string('old_url', 700)->unique();
+            $table->string('old_url', 700)->collation('utf8mb4_bin')->unique();
             $table->string('new_url', 1000)->nullable();
             // 301, 302, or 410 (intentionally retired).
             $table->unsignedSmallInteger('status_code')->default(301);
