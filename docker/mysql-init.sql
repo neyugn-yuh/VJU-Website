@@ -1,0 +1,4 @@
+CREATE DATABASE IF NOT EXISTS vju_cms_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER IF NOT EXISTS 'vju_test'@'%' IDENTIFIED BY 'secret';
+GRANT ALL PRIVILEGES ON vju_cms_test.* TO 'vju_test'@'%';
+FLUSH PRIVILEGES;

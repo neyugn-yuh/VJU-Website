@@ -1,0 +1,571 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$blocks\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/Content/ContentService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$body\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/Content/ContentService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$excerpt\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/Content/ContentService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$locale\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/Content/ContentService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$path\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/Content/ContentService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$snapshot\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Domain/Content/ContentService.php
+
+		-
+			message: '#^Cannot call method toDateTimeString\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Domain/Content/ContentService.php
+
+		-
+			message: '#^Parameter \#1 \$array of static method Illuminate\\Support\\Arr\:\:only\(\) expects array, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Content/ContentService.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:mapWithKeys\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array\<string, array\{title\: string, slug\: string, excerpt\: string\|null, body\: string\|null, blocks\: string\|null, seo\: array\|null\}\>, Closure\(App\\Models\\ContentTranslation\)\: non\-empty\-array\<string, array\{title\: string, slug\: string, excerpt\: string\|null, body\: string\|null, blocks\: string\|null, seo\: array\|null\}\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Content/ContentService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$path\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/Content/TaxonomyService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$icon\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/Menu/MenuService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Domain/Menu/MenuService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$label\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/Menu/MenuService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$target\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/Menu/MenuService.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:isPublished\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Domain/Menu/MenuService.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:translation\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Domain/Menu/MenuService.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:url\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Domain/Menu/MenuService.php
+
+		-
+			message: '#^Parameter \#1 \$groupBy of method Illuminate\\Support\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:groupBy\(\) expects \(callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: int\<0, max\>\)\|list\<Closure\|string\>\|string, Closure\(App\\Models\\MenuItem\)\: int\<0, max\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Menu/MenuService.php
+
+		-
+			message: '#^Parameter \#1 \$item of method App\\Domain\\Menu\\MenuService\:\:resolveUrl\(\) expects App\\Models\\MenuItem, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Domain/Menu/MenuService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/Migration/WordPress/MigrationReports.php
+
+		-
+			message: '#^Call to an undefined method DOMNameSpaceNode\|DOMNode\:\:getAttribute\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Domain/Migration/WordPress/Transform/HtmlTransformer.php
+
+		-
+			message: '#^Empty array passed to foreach\.$#'
+			identifier: foreach.emptyArray
+			count: 2
+			path: app/Domain/Migration/WordPress/Transform/HtmlTransformer.php
+
+		-
+			message: '#^Instanceof between \*NEVER\* and DOMElement will always evaluate to false\.$#'
+			identifier: instanceof.alwaysFalse
+			count: 1
+			path: app/Domain/Migration/WordPress/Transform/HtmlTransformer.php
+
+		-
+			message: '#^Offset 0 does not exist on array\{\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: app/Domain/Migration/WordPress/Transform/HtmlTransformer.php
+
+		-
+			message: '#^Parameter \#1 \$child of method DOMNode\:\:removeChild\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Domain/Migration/WordPress/Transform/HtmlTransformer.php
+
+		-
+			message: '#^Parameter \#1 \$node of method DOMNode\:\:appendChild\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Domain/Migration/WordPress/Transform/HtmlTransformer.php
+
+		-
+			message: '#^Parameter \#2 \$ul of method App\\Domain\\Migration\\WordPress\\Transform\\MenuHtmlExtractor\:\:walk\(\) expects DOMElement, DOMNameSpaceNode\|DOMNode given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Domain/Migration/WordPress/Transform/MenuHtmlExtractor.php
+
+		-
+			message: '#^Offset 5 on array\{non\-falsy\-string, ''''\|''\['', non\-falsy\-string, string, ''''\|''/'', string, ''''\|''\]''\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Domain/Migration/WordPress/Transform/ShortcodeRegistry.php
+
+		-
+			message: '#^Offset 6 on array\{non\-falsy\-string, ''''\|''\['', non\-falsy\-string, string, ''''\|''/'', string, ''''\|''\]''\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Domain/Migration/WordPress/Transform/ShortcodeRegistry.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:url\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Domain/Migration/WordPress/WordPressImporter.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>title" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Domain/Migration/WordPress/WordPressImporter.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$canonical_url\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/SEO/SeoBuilder.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$meta_description\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/SEO/SeoBuilder.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$meta_keywords\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/SEO/SeoBuilder.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$meta_title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/SEO/SeoBuilder.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$ogImage\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/SEO/SeoBuilder.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$og_description\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/SEO/SeoBuilder.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$og_title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/SEO/SeoBuilder.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$robots_follow\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/SEO/SeoBuilder.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$robots_index\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Domain/SEO/SeoBuilder.php
+
+		-
+			message: '#^Cannot call method toIso8601String\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Domain/SEO/SeoBuilder.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>ogImage" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Domain/SEO/SeoBuilder.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>robots_follow" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Domain/SEO/SeoBuilder.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>robots_index" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Domain/SEO/SeoBuilder.php
+
+		-
+			message: '#^Parameter \#1 \$options of method Filament\\Forms\\Components\\Select\:\:options\(\) expects array\<array\<string\>\|string\>\|Closure\|Illuminate\\Contracts\\Support\\Arrayable\|string\|null, array\{2\: 2, 3\: 3, 4\: 4\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Filament/Forms/PageBlocks.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$locale\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/Categories/CategoryResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/Categories/CategoryResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$path\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/Categories/CategoryResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/Categories/CategoryResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>path" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/Categories/CategoryResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/Comments/CommentResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/Contents/ContentResource.php
+
+		-
+			message: '#^Unsafe call to private method App\\Filament\\Resources\\Contents\\ContentResource\:\:currentRecordType\(\) through static\:\:\.$#'
+			identifier: staticClassAccess.privateMethod
+			count: 1
+			path: app/Filament/Resources/Contents/ContentResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>title" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/Contents/ContentResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>value" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/Contents/Pages/CreateContent.php
+
+		-
+			message: '#^Parameter \#1 \$content of method App\\Domain\\Content\\ContentService\:\:save\(\) expects App\\Models\\Content, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Filament/Resources/Contents/Pages/EditContent.php
+
+		-
+			message: '#^Property Filament\\Resources\\Pages\\EditRecord\<Illuminate\\Database\\Eloquent\\Model\>\:\:\$data \(array\<string, mixed\>\|null\) does not accept string\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Filament/Resources/Contents/Pages/EditContent.php
+
+		-
+			message: '#^Empty array passed to foreach\.$#'
+			identifier: foreach.emptyArray
+			count: 1
+			path: app/Filament/Resources/Contents/RelationManagers/RevisionsRelationManager.php
+
+		-
+			message: '#^Offset ''body'' on \*NEVER\* on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Filament/Resources/Contents/RelationManagers/RevisionsRelationManager.php
+
+		-
+			message: '#^Offset ''slug'' on \*NEVER\* on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Filament/Resources/Contents/RelationManagers/RevisionsRelationManager.php
+
+		-
+			message: '#^Offset ''title'' on \*NEVER\* on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Filament/Resources/Contents/RelationManagers/RevisionsRelationManager.php
+
+		-
+			message: '#^Parameter \#1 \$content of method App\\Domain\\Content\\ContentService\:\:restoreRevision\(\) expects App\\Models\\Content, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Filament/Resources/Contents/RelationManagers/RevisionsRelationManager.php
+
+		-
+			message: '#^Ternary operator condition is always false\.$#'
+			identifier: ternary.alwaysFalse
+			count: 1
+			path: app/Filament/Resources/Contents/RelationManagers/RevisionsRelationManager.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>type" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/Contents/Schemas/ContentForm.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Support\\HigherOrderCollectionProxy\<string, Illuminate\\Database\\Eloquent\\Model, Illuminate\\Database\\Eloquent\\Collection\<int, Illuminate\\Database\\Eloquent\\Model\>\>\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/Contents/Tables/ContentsTable.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$filename\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/Media/MediaResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/Media/MediaResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>filename" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/Media/MediaResource.php
+
+		-
+			message: '#^Parameter \#1 \$menu of method App\\Domain\\Menu\\MenuService\:\:sync\(\) expects App\\Models\\Menu, Illuminate\\Database\\Eloquent\\Model given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Filament/Resources/Menus/Pages/EditMenu.php
+
+		-
+			message: '#^Parameter \#1 \$menu of method App\\Domain\\Menu\\MenuService\:\:tree\(\) expects App\\Models\\Menu, Illuminate\\Database\\Eloquent\\Model\|int\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Filament/Resources/Menus/Pages/EditMenu.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$locale\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/Tags/TagResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/Tags/TagResource.php
+
+		-
+			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: app/Filament/Resources/Tags/TagResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$locale\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/PublicController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:translation\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Controllers/PublicController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:url\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/PublicController.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Http/Controllers/PublicController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$locale\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/SeoController.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:url\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Controllers/SeoController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$locale\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Http/Presenters/ContentPresenter.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Presenters/ContentPresenter.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:toPublicArray\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Presenters/ContentPresenter.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:translation\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Presenters/ContentPresenter.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:url\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Http/Presenters/ContentPresenter.php
+
+		-
+			message: '#^Cannot assign offset ''file'' to string\.$#'
+			identifier: offsetAssign.dimType
+			count: 2
+			path: app/Http/Presenters/ContentPresenter.php
+
+		-
+			message: '#^Cannot call method toIso8601String\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Presenters/ContentPresenter.php
+
+		-
+			message: '#^Offset ''file_id'' does not exist on non\-falsy\-string\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: app/Http/Presenters/ContentPresenter.php
+
+		-
+			message: '#^Offset ''file_url'' does not exist on non\-falsy\-string\.$#'
+			identifier: offsetAccess.notFound
+			count: 2
+			path: app/Http/Presenters/ContentPresenter.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Http/Presenters/ContentPresenter.php
+
+		-
+			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: \(array\{name\: string, url\: string\}\|null\), Closure\(App\\Models\\Category\)\: \(array\{name\: string, url\: string\}\|null\) given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Presenters/ContentPresenter.php
+
+		-
+			message: '#^Method App\\Models\\Category\:\:translation\(\) should return App\\Models\\CategoryTranslation\|null but returns Illuminate\\Database\\Eloquent\\Model\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Category.php
+
+		-
+			message: '#^Cannot call method isPast\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Models/Content.php
+
+		-
+			message: '#^Method App\\Models\\Content\:\:displayTranslation\(\) should return App\\Models\\ContentTranslation\|null but returns Illuminate\\Database\\Eloquent\\Model\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Content.php
+
+		-
+			message: '#^Method App\\Models\\Content\:\:translation\(\) should return App\\Models\\ContentTranslation\|null but returns Illuminate\\Database\\Eloquent\\Model\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Content.php
+
+		-
+			message: '#^Method App\\Models\\Tag\:\:translation\(\) should return App\\Models\\TagTranslation\|null but returns Illuminate\\Database\\Eloquent\\Model\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Tag.php

@@ -1,0 +1,62 @@
+x-app: &app
+  image: vju-php:dev
+  build:
+    context: docker
+    dockerfile: php.Dockerfile
+  volumes:
+    - .:/var/www/html
+  depends_on:
+    mysql:
+      condition: service_healthy
+    redis:
+      condition: service_started
+  environment:
+    DB_HOST: mysql
+    REDIS_HOST: redis
+    MAIL_HOST: mailpit
+
+services:
+  app:
+    <<: *app
+    command: php artisan serve --host=0.0.0.0 --port=8000
+    ports:
+      - "${APP_PORT:-8000}:8000"
+
+  queue:
+    <<: *app
+    command: php artisan queue:work --queue=default,media,migration,analytics --tries=3 --backoff=10
+    restart: unless-stopped
+
+  scheduler:
+    <<: *app
+    command: php artisan schedule:work
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: vju_cms
+      MYSQL_USER: vju
+      MYSQL_PASSWORD: secret
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - "${FORWARD_DB_PORT:-3307}:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./docker/mysql-init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-proot"]
+      interval: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+
+  mailpit:
+    image: axllent/mailpit
+    ports:
+      - "8025:8025"
+
+volumes:
+  mysql-data:
