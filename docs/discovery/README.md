@@ -77,9 +77,10 @@ author archives `/author/{user}/` (live on WordPress, no CMS equivalent — deci
 
 ## Known content issues found during rehearsal
 
-- Old posts (2019) reference `/upload_images/images/...` — these already return 404 on the live site; reported as
+- Some old posts (2019) reference `/upload_images/images/...` files that already return 404 on the live site; reported as
   `missing_media` / `legacy_image`, not fixable by migration.
-- Some pages embed SVG images (not in the upload whitelist for XSS reasons) — reported, decide per case.
+- Partner logos are SVG: imported after sanitation (SvgSanitizer) and served with a script-blocking CSP.
+- Images of the pre-WordPress CMS under `/upload_images/` (≈1,500 files, many still live) and WP-Optimize YouTube placeholders are imported/converted, so no content depends on the old server.
 - Elementor placeholders (`/wp-content/plugins/elementor/assets/images/placeholder.png`) are dropped.
 - The WP front pages (`/trang-chu/` VI, `/en/home/` EN) are Elementor landing pages; the new homepage is built from
   content modules (Settings → Site → Homepage content) instead of converting their layout.

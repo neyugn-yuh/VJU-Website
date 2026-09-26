@@ -39,6 +39,13 @@ class MediaService
             throw ValidationException::withMessages(['file' => "File type {$mime} is not allowed."]);
         }
 
+        // SVG is stored only after active content (scripts, handlers, external refs) is stripped.
+        $sanitizedSvg = $mime === 'image/svg+xml' ? app(SvgSanitizer::class)->sanitize((string) file_get_contents($path)) : null;
+        if ($sanitizedSvg !== null) {
+            $path = tempnam(sys_get_temp_dir(), 'svg');
+            file_put_contents($path, $sanitizedSvg);
+        }
+
         $size = filesize($path);
         if ($size > config('cms.media.max_size_kb') * 1024) {
             throw ValidationException::withMessages(['file' => 'File is too large.']);
@@ -61,6 +68,9 @@ class MediaService
         }
 
         [$width, $height] = str_starts_with($mime, 'image/') ? (@getimagesize($path) ?: [null, null]) : [null, null];
+        if ($sanitizedSvg !== null) {
+            @unlink($path);
+        }
 
         $media = Media::create([
             'disk' => $disk,
@@ -89,6 +99,12 @@ class MediaService
     public function detectMime(string $path): string
     {
         $mime = (new \finfo(FILEINFO_MIME_TYPE))->file($path) ?: 'application/octet-stream';
+
+        // SVG without an XML prolog is often reported as text; confirm by content, not extension.
+        if (in_array($mime, ['text/plain', 'text/xml', 'application/xml', 'text/html'], true)
+            && preg_match('/^\s*(<\?xml[^>]*>\s*)?(<!--.*?-->\s*)*<svg[\s>]/is', (string) file_get_contents($path, length: 4096))) {
+            return 'image/svg+xml';
+        }
 
         // Legacy Office files are often detected generically; accept only with a matching OLE signature.
         if ($mime === 'application/CDFV2' || $mime === 'application/x-ole-storage') {

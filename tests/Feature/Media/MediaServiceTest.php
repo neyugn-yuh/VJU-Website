@@ -45,9 +45,26 @@ class MediaServiceTest extends TestCase
         app(MediaService::class)->store($fake);
     }
 
-    public function test_svg_is_rejected(): void
+    public function test_svg_is_stored_only_after_active_content_is_removed(): void
     {
-        $svg = UploadedFile::fake()->createWithContent('logo.svg', '<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>');
+        $svg = UploadedFile::fake()->createWithContent('logo.svg', '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" onload="alert(1)"><script>alert(2)</script>'
+            .'<foreignObject><div>x</div></foreignObject><a xlink:href="javascript:alert(3)"><rect width="10" height="10" onclick="alert(4)"/></a>'
+            .'<image href="https://evil.example/x.png"/><image href="data:image/png;base64,iVBORw0KGgo="/><path d="M0 0h10"/></svg>');
+
+        $media = app(MediaService::class)->store($svg);
+        $stored = Storage::disk('public')->get($media->path);
+
+        $this->assertSame('image/svg+xml', $media->mime_type);
+        foreach (['<script', 'onload', 'onclick', 'foreignObject', 'javascript:', 'evil.example'] as $bad) {
+            $this->assertStringNotContainsString($bad, $stored, $bad);
+        }
+        $this->assertStringContainsString('<path d="M0 0h10"/>', $stored);
+        $this->assertStringContainsString('data:image/png', $stored, 'embedded raster images are kept');
+    }
+
+    public function test_svg_with_entities_is_rejected(): void
+    {
+        $svg = UploadedFile::fake()->createWithContent('bomb.svg', '<?xml version="1.0"?><!DOCTYPE svg [<!ENTITY a "aaaa">]><svg xmlns="http://www.w3.org/2000/svg">&a;</svg>');
 
         $this->expectException(ValidationException::class);
         app(MediaService::class)->store($svg);

@@ -37,6 +37,7 @@ return [
             'image/png' => 'png',
             'image/webp' => 'webp',
             'image/gif' => 'gif',
+            'image/svg+xml' => 'svg', // sanitized by SvgSanitizer before storage
             'application/pdf' => 'pdf',
             'application/msword' => 'doc',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',

@@ -61,6 +61,14 @@ class TransformTest extends TestCase
         $this->assertStringContainsString('<p><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Lễ tốt nghiệp</a></p>', $out);
     }
 
+    public function test_wp_optimize_youtube_placeholders_become_videos(): void
+    {
+        $out = $this->transform('<p><a href="https://youtu.be/HibTJF6UnsY"><img src="https://vju.ac.vn/wp-content/cache/wpo-youtube-thumbnails/HibTJF6UnsY-maxresdefault.jpg" alt="Lễ khai giảng"></a></p>');
+
+        $this->assertStringContainsString('<a href="https://www.youtube.com/watch?v=HibTJF6UnsY">Lễ khai giảng</a>', $out);
+        $this->assertStringNotContainsString('wpo-youtube-thumbnails', $out);
+    }
+
     public function test_shortcodes(): void
     {
         $ctx = TransformContext::passthrough();

@@ -3,6 +3,7 @@
 namespace App\Domain\Migration\WordPress\Transform;
 
 use App\Domain\Content\HtmlSanitizer;
+use App\Domain\Migration\WordPress\WordPressImporter;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
@@ -165,6 +166,15 @@ class HtmlTransformer
                 continue;
             }
 
+            // WP-Optimize lazy video placeholder: the image stands for a YouTube video.
+            if (preg_match('#/wpo-youtube-thumbnails/([A-Za-z0-9_-]{11})-#', $src, $m)) {
+                $url = "https://www.youtube.com/watch?v={$m[1]}";
+                $target = $img->parentNode instanceof DOMElement && strtolower($img->parentNode->tagName) === 'a' ? $img->parentNode : $img;
+                $this->replaceWithLink($img->ownerDocument, $target, $url, $img->getAttribute('alt') ?: $url);
+
+                continue;
+            }
+
             $new = $this->isLegacy($src, $ctx) ? ($ctx->mediaUrl)($this->absolute($src, $ctx)) : $src;
             if ($new === null) {
                 $ctx->warn('missing_media', $src);
@@ -192,7 +202,7 @@ class HtmlTransformer
             if ($href !== '' && $this->isLegacy($href, $ctx)) {
                 $absolute = $this->absolute($href, $ctx);
                 $path = (string) parse_url($absolute, PHP_URL_PATH);
-                if (str_contains($path, '/wp-content/uploads/')) {
+                if (preg_match(WordPressImporter::UPLOAD_PATHS, $path)) {
                     $href = ($ctx->mediaUrl)($absolute) ?? $href;
                     if ($href === $a->getAttribute('href')) {
                         $ctx->warn('missing_media', $absolute);

@@ -27,7 +27,7 @@ class MediaPicker
             ->options(fn () => $query()->latest()->limit(15)->get()->mapWithKeys(fn (Media $m) => [$m->id => self::label($m)]))
             ->createOptionForm([
                 FileUpload::make('file')->required()->storeFiles(false)
-                    ->acceptedFileTypes($imagesOnly ? ['image/jpeg', 'image/png', 'image/webp', 'image/gif'] : array_keys(config('cms.media.mimes')))
+                    ->acceptedFileTypes($imagesOnly ? ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'] : array_keys(config('cms.media.mimes')))
                     ->maxSize(config('cms.media.max_size_kb')),
                 TextInput::make('alt')->label('ALT text')->maxLength(1000),
             ])

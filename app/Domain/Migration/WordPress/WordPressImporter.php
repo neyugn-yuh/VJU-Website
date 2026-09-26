@@ -42,6 +42,9 @@ use Throwable;
  */
 class WordPressImporter
 {
+    /** File folders on the legacy host: WordPress uploads and the pre-WordPress CMS "upload_images". */
+    public const UPLOAD_PATHS = '#/(wp-content/uploads|upload_images)/#i';
+
     public const TYPES = ['users', 'taxonomies', 'media', 'pages', 'posts', 'structured', 'comments', 'menus', 'redirects', 'seo'];
 
     private const POST_TYPES = [
@@ -413,14 +416,14 @@ class WordPressImporter
             }
 
             // Files found only in content keep their original upload month (…/uploads/2024/12/…).
-            if (empty($attributes['created_at']) && preg_match('#/wp-content/uploads/(\d{4})/(\d{2})/#', $url, $m)) {
+            if (empty($attributes['created_at']) && preg_match('#/(?:wp-content/uploads|upload_images/(?:images|files))/(\d{4})/(\d{2})/#', $url, $m)) {
                 $attributes['created_at'] = Carbon::create((int) $m[1], (int) $m[2], 1);
             }
             $media = $this->media->store($path, $attributes);
 
             // Old upload URLs (linked from other sites, social posts, PDFs) keep working.
             $legacyPath = (string) parse_url($url, PHP_URL_PATH);
-            if (str_contains($legacyPath, '/wp-content/uploads/')) {
+            if (preg_match(self::UPLOAD_PATHS, $legacyPath)) {
                 RedirectResolver::record($legacyPath, $media->url(), 'migration');
             }
 
@@ -442,7 +445,7 @@ class WordPressImporter
     {
         $id = $this->mediaIdForUrl($url);
 
-        if (! $id && str_contains($url, '/wp-content/uploads/') && ! $this->dryRun) {
+        if (! $id && preg_match(self::UPLOAD_PATHS, $url) && ! $this->dryRun) {
             $key = sha1($url);
             $id = $this->map->targetId('attachment_url', $key);
             if (! $id) {

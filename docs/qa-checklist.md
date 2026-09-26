@@ -8,7 +8,7 @@
 | RBAC | `Feature/Auth/AuthorizationTest` — Admin all, Editor publishes, Author cannot edit others / publishes own, Contributor cannot publish and loses edit after publish, author reassignment blocked, 403s, own-content listing, force delete Admin-only |
 | CMS core | `Feature/Content/ContentServiceTest` — VI/EN/JA slugs, de-dup, reserved paths, hierarchy + automatic 301s, cycle guard, XSS sanitation, revisions + restore, translation removal, scheduling idempotency, trash/restore, publish audit |
 | Workflow / URLs | `Unit/ContentWorkflowTest` — status edges, redirect normalization, slugs |
-| Media | `Feature/Media/MediaServiceTest` — metadata, derivatives, MIME sniffing (PHP disguised as JPG), SVG rejected, de-dup, no overwrite, PDF |
+| Media | `Feature/Media/MediaServiceTest` — metadata, derivatives, MIME sniffing (PHP disguised as JPG), SVG sanitized (scripts, handlers, external refs, entities), de-dup, no overwrite, PDF |
 | Menus | `Feature/Admin/MenuServiceTest` — tree, unpublished hidden, validation |
 | Admin UI | `Feature/Admin/AdminPagesTest` — every screen renders, create/edit through the form, contributor blocked, autosave separate from record |
 | Public site | `Feature/Public/PublicSiteTest` — home ×3 locales, server-side SEO (title, description, canonical, hreflang, OG, JSON-LD), missing translation 404, drafts hidden, preview permission, trailing slash 301, redirects/410, live content beats redirect, category/tag/pagination, structured archives, health, security headers |
@@ -58,4 +58,4 @@ OIDC callback validation, `/admin` exposure, secrets in logs/audit payloads.
 
 Editor guide (`docs/admin-guide.md`), test accounts per role, the scenarios above, migration report, URL exception
 list (`url-inventory.csv` rows with REVIEW), known limitations (forms, JetMenu mega-menu content, legacy
-`/upload_images/` 404s, SVG uploads).
+`/upload_images/` files already 404 on the old server).
