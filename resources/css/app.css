@@ -185,7 +185,68 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
 .vju-legacy-page-hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.42); }
 .vju-legacy-page-hero-content { position: relative; z-index: 1; display: flex; height: 100%; flex-direction: column; justify-content: flex-end; padding-top: 2rem; padding-bottom: clamp(2.5rem, 6vw, 5rem); }
 .vju-legacy-page-hero-content h1 { margin: .65rem 0 0; color: #fff; font-size: clamp(2rem, 3.4vw, 3.25rem); font-weight: 700; line-height: 1.1; text-transform: uppercase; }
+.vju-category-hero .vju-legacy-page-hero-content h1 { text-transform: none; }
 .vju-legacy-page-hero-content nav { font-size: .92rem; }
+.vju-category-page { display: grid; grid-template-columns: minmax(0, 1fr); gap: 3rem; padding-top: 3.5rem; padding-bottom: 5rem; }
+.vju-category-page-content { min-width: 0; }
+.vju-category-page-content .vju-legacy-body { margin-top: 0; }
+.vju-category-page-content .vju-legacy-body > h2:first-child { margin-top: 0; }
+.vju-category-page-research { grid-template-columns: 18rem minmax(0, 1fr); gap: 2rem; }
+.vju-category-aside { align-self: start; background: #f1f1f1; padding: 2.25rem 2rem; }
+.vju-category-aside ul { display: grid; gap: 1.15rem; margin: 0; padding: 0; list-style: none; }
+.vju-category-aside li { line-height: 1.35; }
+.vju-category-aside a { color: #4d5560; text-decoration: none; }
+.vju-category-aside li.is-active a, .vju-category-aside a:hover { color: #b22624; }
+.vju-category-aside-contact { display: block; margin-top: 4rem; color: #b22624 !important; font-weight: 700; }
+.vju-category-page-document { padding-top: 2rem; }
+.vju-category-page-document .vju-category-page-content > nav { margin-bottom: 1rem; }
+.vju-category-page-document .vju-legacy-body > h2 { margin-top: 2.25rem; color: #b22624; font-size: clamp(1.55rem, 2.35vw, 2.15rem); font-weight: 500; border-bottom: 2px solid #b22624; padding-bottom: .8rem; }
+.vju-category-page-document .vju-legacy-body > h2:first-child { margin-top: 0; }
+.vju-category-page-document .vju-legacy-body > p:has(> a[href]) { margin-top: .7rem; }
+.vju-event-feature { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(18rem, .85fr); min-width: 0; margin-top: 0; background: #b22624; color: #fff; }
+.vju-event-feature .vju-event-card { display: contents; }
+.vju-event-feature .vju-event-card-image { min-height: 34rem; }
+.vju-event-feature .vju-event-card-image img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.vju-event-feature .vju-event-card-copy { display: flex; flex-direction: column; justify-content: center; padding: 2.5rem; }
+.vju-event-feature .vju-event-card-copy h3 { margin: 0; color: #fff; font-size: 1.65rem; line-height: 1.25; }
+.vju-event-feature .vju-event-card-copy p { margin: 1rem 0 0; color: rgba(255,255,255,.9); line-height: 1.65; }
+.vju-event-read-more { display: inline-block; margin-top: 1.3rem; color: inherit; font-weight: 700; }
+.vju-event-recent { margin-top: 4rem; }
+.vju-event-recent > h2 { margin: 0 0 1.4rem; color: #2a2a2a; text-align: center; font-size: clamp(1.7rem, 2.5vw, 2.3rem); font-weight: 400; }
+.vju-event-recent > h2::after { display: block; width: 10rem; height: 2px; margin: .7rem auto 0; background: #b22624; content: ''; }
+.vju-event-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.vju-event-card { min-width: 0; overflow: hidden; background: #fff; box-shadow: 0 3px 12px rgba(0,0,0,.1); }
+.vju-event-card-image { aspect-ratio: 4 / 3; overflow: hidden; }
+.vju-event-card-image img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.vju-event-card-copy { padding: 1rem; }
+.vju-event-card-copy h3 { margin: 0; color: #2a2a2a; font-size: 1.05rem; line-height: 1.35; }
+.vju-event-card-copy p { margin: .75rem 0 0; color: #536070; font-size: .9rem; line-height: 1.55; }
+.vju-event-card-copy .vju-event-read-more { margin-top: .65rem; color: #b22624; font-size: .85rem; }
+.vju-research-directory { min-width: 0; }
+.vju-research-directory > h2 { margin: 0; color: #2a2a2a; font-size: clamp(1.7rem, 2.5vw, 2.25rem); font-weight: 700; line-height: 1.25; }
+.vju-research-directory > h2::after { display: block; width: 9.5rem; height: 2px; margin-top: .7rem; background: #b22624; content: ''; }
+.vju-research-feature { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); align-items: center; gap: clamp(1.5rem, 3vw, 2.7rem); margin-top: 2.3rem; }
+.vju-research-feature-secondary { margin-top: 3rem; }
+.vju-research-image { min-width: 0; }
+.vju-research-image img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; clip-path: polygon(50% 0, 88% 22%, 100% 68%, 69% 100%, 28% 90%, 0 47%, 15% 13%); }
+.vju-research-copy { min-width: 0; color: #68707a; font-size: 1rem; line-height: 1.55; }
+.vju-research-copy h3 { margin: 0 0 1.1rem; color: #2a2a2a; font-size: clamp(1.4rem, 2.1vw, 1.85rem); line-height: 1.3; }
+.vju-research-copy p { margin: 0; }
+.vju-research-stats { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #777; }
+.vju-research-stats > h2:first-child { margin-top: 0; color: #b22624; font-size: clamp(1.5rem, 2.1vw, 2rem); }
+.vju-research-stats > p { display: inline-flex; min-width: 5rem; min-height: 5rem; align-items: center; justify-content: center; margin: 1.2rem 1rem 0 0; background: #f1f1f1; color: #07853c; font-size: 2.2rem; font-weight: 700; line-height: 1; }
+.vju-research-stats > h4 { display: inline-block; max-width: 10rem; margin: 1.2rem 1.5rem 0 0; vertical-align: top; color: #333; font-size: .9rem; line-height: 1.35; }
+.vju-research-stats > h2:not(:first-child) { display: inline-block; margin: 2rem 1.2rem 0 0; color: #07853c; font-size: 2rem; }
+.vju-category-archive { padding-top: 2rem; padding-bottom: 5rem; }
+.vju-category-archive > h1 { margin: 1.2rem 0 1.3rem; color: #2a2a2a; font-size: clamp(2rem, 3.3vw, 3rem); font-weight: 400; }
+.vju-category-archive-list { display: grid; gap: 1.45rem; }
+.vju-category-archive-item { min-width: 0; }
+.vju-category-archive-title { display: block; margin-bottom: .8rem; color: #cc2f6b; font-size: clamp(1.45rem, 2.5vw, 2.05rem); line-height: 1.25; }
+.vju-category-archive-title:hover { color: #ab2523; }
+.vju-category-archive-image { display: block; overflow: hidden; }
+.vju-category-archive-image picture, .vju-category-archive-image img { display: block; width: 100%; }
+.vju-category-archive-image img { max-height: 38rem; object-fit: cover; }
+.vju-category-archive-item p { margin: .7rem 0 0; color: #3f4854; line-height: 1.55; }
 .vju-staff-page { padding-top: 3rem; padding-bottom: 5rem; }
 .vju-staff-page .vju-legacy-body { font-size: .95rem; line-height: 1.55; }
 .vju-staff-page .vju-legacy-body > h2:first-child { margin-top: 0; color: #2a2a2a; font-size: clamp(1.7rem, 2.4vw, 2.2rem); font-weight: 700; }
@@ -328,6 +389,17 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
     .vju-staff-card > p:first-child img { width: 8.75rem; height: 8.75rem; }
     .vju-staff-card > p:last-child { grid-column: 1; grid-row: 2; padding-bottom: .7rem; }
     .vju-staff-card > ul { grid-column: 1; grid-row: 3; margin-top: 0; }
+    .vju-category-page, .vju-category-page-research { grid-template-columns: 1fr; gap: 1.5rem; padding-top: 2.25rem; padding-bottom: 3.5rem; }
+    .vju-category-aside { order: 2; padding: 1.5rem; }
+    .vju-category-aside-contact { margin-top: 2rem; }
+    .vju-event-feature { grid-template-columns: 1fr; }
+    .vju-event-feature .vju-event-card-image { min-height: 0; aspect-ratio: 4 / 3; }
+    .vju-event-feature .vju-event-card-copy { padding: 1.5rem; }
+    .vju-event-grid { grid-template-columns: 1fr; }
+    .vju-research-feature { grid-template-columns: 1fr; gap: 1.25rem; margin-top: 1.7rem; }
+    .vju-research-feature-secondary .vju-research-image { order: -1; }
+    .vju-research-image img { max-height: 22rem; clip-path: none; }
+    .vju-research-stats { margin-top: 2.5rem; }
     .vju-news-directory { grid-template-columns: 1fr; gap: 24px; }
     .vju-news-directory > h2 { grid-column: 1; }
     .vju-news-side > ul > li { grid-template-columns: 92px minmax(0, 1fr); gap: 10px; }

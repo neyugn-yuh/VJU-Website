@@ -17,11 +17,17 @@ const BANDS: Record<string, string> = {
 
 interface FormattedBody {
     html: string;
-    variant: 'default' | 'program-directory' | 'news-directory' | 'document-directory' | 'staff-directory';
+    variant: 'default' | 'program-directory' | 'news-directory' | 'event-directory' | 'research-directory' | 'document-directory' | 'staff-directory';
 }
 
 const LEGACY_PAGE_HEROES: Record<string, string> = {
     '/trang-chu/dao-tao/gioi-thieu/': '/storage/media/2023/10/derivatives/rectangle-22-web.png',
+};
+
+const LEGACY_CATEGORY_HEROES: Record<string, string> = {
+    '/tin-tuc-va-su-kien/tin-tuc/': '/storage/media/2023/07/derivatives/news-banner-web.jpg',
+    '/tin-tuc-va-su-kien/su-kien/': '/storage/media/2023/10/derivatives/rectangle-22-web.png',
+    '/nghien-cuu/thong-tin-nhanh/': '/storage/media/2023/07/derivatives/research-web.jpg',
 };
 
 /**
@@ -55,6 +61,65 @@ function formatLegacyBody(html: string): FormattedBody {
         }
     }
 
+    const researchImageParagraphs = Array.from(html.matchAll(/<p\b[^>]*>\s*(<img\b[^>]*>)\s*<\/p>/gi));
+    const researchHeadings = Array.from(html.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi), (match) => match[1]);
+    const researchTextParagraphs = Array.from(html.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi), (match) => match[1])
+        .filter((paragraph) => !/<img\b/i.test(paragraph) && !/<a\b[^>]*>\s*Contact\s+Us\s*<\/a>/i.test(paragraph))
+        .filter((paragraph) => paragraph.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/gi, ' ').trim().length > 80);
+
+    if (researchImageParagraphs.length >= 2 && /sustainable-global-university-of-innovation/i.test(html)) {
+        const secondImageEnd = (researchImageParagraphs[1].index ?? 0) + researchImageParagraphs[1][0].length;
+        const researchStats = html.slice(secondImageEnd);
+        const pageHeading = researchHeadings.find((heading) => /Thông tin nhanh/i.test(heading)) ?? 'Thông tin nhanh';
+        const featureHeading = researchHeadings.find((heading) => /Trường Đại học Việt Nhật/i.test(heading)) ?? 'Trường Đại học Việt Nhật (VJU)';
+        const intro = researchTextParagraphs[0] ?? '';
+        const continuation = researchTextParagraphs[1] ?? '';
+
+        return {
+            html: `
+                <section class="vju-research-directory">
+                    <h2>${pageHeading}</h2>
+                    <div class="vju-research-feature vju-research-feature-primary">
+                        <div class="vju-research-image">${researchImageParagraphs[0][1]}</div>
+                        <div class="vju-research-copy">
+                            <h3>${featureHeading}</h3>
+                            <p>${intro}</p>
+                        </div>
+                    </div>
+                    <div class="vju-research-feature vju-research-feature-secondary">
+                        <div class="vju-research-copy"><p>${continuation}</p></div>
+                        <div class="vju-research-image">${researchImageParagraphs[1][1]}</div>
+                    </div>
+                    <section class="vju-research-stats">${researchStats}</section>
+                </section>`,
+            variant: 'research-directory',
+        };
+    }
+
+    const eventHeadings = Array.from(html.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi), (match) => match[1]).filter((heading) => !/Sự kiện/i.test(heading));
+    const eventImages = Array.from(html.matchAll(/<img\b[^>]*>/gi), (match) => match[0]);
+    const eventDescriptions = Array.from(html.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi), (match) => match[1])
+        .filter((paragraph) => !/<img\b/i.test(paragraph))
+        .map((paragraph) => paragraph.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/gi, ' ').replace(/\s+/g, ' ').trim())
+        .filter((paragraph) => paragraph.length > 35);
+
+    if (/<h2\b[^>]*>\s*Sự kiện\s*<\/h2>[\s\S]*?<h2\b[^>]*>\s*Sự kiện sắp tới\s*<\/h2>/i.test(html) && eventImages.length >= 2) {
+        const cards = eventImages.map((image, index) => `
+            <article class="vju-event-card">
+                <div class="vju-event-card-image">${image}</div>
+                <div class="vju-event-card-copy">
+                    <h3>${eventHeadings[index] ?? 'Sự kiện'}</h3>
+                    ${eventDescriptions[index] ? `<p>${eventDescriptions[index]}</p>` : ''}
+                    <a href="#${index === 0 ? 'event-feature' : `event-${index}`}" class="vju-event-read-more">Đọc thêm</a>
+                </div>
+            </article>`).join('');
+
+        return {
+            html: `<section id="event-feature" class="vju-event-feature">${cards.split('</article>')[0]}</article></section><section class="vju-event-recent"><h2>Các Sự kiện gần đây</h2><div class="vju-event-grid">${cards}</div></section>`,
+            variant: 'event-directory',
+        };
+    }
+
     const imageHeadingPair = /(<p\b[^>]*>[\s\S]*?<img\b[^>]*\/?\s*>[\s\S]*?<\/p>)\s*(<h[234]\b[^>]*>[\s\S]*?<\/h[234]>)/gi;
     const pairs = html.match(imageHeadingPair);
     const hasNewsFeature = /<p\b[^>]*>[\s\S]*?<img\b[\s\S]*?<\/p>\s*<h[34]\b[\s\S]*?<\/h[34]>\s*<p\b[\s\S]*?<\/p>\s*<p\b[\s\S]*?<\/p>/i.test(html);
@@ -69,6 +134,7 @@ function formatLegacyBody(html: string): FormattedBody {
         const sideList = /(<ul\b[^>]*>[\s\S]*?<\/ul>)/i;
         return {
             html: html
+                .replace(/^\s*<h2\b[^>]*>\s*Tin tức\s*<\/h2>/i, '')
                 .replace(feature, '<div class="vju-news-feature">$1</div>')
                 .replace(sideList, '<div class="vju-news-side">$1</div>'),
             variant: 'news-directory',
@@ -97,9 +163,9 @@ function LegacyBody({ html }: { html: string }) {
     );
 }
 
-function LegacyPageHero({ title, image, breadcrumbs }: { title: string; image: string; breadcrumbs: PageProps['breadcrumbs'] }) {
+function LegacyPageHero({ title, image, breadcrumbs, category = false }: { title: string; image: string; breadcrumbs: PageProps['breadcrumbs']; category?: boolean }) {
     return (
-        <section className="vju-legacy-page-hero">
+        <section className={`vju-legacy-page-hero ${category ? 'vju-category-hero' : ''}`}>
             <img src={image} alt="" aria-hidden="true" />
             <div className="vju-legacy-page-hero-overlay" aria-hidden="true" />
             <div className="container-site vju-legacy-page-hero-content">
@@ -107,6 +173,22 @@ function LegacyPageHero({ title, image, breadcrumbs }: { title: string; image: s
                 <h1>{title}</h1>
             </div>
         </section>
+    );
+}
+
+function LegacyCategoryAside({ research = false }: { research?: boolean }) {
+    const links = research
+        ? ['Tin tức nhanh', 'Các lĩnh vực nghiên cứu chính', 'Nhóm nghiên cứu', 'Hồ sơ chuyên gia', 'Nghiên cứu tiên tiến', 'Các dự án nghiên cứu', 'Cơ sở Dữ liệu Nghiên cứu', 'Cơ sở vật chất và trang thiết bị', 'Phòng thí nghiệm', 'Hợp tác nghiên cứu', 'Đề tài nghiên cứu khoa học các năm']
+        : [];
+
+    if (!links.length) return null;
+    return (
+        <aside className="vju-category-aside">
+            <ul>
+                {links.map((link, index) => <li key={link} className={index === 0 ? 'is-active' : undefined}><a href="#">{link}</a></li>)}
+            </ul>
+            <a href="#" className="vju-category-aside-contact">☎ &nbsp; Contact Us</a>
+        </aside>
     );
 }
 
@@ -199,6 +281,8 @@ export default function Page() {
     const blocks = content.blocks ?? [];
     const template = content.template ?? 'default';
     const legacyHero = LEGACY_PAGE_HEROES[content.url ?? ''];
+    const categoryHero = LEGACY_CATEGORY_HEROES[content.url ?? ''];
+    const isExamNotices = content.url === '/khao-thi/thong-bao/';
 
     if (template === 'landing') {
         const heroIsTitle = startsWithHero(blocks);
@@ -253,6 +337,36 @@ export default function Page() {
                 <LegacyPageHero title={content.title} image={legacyHero} breadcrumbs={breadcrumbs} />
                 <div className="container-site vju-staff-page">
                     <LegacyBody html={content.body} />
+                </div>
+                <BlockRenderer blocks={blocks} />
+            </PublicLayout>
+        );
+    }
+
+    if (categoryHero) {
+        const isResearch = content.url === '/nghien-cuu/thong-tin-nhanh/';
+        return (
+            <PublicLayout>
+                <LegacyPageHero title={content.title} image={categoryHero} breadcrumbs={breadcrumbs} category />
+                <div className={`container-site vju-category-page ${isResearch ? 'vju-category-page-research' : ''}`}>
+                    <LegacyCategoryAside research={isResearch} />
+                    <article className="vju-category-page-content">
+                        <LegacyBody html={content.body} />
+                    </article>
+                </div>
+                <BlockRenderer blocks={blocks} />
+            </PublicLayout>
+        );
+    }
+
+    if (isExamNotices) {
+        return (
+            <PublicLayout>
+                <div className="container-site vju-category-page vju-category-page-document">
+                    <article className="vju-category-page-content">
+                        <Breadcrumb items={breadcrumbs} />
+                        <LegacyBody html={content.body} />
+                    </article>
                 </div>
                 <BlockRenderer blocks={blocks} />
             </PublicLayout>

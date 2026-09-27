@@ -1,18 +1,47 @@
 import { Link } from '@inertiajs/react';
+import Breadcrumb from '@/Components/Breadcrumb/Breadcrumb';
+import Picture from '@/Components/Media/Picture';
 import Pagination from '@/Components/Pagination/Pagination';
 import PostCard from '@/Components/PostCard/PostCard';
 import { useShared } from '@/Hooks/useShared';
 import { useT } from '@/Hooks/useT';
 import ListingLayout from '@/Layouts/ListingLayout';
+import PublicLayout from '@/Layouts/PublicLayout';
 import type { ContentTypeKey, ListingProps } from '@/Types';
 
 /** Archive types shown as a compact "date + download" list instead of image cards. */
 const COMPACT: ContentTypeKey[] = ['document', 'notification', 'tuition_fee'];
 
+function LegacyCategoryArchive({ title, breadcrumbs, items, pagination }: Pick<ListingProps, 'title' | 'breadcrumbs' | 'items' | 'pagination'>) {
+    return (
+        <PublicLayout>
+            <div className="container-site vju-category-archive">
+                <Breadcrumb items={breadcrumbs} />
+                <h1>Danh mục: {title}</h1>
+                <div className="vju-category-archive-list">
+                    {items.map((item) => (
+                        <article key={item.id} className="vju-category-archive-item">
+                            <Link href={item.url} className="vju-category-archive-title">{item.title}</Link>
+                            {item.image && <Link href={item.url} className="vju-category-archive-image"><Picture image={item.image} priority={item.id === items[0]?.id} decorative /></Link>}
+                            {item.excerpt && <p>{item.excerpt}</p>}
+                        </article>
+                    ))}
+                </div>
+                <Pagination pagination={pagination} />
+            </div>
+        </PublicLayout>
+    );
+}
+
 export default function Listing() {
     const { title, description, type, items = [], pagination, subcategories = [], breadcrumbs = [] } = useShared<ListingProps>();
     const t = useT();
     const compact = type !== null && COMPACT.includes(type);
+    const legacyCategoryArchive = typeof window !== 'undefined' && window.location.pathname.startsWith('/news-vn/');
+
+    if (legacyCategoryArchive) {
+        return <LegacyCategoryArchive title={title} breadcrumbs={breadcrumbs} items={items} pagination={pagination} />;
+    }
 
     const chips =
         subcategories.length > 0 ? (
