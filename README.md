@@ -23,6 +23,7 @@ docker compose exec app composer install
 docker compose exec app php artisan key:generate
 docker compose exec app php artisan migrate --seed   # roles/permissions (+ demo data when APP_ENV=local)
 docker compose exec app php artisan storage:link
+docker compose exec app php artisan filament:assets
 npm ci && npm run build               # or `npm run dev` for HMR
 ```
 
