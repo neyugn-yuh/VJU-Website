@@ -69,7 +69,26 @@ function formatLegacyBody(html: string): FormattedBody {
 
     if (researchImageParagraphs.length >= 2 && /sustainable-global-university-of-innovation/i.test(html)) {
         const secondImageEnd = (researchImageParagraphs[1].index ?? 0) + researchImageParagraphs[1][0].length;
-        const researchStats = html.slice(secondImageEnd);
+        const rawResearchStats = html.slice(secondImageEnd);
+        const statsTitle = /<h2\b[^>]*>\s*(TIỀM LỰC KHCN)\s*<\/h2>/i.exec(rawResearchStats);
+        const recommendationsStart = /<h2\b[^>]*>\s*Bạn cũng có thể thích\s*<\/h2>/i.exec(rawResearchStats)?.index;
+        const statsMarkup = statsTitle?.index !== undefined
+            ? rawResearchStats.slice(statsTitle.index + statsTitle[0].length, recommendationsStart ?? undefined)
+            : '';
+        const summaryStats = Array.from(statsMarkup.matchAll(/<p\b[^>]*>\s*(\d+)\s*<\/p>\s*<h4\b[^>]*>([\s\S]*?)<\/h4>/gi), (match) => (
+            `<article class="vju-research-stat"><strong>${match[1]}</strong><p>${match[2].trim()}</p></article>`
+        )).join('');
+        const metricHeadings = Array.from(statsMarkup.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi), (match) => match[1]);
+        const researchMetrics: string[] = [];
+
+        for (let index = 0; index < metricHeadings.length - 1; index += 1) {
+            const value = metricHeadings[index].replace(/<[^>]+>/g, '').replace(/&nbsp;/gi, ' ').trim();
+
+            if (!/^~?\d+(?:\.\d+)?$/.test(value)) continue;
+
+            researchMetrics.push(`<article class="vju-research-metric"><strong>${value}</strong><p>${metricHeadings[index + 1]}</p></article>`);
+            index += 1;
+        }
         const pageHeading = researchHeadings.find((heading) => /Thông tin nhanh/i.test(heading)) ?? 'Thông tin nhanh';
         const featureHeading = researchHeadings.find((heading) => /Trường Đại học Việt Nhật/i.test(heading)) ?? 'Trường Đại học Việt Nhật (VJU)';
         const intro = researchTextParagraphs[0] ?? '';
@@ -90,7 +109,11 @@ function formatLegacyBody(html: string): FormattedBody {
                         <div class="vju-research-copy"><p>${continuation}</p></div>
                         <div class="vju-research-image">${researchImageParagraphs[1][1]}</div>
                     </div>
-                    <section class="vju-research-stats">${researchStats}</section>
+                    <section class="vju-research-stats">
+                        <h2 class="vju-research-stats-heading">TIỀM LỰC KHCN</h2>
+                        <div class="vju-research-stats-summary">${summaryStats}</div>
+                        <div class="vju-research-stats-metrics">${researchMetrics.join('')}</div>
+                    </section>
                 </section>`,
             variant: 'research-directory',
         };
