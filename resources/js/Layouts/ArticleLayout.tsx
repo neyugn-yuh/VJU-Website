@@ -11,7 +11,7 @@ export default function ArticleLayout({ breadcrumbs, children, after }: { breadc
                 <Breadcrumb items={breadcrumbs} />
             </div>
             <div className="container-site py-8">
-                <div className="mx-auto max-w-3xl">{children}</div>
+                <div className="vju-article-content mx-auto max-w-[58.5rem]">{children}</div>
             </div>
             {after}
         </PublicLayout>

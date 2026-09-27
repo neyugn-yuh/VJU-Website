@@ -177,17 +177,56 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
 .vju-inner-article { min-width: 0; }
 .vju-content-title { position: relative; padding-bottom: 17px; color: #2a2a2a; font-size: clamp(2rem, 3.1vw, 2.9rem); font-weight: 400; line-height: 1.2; }
 .vju-content-title::after { position: absolute; bottom: 0; left: 0; width: 158px; height: 2px; background: #b22624; content: ''; }
-.vju-inner-article .prose-content { max-width: 100%; font-size: 1rem; line-height: 1.6; }
+.vju-inner-article .prose-content { max-width: 100%; min-width: 0; font-size: 1rem; line-height: 1.6; }
 .vju-inner-article .prose-content h2 { color: #2a2a2a; font-size: clamp(1.8rem, 2.5vw, 2.35rem); font-weight: 400; padding-bottom: 14px; border-bottom: 2px solid #b22624; }
+.vju-legacy-body { min-width: 0; }
 .vju-program-directory { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 24px; }
 .vju-program-directory > h2 { grid-column: 1 / -1; margin-top: 0; }
 .vju-program-directory > .vju-program-card { display: flex; min-width: 0; flex-direction: column; margin-top: 0; overflow: hidden; border: 1px solid #e6e6e6; border-radius: 8px; background: #fff; box-shadow: 0 3px 12px rgba(0,0,0,.08); transition: transform .2s ease, box-shadow .2s ease; }
 .vju-program-directory > .vju-program-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.12); }
 .vju-program-directory > .vju-program-card > p { order: 1; margin: 0; }
 .vju-program-directory > .vju-program-card > p img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
-.vju-program-directory > .vju-program-card > h2 { order: 2; margin: 0; border: 0; padding: 16px 18px 18px; font-size: 1.15rem; line-height: 1.35; }
-.vju-program-directory > .vju-program-card > h2 a { color: inherit; text-decoration: none; }
-.vju-program-directory > .vju-program-card > h2 a:hover { color: #ab2523; }
+.vju-program-directory > .vju-program-card > h2,
+.vju-program-directory > .vju-program-card > h3,
+.vju-program-directory > .vju-program-card > h4 { order: 2; margin: 0; border: 0; padding: 16px 18px 18px; font-size: 1.15rem; line-height: 1.35; }
+.vju-program-directory > .vju-program-card > h2 a,
+.vju-program-directory > .vju-program-card > h3 a,
+.vju-program-directory > .vju-program-card > h4 a { color: inherit; text-decoration: none; }
+.vju-program-directory > .vju-program-card > h2 a:hover,
+.vju-program-directory > .vju-program-card > h3 a:hover,
+.vju-program-directory > .vju-program-card > h4 a:hover { color: #ab2523; }
+
+/* Legacy news pages contain a featured item followed by a WordPress list.
+   The wrappers are added by Page.tsx so the imported markup follows the
+   featured + side-list layout from the crawl at every breakpoint. */
+.vju-news-directory { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 40px; }
+.vju-news-directory > h2 { grid-column: 1 / -1; margin-top: 0; }
+.vju-news-feature, .vju-news-side { min-width: 0; margin-top: 0; }
+.vju-news-feature > p:first-child { margin-top: 0; }
+.vju-news-feature > p:first-child img { display: block; width: 100%; aspect-ratio: 1.55 / 1; object-fit: cover; border-radius: 8px; }
+.vju-news-feature h4 { margin-top: 18px; color: #2b2b2b; font-size: 1.25rem; line-height: 1.35; }
+.vju-news-feature h4 a { color: inherit; }
+.vju-news-feature h4 a:hover { color: #ab2523; }
+.vju-news-side > ul { display: grid; gap: 16px; margin: 0; padding: 0; list-style: none; }
+.vju-news-side > ul > li { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; min-width: 0; margin: 0; padding: 0 0 16px; border-bottom: 1px solid #e5e5e5; }
+.vju-news-side > ul > li:not(:has(img)) { display: block; }
+.vju-news-side > ul > li > a:has(img) { grid-row: 1 / -1; display: block; }
+.vju-news-side > ul > li img { display: block; width: 110px; height: 74px; object-fit: cover; border-radius: 5px; }
+.vju-news-side > ul > li h4 { margin: 0; color: #333; font-size: 1rem; line-height: 1.35; }
+.vju-news-side > ul > li h4 a { color: inherit; }
+.vju-news-side > ul > li h4 a:hover { color: #ab2523; }
+.vju-news-side > ul > li > :not(a):not(h4) { color: #667080; font-size: .82rem; }
+
+/* Pages made from the old download-button widgets still arrive as plain
+   paragraphs. Keep the title and download action together as compact rows. */
+.vju-document-directory > h4 { margin-top: 1.5rem; color: #2a2a2a; font-size: 1.1rem; }
+.vju-document-directory > p:has(> a[href]) { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: .75rem; border: 1px solid #e1e6ed; border-radius: 8px; padding: .85rem 1rem; background: #fff; }
+.vju-document-directory > p:has(> a[href]) a { display: inline-flex; flex: 0 0 auto; align-items: center; border-radius: 5px; background: #ab2523; padding: .55rem 1rem; color: #fff; font-size: .875rem; font-weight: 600; text-decoration: none; }
+.vju-document-directory > p:has(> a[href]) a:hover { background: #8f1f1d; color: #fff; }
+.vju-legacy-contact-maps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 28px; }
+.vju-legacy-contact-maps figure { min-width: 0; margin: 0; overflow: hidden; border: 1px solid #e1e6ed; border-radius: 8px; background: #f5f7fb; }
+.vju-legacy-contact-maps figcaption { padding: 12px 16px; color: #2a2a2a; font-weight: 600; }
+.vju-legacy-contact-maps iframe { display: block; width: 100%; height: 280px; border: 0; }
 .vju-cards-section { background: #f5f5f5; }
 .vju-cards-section li { border: 0; border-radius: 8px; box-shadow: 0 3px 12px rgba(0,0,0,.08); }
 .vju-cards-section li > div:first-child { aspect-ratio: 1.45 / 1; }
@@ -249,6 +288,12 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
     }
     .vju-listing-featured { grid-template-columns: 1fr; gap: 28px; }
     .vju-program-directory { grid-template-columns: 1fr; gap: 20px; }
+    .vju-news-directory { grid-template-columns: 1fr; gap: 24px; }
+    .vju-news-directory > h2 { grid-column: 1; }
+    .vju-news-side > ul > li { grid-template-columns: 92px minmax(0, 1fr); gap: 10px; }
+    .vju-news-side > ul > li img { width: 92px; height: 66px; }
+    .vju-document-directory > p:has(> a[href]) { align-items: flex-start; flex-direction: column; }
+    .vju-legacy-contact-maps { grid-template-columns: 1fr; }
     .vju-page-hero-image { min-height: 210px; }
     .vju-inner-layout, .vju-inner-layout-with-aside { grid-template-columns: 1fr; gap: 24px; padding-top: 30px; padding-bottom: 48px; }
     .vju-inner-aside { order: 2; }
@@ -261,6 +306,20 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
     .vju-home-activity-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 130px; }
     .vju-home-activity-item-1, .vju-home-activity-item-4 { grid-column: span 2; }
     .vju-home-contact-details { padding: 22px; }
+}
+
+@media (width < 40rem) {
+    /* Long imported headings and links must be allowed to wrap inside the
+       narrow article column instead of widening the document viewport. */
+    html, body { overflow-x: hidden; }
+    .container-site, .vju-inner-layout, .vju-inner-article, .vju-legacy-body, .vju-article-content { width: 100%; min-width: 0; max-width: 100%; }
+    .vju-inner-article > *, .vju-legacy-body > * { max-width: 100%; }
+    .vju-inner-article p, .vju-inner-article li, .vju-inner-article span,
+    .vju-inner-article div { overflow-wrap: anywhere; }
+    .vju-content-title, .prose-content h2, .prose-content h3, .prose-content h4,
+    .prose-content a { overflow-wrap: anywhere; }
+    .vju-news-feature h4 { font-size: 1.1rem; }
+    .vju-news-side > ul > li > :not(a):not(h4) { overflow-wrap: anywhere; }
 }
 
 .vju-footer { margin-top: 0; background: #303030; color: #f1f1f1; }

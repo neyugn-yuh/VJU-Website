@@ -9,10 +9,33 @@ import { useT } from '@/Hooks/useT';
 import ArticleLayout from '@/Layouts/ArticleLayout';
 import type { ArticleProps } from '@/Types';
 
+/**
+ * WordPress stores the featured image in the article body as well as in the
+ * post thumbnail. The React article header renders the thumbnail separately,
+ * so remove only that leading duplicate while preserving all authored media.
+ */
+function withoutDuplicateFeaturedImage(body: string, imageUrl?: string | null, originalUrl?: string | null) {
+    if (!body || (!imageUrl && !originalUrl)) return body;
+
+    const firstImage = body.match(/^\s*<p\b[^>]*>\s*(?:<a\b[^>]*>\s*)?<img\b[^>]*>\s*(?:<\/a>\s*)?<\/p>\s*/i);
+    if (!firstImage) return body;
+
+    const src = firstImage[0].match(/\bsrc=["']([^"']+)["']/i)?.[1] ?? '';
+    const basename = (value: string) => value.split(/[/?#]/).pop()?.toLowerCase() ?? '';
+    const sourceName = basename(src);
+    const matches = [imageUrl, originalUrl].filter(Boolean).some((value) => {
+        const expected = basename(value as string);
+        return expected !== '' && sourceName === expected;
+    });
+
+    return matches ? body.slice(firstImage[0].length) : body;
+}
+
 export default function Article() {
     const { content, breadcrumbs = [], related = [], comments = [], preview, seo, t: strings } = useShared<ArticleProps>();
     const t = useT();
     const typeLabel = content.type !== 'post' ? (strings.types?.[content.type] ?? '') : '';
+    const body = withoutDuplicateFeaturedImage(content.body, content.image?.url, content.image?.original);
 
     const relatedGrid =
         related.length > 0 ? (
@@ -52,7 +75,7 @@ export default function Article() {
 
                 {content.fields && <FieldsPanel fields={content.fields} />}
 
-                {content.body && <div className="prose-content mt-8" dangerouslySetInnerHTML={{ __html: content.body }} />}
+                {body && <div className="prose-content mt-8" dangerouslySetInnerHTML={{ __html: body }} />}
 
                 <footer className="mt-10 space-y-5 border-t border-line pt-6">
                     <TagList tags={content.tags} />

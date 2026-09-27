@@ -17,7 +17,7 @@ const BANDS: Record<string, string> = {
 
 interface FormattedBody {
     html: string;
-    isProgramDirectory: boolean;
+    variant: 'default' | 'program-directory' | 'news-directory' | 'document-directory';
 }
 
 /**
@@ -27,17 +27,34 @@ interface FormattedBody {
  * the site while leaving ordinary article HTML untouched.
  */
 function formatLegacyBody(html: string): FormattedBody {
-    const imageHeadingPair = /(<p\b[^>]*>[\s\S]*?<img\b[^>]*\/?\s*>[\s\S]*?<\/p>)\s*(<h[23]\b[^>]*>[\s\S]*?<\/h[23]>)/gi;
+    const imageHeadingPair = /(<p\b[^>]*>[\s\S]*?<img\b[^>]*\/?\s*>[\s\S]*?<\/p>)\s*(<h[234]\b[^>]*>[\s\S]*?<\/h[234]>)/gi;
     const pairs = html.match(imageHeadingPair);
+    const hasNewsFeature = /<p\b[^>]*>[\s\S]*?<img\b[\s\S]*?<\/p>\s*<h[34]\b[\s\S]*?<\/h[34]>\s*<p\b[\s\S]*?<\/p>\s*<p\b[\s\S]*?<\/p>/i.test(html);
+    const hasNewsItems = /<ul\b[^>]*>[\s\S]*?<li\b[\s\S]*?<img\b[\s\S]*?<\/li>[\s\S]*?<\/ul>/i.test(html);
+    const downloadCount = (html.match(/>\s*download\s*</gi) ?? []).length;
 
-    if (!/^\s*<h2\b/i.test(html) || !pairs || pairs.length < 3) {
-        return { html, isProgramDirectory: false };
+    if (hasNewsFeature && hasNewsItems) {
+        // The old news page stores the featured item and the side list as
+        // adjacent paragraphs/list markup. Restore the two-column structure
+        // used by the crawled Elementor page without changing the content.
+        const feature = /(<p\b[^>]*>[\s\S]*?<img\b[\s\S]*?<\/p>\s*<h[34]\b[\s\S]*?<\/h[34]>\s*<p\b[\s\S]*?<\/p>\s*<p\b[\s\S]*?<\/p>)/i;
+        const sideList = /(<ul\b[^>]*>[\s\S]*?<\/ul>)/i;
+        return {
+            html: html
+                .replace(feature, '<div class="vju-news-feature">$1</div>')
+                .replace(sideList, '<div class="vju-news-side">$1</div>'),
+            variant: 'news-directory',
+        };
     }
 
-    return {
-        html: html.replace(imageHeadingPair, '<div class="vju-program-card">$1$2</div>'),
-        isProgramDirectory: true,
-    };
+    if (/^\s*<h2\b/i.test(html) && pairs && pairs.length >= 2) {
+        return {
+            html: html.replace(imageHeadingPair, '<div class="vju-program-card">$1$2</div>'),
+            variant: 'program-directory',
+        };
+    }
+
+    return { html, variant: downloadCount >= 2 ? 'document-directory' : 'default' };
 }
 
 function LegacyBody({ html }: { html: string }) {
@@ -46,7 +63,7 @@ function LegacyBody({ html }: { html: string }) {
     const formatted = formatLegacyBody(html);
     return (
         <div
-            className={`prose-content mt-8 ${formatted.isProgramDirectory ? 'vju-program-directory' : ''}`}
+            className={`prose-content mt-8 vju-legacy-body vju-legacy-body-${formatted.variant} vju-${formatted.variant}`}
             dangerouslySetInnerHTML={{ __html: formatted.html }}
         />
     );
@@ -111,6 +128,30 @@ function ContactCard() {
     );
 }
 
+function LegacyContactMaps() {
+    const maps = [
+        {
+            label: 'Cơ sở Mỹ Đình',
+            src: 'https://maps.google.com/maps?q=Vietnam%20Japan%20University%20(VJU)%20M%E1%BB%B9%20%C4%90%C3%ACnh%2C%20Ph%E1%BB%91%20L%C6%B0u%20H%E1%BB%AFu%20Ph%C6%B0%E1%BB%9Bc%2C%20M%E1%BB%B9%20%C4%90%C3%ACnh%201%2C%20C%E1%BA%A7u%20Di%E1%BB%85n%2C%20Nam%20T%E1%BB%AB%20Li%C3%AAm%2C%20H%C3%A0%20N%E1%BB%99i&t=m&z=15&output=embed&iwloc=near',
+        },
+        {
+            label: 'Cơ sở Hòa Lạc',
+            src: 'https://maps.google.com/maps?q=2F3R%2B689%2C%20Th%E1%BA%A1ch%20Ho%C3%A0%2C%20Th%E1%BA%A1ch%20Th%E1%BA%A5t%2C%20H%C3%A0%20N%E1%BB%99i%2C%20Vietnam&t=m&z=15&output=embed&iwloc=near',
+        },
+    ];
+
+    return (
+        <div className="vju-legacy-contact-maps">
+            {maps.map((map) => (
+                <figure key={map.label}>
+                    <figcaption>{map.label}</figcaption>
+                    <iframe src={map.src} title={map.label} loading="lazy" />
+                </figure>
+            ))}
+        </div>
+    );
+}
+
 export default function Page() {
     const { content, breadcrumbs = [] } = useShared<PageProps>();
     const t = useT();
@@ -167,6 +208,7 @@ export default function Page() {
     const pageLinks = blocks
         .map((block, i) => ({ id: blockAnchor(block, i), label: blockHeading(block), type: block.type }))
         .filter((item) => item.label && item.type !== 'hero');
+    const isLegacyContact = /contact|liên hệ/i.test(content.title) && /bản đồ google|google map/i.test(content.body);
 
     return (
         <PublicLayout>
@@ -188,6 +230,7 @@ export default function Page() {
                     <h1 className="vju-content-title mt-4">{content.title}</h1>
                     {content.excerpt && <p className="mt-3 max-w-3xl text-lg text-muted">{content.excerpt}</p>}
                     <LegacyBody html={content.body} />
+                    {isLegacyContact && <LegacyContactMaps />}
                     <BlockRenderer blocks={blocks} />
                 </article>
             </div>
