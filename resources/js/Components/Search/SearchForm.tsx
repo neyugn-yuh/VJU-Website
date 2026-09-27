@@ -4,12 +4,24 @@ import { useT } from '@/Hooks/useT';
 import { SearchIcon } from '../Navigation/Icons';
 
 /** Plain GET form to the current locale's /search/ page (works without JavaScript). */
-export default function SearchForm({ q = '', size = 'sm' }: { q?: string; size?: 'sm' | 'lg' }) {
+export default function SearchForm({ q = '', size = 'sm', iconOnly = false }: { q?: string; size?: 'sm' | 'lg'; iconOnly?: boolean }) {
     const { locale, locales } = useShared();
     const t = useT();
     const id = useId();
     const action = `${locales.find((l) => l.code === locale)?.home ?? '/'}search/`;
     const lg = size === 'lg';
+
+    if (iconOnly) {
+        return (
+            <form role="search" method="get" action={action} className="vju-icon-search-form">
+                <label htmlFor={id} className="sr-only">{t('search')}</label>
+                <input id={id} type="search" name="q" defaultValue={q} placeholder={t('search_placeholder')} minLength={2} maxLength={100} required className="sr-only" />
+                <button type="submit" aria-label={t('search')} className="vju-icon-search-button">
+                    <SearchIcon width={22} height={22} />
+                </button>
+            </form>
+        );
+    }
 
     return (
         <form role="search" method="get" action={action} className="flex w-full items-stretch">

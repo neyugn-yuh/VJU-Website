@@ -90,7 +90,7 @@ export default function MobileNav({ items, children }: { items: MenuNode[]; chil
     }, [open]);
 
     return (
-        <div className="lg:hidden">
+        <div className="vju-mobile-nav lg:hidden">
             <button
                 ref={toggle}
                 type="button"

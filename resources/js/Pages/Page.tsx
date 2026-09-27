@@ -7,6 +7,7 @@ import { useShared } from '@/Hooks/useShared';
 import { useT } from '@/Hooks/useT';
 import PublicLayout from '@/Layouts/PublicLayout';
 import type { ContentFull, PageProps } from '@/Types';
+import { blockAnchor, blockHeading } from '@/Utils/anchors';
 
 const BANDS: Record<string, string> = {
     admissions: 'from-primary-800 via-primary-700 to-accent-700',
@@ -82,6 +83,7 @@ function ContactCard() {
 
 export default function Page() {
     const { content, breadcrumbs = [] } = useShared<PageProps>();
+    const t = useT();
     const blocks = content.blocks ?? [];
     const template = content.template ?? 'default';
 
@@ -132,16 +134,33 @@ export default function Page() {
         );
     }
 
+    const pageLinks = blocks
+        .map((block, i) => ({ id: blockAnchor(block, i), label: blockHeading(block), type: block.type }))
+        .filter((item) => item.label && item.type !== 'hero');
+
     return (
         <PublicLayout>
-            <TitleHeader content={content} />
             {content.image && (
-                <div className="container-site mt-8">
-                    <Picture image={content.image} priority className="mx-auto h-auto w-full max-w-5xl rounded-lg" />
+                <div className="vju-inner-cover">
+                    <Picture image={content.image} priority decorative className="h-full w-full object-cover" />
                 </div>
             )}
-            <Body html={content.body} />
-            <BlockRenderer blocks={blocks} />
+            <div className={`container-site vju-inner-layout ${pageLinks.length > 1 ? 'vju-inner-layout-with-aside' : ''}`}>
+                {pageLinks.length > 1 && (
+                    <aside className="vju-inner-aside" aria-label={t('on_this_page')}>
+                        <ul>
+                            {pageLinks.map((item) => <li key={item.id}><a href={`#${item.id}`}>{item.label}</a></li>)}
+                        </ul>
+                    </aside>
+                )}
+                <article className="vju-inner-article">
+                    <Breadcrumb items={breadcrumbs} />
+                    <h1 className="vju-content-title mt-4">{content.title}</h1>
+                    {content.excerpt && <p className="mt-3 max-w-3xl text-lg text-muted">{content.excerpt}</p>}
+                    {content.body && <div className="prose-content mt-8" dangerouslySetInnerHTML={{ __html: content.body }} />}
+                    <BlockRenderer blocks={blocks} />
+                </article>
+            </div>
         </PublicLayout>
     );
 }

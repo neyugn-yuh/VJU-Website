@@ -30,7 +30,7 @@ export function Cards({ data, id }: BlockProps<{ heading?: string; intro?: strin
     const t = useT();
     const cols = COLUMNS[Number(data.columns)] ?? COLUMNS[3];
     return (
-        <Section id={id} heading={str(data.heading)} intro={str(data.intro)}>
+        <Section id={id} heading={str(data.heading)} intro={str(data.intro)} className="vju-cards-section">
             <ul className={`grid gap-6 ${cols}`}>
                 {list<CardItem>(data.items).map((item, i) => (
                     <li key={i} className="group relative flex flex-col overflow-hidden rounded-lg border border-line bg-white shadow-sm transition hover:shadow-md">
@@ -144,7 +144,7 @@ export function PostList({ data, id }: BlockProps<PostListData>) {
     }
 
     return (
-        <Section id={id} heading={str(data.heading)} action={more}>
+        <Section id={id} heading={str(data.heading)} action={more} className="vju-post-list-section">
             {body}
         </Section>
     );

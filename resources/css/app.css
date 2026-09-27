@@ -8,30 +8,30 @@
 @source '../**/*.tsx';
 
 @theme {
-    --font-sans: 'Be Vietnam Pro', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif,
+    --font-sans: Arial, 'Helvetica Neue', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji';
     --font-ja: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, 'Be Vietnam Pro', sans-serif;
 
     /* VJU navy (#0b3d91 = 700) */
-    --color-primary-50: #eef4fc;
-    --color-primary-100: #d9e6f8;
-    --color-primary-200: #b5cdf0;
-    --color-primary-300: #82a9e3;
-    --color-primary-400: #4c7fd0;
-    --color-primary-500: #2a5fb8;
-    --color-primary-600: #174ca6;
-    --color-primary-700: #0b3d91;
-    --color-primary-800: #0a3274;
-    --color-primary-900: #0a2a5c;
-    --color-primary-950: #061a3b;
+    --color-primary-50: #f7f7f7;
+    --color-primary-100: #ededed;
+    --color-primary-200: #d7d7d7;
+    --color-primary-300: #bcbcbc;
+    --color-primary-400: #909090;
+    --color-primary-500: #555555;
+    --color-primary-600: #3f3f3f;
+    --color-primary-700: #ab2523;
+    --color-primary-800: #8f1f1d;
+    --color-primary-900: #292929;
+    --color-primary-950: #1c1c1c;
 
     /* VJU red (#c8102e = 600) */
-    --color-accent-50: #fdf0f2;
-    --color-accent-100: #fbdce1;
-    --color-accent-500: #dc2743;
-    --color-accent-600: #c8102e;
-    --color-accent-700: #a50d26;
-    --color-accent-800: #860b1f;
+    --color-accent-50: #fff1f1;
+    --color-accent-100: #fbd9d8;
+    --color-accent-500: #c43b38;
+    --color-accent-600: #ab2523;
+    --color-accent-700: #8f1f1d;
+    --color-accent-800: #731815;
 
     --color-focus: #ffbf47;
     --color-ink: #1b2330;
@@ -89,7 +89,7 @@
 
 @utility container-site {
     width: 100%;
-    max-width: 80rem;
+    max-width: 75rem;
     margin-inline: auto;
     padding-inline: 1rem;
 
@@ -100,6 +100,165 @@
     @media (width >= 80rem) {
         padding-inline: 2rem;
     }
+}
+
+/* VJU visual system reconstructed from the crawled WordPress pages. */
+body { font-family: Arial, 'Helvetica Neue', sans-serif; color: #252525; }
+
+.vju-header { background: #fff; box-shadow: 0 1px 0 rgba(0,0,0,.08); }
+.vju-header-primary { background: #b22624; color: #fff; }
+.vju-header-secondary { background: #fff; border-bottom: 1px solid #ececec; }
+.vju-header-inner { width: 100%; max-width: 1304px; min-height: 46px; margin: 0 auto; padding: 0 18px; display: flex; align-items: center; gap: 20px; position: relative; }
+.vju-header-primary .vju-header-inner { min-height: 80px; }
+.vju-brand { display: inline-flex; align-items: center; flex: 0 0 auto; }
+.vju-brand-logo { display: block; width: 320px; height: auto; }
+.vju-primary-nav { margin-left: auto; min-width: 0; }
+.vju-primary-nav > nav > ul { justify-content: flex-end; }
+.vju-primary-nav nav a { color: #fff; }
+.vju-primary-nav nav button { color: #fff; }
+.vju-primary-nav nav a:hover, .vju-primary-nav nav button:hover { color: #ffe4e4; }
+.vju-primary-tools, .vju-header-tools { display: flex; align-items: center; gap: 13px; flex: 0 0 auto; }
+.vju-primary-tools .vju-language-switcher, .vju-primary-tools .vju-icon-search-button { color: #fff; }
+.vju-secondary-nav { width: 100%; }
+.vju-secondary-nav > nav > ul { justify-content: center; gap: 1px; }
+.vju-secondary-nav nav a { color: #242424; }
+.vju-secondary-nav nav a:hover, .vju-secondary-nav nav button:hover { color: #ab2523; }
+.vju-secondary-nav nav button { color: #242424; }
+.vju-header nav > ul > li > div > a { white-space: nowrap; }
+.vju-header nav ul ul { border: 0; border-radius: 0; box-shadow: 0 8px 18px rgba(0,0,0,.16); }
+.vju-header nav ul ul a { color: #262626 !important; background: #fff; }
+.vju-header nav ul ul a:hover { color: #ab2523 !important; background: #f8f8f8; }
+.vju-icon-search-form { display: inline-flex; }
+.vju-icon-search-button { display: inline-flex; align-items: center; justify-content: center; padding: 4px; color: inherit; }
+.vju-icon-search-button:hover { opacity: .75; }
+.vju-mobile-tools { display: grid; gap: 14px; padding: 4px 0; }
+.vju-mobile-nav { display: none; margin-left: auto; }
+
+.vju-language-switcher a { background: transparent !important; }
+.vju-language-switcher img { display: block; }
+
+.vju-hero-image-only { aspect-ratio: 2560 / 767; min-height: 18rem; background: #0b4b39; }
+.vju-hero-image-only > div:not(.container-site) { z-index: 0; }
+.vju-hero-image-only .vju-hero-controls { z-index: 3; }
+.vju-hero-image-only .vju-hero-controls button { color: #fff; }
+.vju-hero-image-only .vju-hero-controls span { box-shadow: 0 0 0 1px rgba(255,255,255,.15); }
+.vju-hero-image-only::after { position: absolute; right: 0; bottom: 0; left: 0; z-index: 2; height: 11px; background: linear-gradient(90deg, #b22624 0 80%, #008b46 80%); content: ''; }
+
+.vju-section-heading { justify-content: center; }
+.vju-section-heading h2 { color: #3b3b3b; text-align: center; text-transform: uppercase; letter-spacing: .01em; font-weight: 400; }
+.vju-section-heading h2::after { left: 50%; width: 158px; height: 2px; transform: translateX(-50%); background: #b22624; border-radius: 0; }
+.vju-page-hero { position: relative; overflow: hidden; background: #f5f5f5; border-bottom: 1px solid #e5e5e5; }
+.vju-page-hero-image { min-height: 400px; color: #fff; }
+.vju-page-hero-image > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.vju-page-hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.42); }
+.vju-page-hero:not(.vju-page-hero-image) .vju-page-hero-overlay { display: none; }
+.vju-page-hero:not(.vju-page-hero-image) h1 { color: #292929; }
+.vju-page-hero:not(.vju-page-hero-image) p { color: #666; }
+.vju-page-hero a { color: inherit; }
+.vju-listing-header { padding-top: 22px; }
+.vju-listing-featured { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 40px; }
+.vju-listing-lead .group { border: 0; box-shadow: none; border-radius: 0; }
+.vju-listing-lead .group > div:first-child { aspect-ratio: 1.55 / 1; border-radius: 8px; }
+.vju-listing-lead .group > div:last-child { padding-inline: 0; }
+.vju-listing-lead .group h2 { color: #2b2b2b; font-size: 1.25rem; font-weight: 400; }
+.vju-listing-side { display: grid; gap: 16px; align-content: start; margin: 0; padding: 0; list-style: none; }
+.vju-listing-side article { border-radius: 0; padding: 0; }
+.vju-listing-side article:hover { background: transparent; }
+.vju-listing-side article > div:first-child { width: 110px; height: 74px; border-radius: 5px; }
+.vju-listing-side article h2 { font-size: 1rem; font-weight: 400; color: #333; }
+.vju-listing-side article .relative.z-10 { font-size: .8rem; }
+.vju-inner-cover { width: 100%; height: clamp(230px, 28vw, 410px); overflow: hidden; }
+.vju-inner-layout { display: grid; gap: 42px; padding-top: 46px; padding-bottom: 72px; }
+.vju-inner-layout-with-aside { grid-template-columns: 274px minmax(0, 1fr); }
+.vju-inner-aside { align-self: start; background: #f0f0f0; padding: 26px 20px; }
+.vju-inner-aside ul { margin: 0; padding: 0; list-style: none; }
+.vju-inner-aside li + li { margin-top: 19px; }
+.vju-inner-aside a { color: #262626; line-height: 1.35; }
+.vju-inner-aside a:hover { color: #ab2523; }
+.vju-inner-article { min-width: 0; }
+.vju-content-title { position: relative; padding-bottom: 17px; color: #2a2a2a; font-size: clamp(2rem, 3.1vw, 2.9rem); font-weight: 400; line-height: 1.2; }
+.vju-content-title::after { position: absolute; bottom: 0; left: 0; width: 158px; height: 2px; background: #b22624; content: ''; }
+.vju-inner-article .prose-content { max-width: 850px; font-size: 1rem; line-height: 1.6; }
+.vju-inner-article .prose-content h2 { color: #2a2a2a; font-size: clamp(1.8rem, 2.5vw, 2.35rem); font-weight: 400; padding-bottom: 14px; border-bottom: 2px solid #b22624; }
+.vju-cards-section { background: #f5f5f5; }
+.vju-cards-section li { border: 0; border-radius: 8px; box-shadow: 0 3px 12px rgba(0,0,0,.08); }
+.vju-cards-section li > div:first-child { aspect-ratio: 1.45 / 1; }
+.vju-cards-section li > div:last-child { border-top: 0; padding: 20px 20px 24px; }
+.vju-cards-section li h3 { color: #2b2b2b; font-weight: 500; }
+.vju-post-list-section .group { border-radius: 8px; border-color: #e5e5e5; box-shadow: 0 2px 9px rgba(0,0,0,.07); }
+.prose-content img, .prose-content video { border-radius: 0; }
+@media (width < 48rem) {
+    /* Keep the wide, text-in-image banner at its source ratio on phones. A
+       desktop minimum height makes it wider than the viewport and causes
+       horizontal scrolling on every page that starts with this hero. */
+    .vju-hero-image-only {
+        width: 100%;
+        min-width: 0;
+        min-height: 0;
+        aspect-ratio: 2560 / 767;
+    }
+    .vju-listing-featured { grid-template-columns: 1fr; gap: 28px; }
+    .vju-page-hero-image { min-height: 210px; }
+    .vju-inner-layout, .vju-inner-layout-with-aside { grid-template-columns: 1fr; gap: 24px; padding-top: 30px; padding-bottom: 48px; }
+    .vju-inner-aside { order: 2; }
+    .vju-section-heading { flex-direction: column; align-items: center; }
+    .vju-section-heading > a { align-self: center; }
+}
+
+.vju-footer { margin-top: 0; background: #303030; color: #f1f1f1; }
+.vju-footer-main { display: grid; grid-template-columns: 1.15fr 1.25fr repeat(3, 1fr); gap: 38px; padding-top: 54px; padding-bottom: 42px; }
+.vju-footer-logo { width: 270px; max-width: 100%; height: auto; margin-bottom: 20px; }
+.vju-footer-contact-list, .vju-footer-column ul { margin: 0; padding: 0; list-style: none; }
+.vju-footer-contact-list { display: grid; gap: 18px; font-size: .9rem; line-height: 1.55; }
+.vju-footer-contact-list a, .vju-footer-column a { color: #f1f1f1; }
+.vju-footer-contact-list a:hover, .vju-footer-column a:hover { color: #f5c6c5; }
+.vju-footer-address h2, .vju-footer-column h2, .vju-footer-follow h2 { margin: 0 0 18px; color: #fff; font-size: 1.08rem; font-weight: 700; text-transform: uppercase; }
+.vju-footer-address p { margin: 15px 0 0; font-size: .9rem; line-height: 1.5; }
+.vju-map-placeholder { display: flex; align-items: center; justify-content: center; min-height: 92px; border: 1px solid rgba(255,255,255,.2); background: linear-gradient(135deg, #3c5a49, #27382f); color: rgba(255,255,255,.7); font-size: .78rem; letter-spacing: .12em; }
+.vju-footer-column ul { display: grid; gap: 9px; font-size: .9rem; line-height: 1.45; }
+.vju-footer-follow { display: flex; align-items: center; justify-content: space-between; gap: 24px; border-top: 1px solid rgba(255,255,255,.16); padding-top: 22px; padding-bottom: 22px; }
+.vju-footer-follow h2 { margin-bottom: 10px; }
+.vju-social-list { display: flex; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.vju-social-list a { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; color: #f1f1f1; }
+.vju-social-list a:hover { color: #f4c0be; }
+.vju-footer-brand-text { max-width: 420px; text-align: right; font-size: .86rem; color: rgba(255,255,255,.72); }
+.vju-footer-bottom { background: #242424; color: rgba(255,255,255,.68); font-size: .78rem; }
+.vju-footer-bottom .container-site { padding-top: 14px; padding-bottom: 14px; }
+
+.vju-floating-actions { position: fixed; right: 11px; bottom: 18px; z-index: 45; display: grid; gap: 15px; width: 140px; }
+.vju-float-button { display: flex; align-items: center; justify-content: center; min-height: 54px; padding: 8px 10px; border-radius: 8px; color: #fff; text-align: center; font-size: .77rem; line-height: 1.15; font-weight: 700; box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+.vju-float-button:hover { color: #fff; transform: translateY(-1px); }
+.vju-float-green { background: #008b46; }
+.vju-float-red { background: #b22624; }
+.vju-float-socials { display: flex; justify-content: space-between; align-items: center; padding: 2px 5px; }
+.vju-phone-bubble, .vju-zalo-bubble { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 999px; box-shadow: 0 0 0 8px rgba(235,255,245,.75); }
+.vju-phone-bubble { background: #ef2929; color: #fff; }
+.vju-zalo-bubble { background: #fff; color: #06f; border: 2px solid #0b66f8; font-size: .85rem; font-weight: 700; box-shadow: 0 0 0 8px rgba(235,245,255,.8); }
+
+@media (width < 64rem) {
+    .vju-header-primary .vju-header-inner { min-height: 68px; }
+    .vju-brand-logo { width: 245px; }
+    .vju-primary-nav, .vju-primary-tools, .vju-header-secondary { display: none; }
+    .vju-header-primary .vju-header-inner { justify-content: space-between; }
+    .vju-mobile-nav { display: block !important; width: 84px; flex: 0 0 84px; position: fixed; top: 17px; right: 14px; z-index: 60; }
+    .vju-mobile-nav > button { display: inline-flex !important; width: 84px; align-items: center; justify-content: center; background: #fff !important; color: #b22624 !important; border-color: rgba(255,255,255,.7); }
+    .vju-footer-main { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .vju-footer-contact { grid-column: 1 / -1; }
+}
+
+@media (width >= 64rem) {
+    .vju-header-inner { padding-inline: 0; }
+}
+
+@media (width < 40rem) {
+    .vju-header-inner { padding-inline: 14px; }
+    .vju-brand-logo { width: 205px; }
+    .vju-footer-main { grid-template-columns: 1fr; gap: 28px; }
+    .vju-footer-follow { display: grid; }
+    .vju-footer-brand-text { text-align: left; }
+    .vju-floating-actions { right: 7px; bottom: 10px; width: 112px; gap: 7px; }
+    .vju-float-button { min-height: 44px; font-size: .66rem; }
+    .vju-phone-bubble, .vju-zalo-bubble { width: 46px; height: 46px; }
 }
 
 /* Rich text coming from the CMS (sanitized server-side). */
@@ -264,4 +423,3 @@
         max-width: 100%;
     }
 }
-

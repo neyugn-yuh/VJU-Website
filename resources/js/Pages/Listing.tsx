@@ -33,7 +33,7 @@ export default function Listing() {
         ) : null;
 
     return (
-        <ListingLayout title={title} description={description} breadcrumbs={breadcrumbs} header={chips}>
+        <ListingLayout title={title} description={description} breadcrumbs={breadcrumbs} header={chips} heroImage={items[0]?.image}>
             {items.length === 0 ? (
                 <p className="rounded-lg bg-surface p-8 text-center text-muted">{t('no_results')}</p>
             ) : compact ? (
@@ -45,13 +45,18 @@ export default function Listing() {
                     ))}
                 </ul>
             ) : (
-                <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {items.map((item, i) => (
-                        <li key={item.id}>
-                            <PostCard item={item} headingLevel="h2" priority={i === 0} />
-                        </li>
-                    ))}
-                </ul>
+                <div className="vju-listing-featured">
+                    <div className="vju-listing-lead">
+                        <PostCard item={items[0]} variant="featured" headingLevel="h2" priority />
+                    </div>
+                    {items.length > 1 && (
+                        <ul className="vju-listing-side">
+                            {items.slice(1).map((item) => (
+                                <li key={item.id}><PostCard item={item} variant="list" headingLevel="h2" /></li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
             )}
             <Pagination pagination={pagination} />
         </ListingLayout>

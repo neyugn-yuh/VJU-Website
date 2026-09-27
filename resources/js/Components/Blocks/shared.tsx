@@ -30,7 +30,7 @@ export function Section({ id, heading, intro, children, className = '', action }
         <section id={id} aria-labelledby={heading ? `${id}-h` : undefined} className={`scroll-mt-24 py-10 sm:py-14 ${className}`}>
             <div className="container-site">
                 {(heading || action) && (
-                    <div className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:mb-8">
+                    <div className="vju-section-heading mb-6 flex flex-wrap items-end justify-between gap-4 sm:mb-8">
                         {heading && (
                             <h2 id={`${id}-h`} className="relative pb-3 text-2xl font-bold text-primary-900 after:absolute after:bottom-0 after:left-0 after:h-1 after:w-12 after:rounded after:bg-accent-600 sm:text-3xl">
                                 {heading}

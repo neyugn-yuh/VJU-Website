@@ -1,128 +1,97 @@
 import { useShared } from '@/Hooks/useShared';
-import { useT } from '@/Hooks/useT';
-import { MailIcon, PhoneIcon, PinIcon, SocialIcons } from '../Navigation/Icons';
+import { PhoneIcon, SocialIcons } from '../Navigation/Icons';
 import SmartLink from '../Navigation/SmartLink';
 
-const SOCIAL_NAMES: Record<string, string> = {
-    facebook: 'Facebook',
-    youtube: 'YouTube',
-    linkedin: 'LinkedIn',
-    instagram: 'Instagram',
-    tiktok: 'TikTok',
+const FOOTER_GROUPS = [
+    {
+        title: 'Đảm bảo chất lượng',
+        links: ['Văn bản hướng dẫn', 'Hệ thống đảm bảo chất lượng', 'Tin tức, thông báo', 'Hỗ trợ đổi mới giảng dạy'],
+    },
+    {
+        title: 'Tuyển sinh',
+        links: ['Cập nhật tuyển sinh', 'Hướng dẫn đăng ký', 'Chương trình', 'FAQ', 'Chỗ ở', 'Học phí', 'Học bổng'],
+    },
+    {
+        title: 'Nghiên cứu',
+        links: ['Tổng quan nghiên cứu', 'Lĩnh vực nghiên cứu chính', 'Khả năng nghiên cứu', 'Ấn phẩm nghiên cứu'],
+    },
+];
+
+const FALLBACK_SOCIAL = {
+    facebook: 'https://www.facebook.com/vnu.vju',
+    instagram: 'https://www.instagram.com/vnu.vju',
+    youtube: 'https://www.youtube.com/@VietnamJapanUniversity',
 };
+
+function FloatingActions() {
+    return (
+        <aside className="vju-floating-actions" aria-label="Tư vấn tuyển sinh">
+            <a href="#admission" className="vju-float-button vju-float-green">TƯ VẤN ĐẠI<br />HỌC</a>
+            <a href="#admission" className="vju-float-button vju-float-green">TƯ VẤN THẠC<br />SĨ</a>
+            <a href="https://tuyensinh.vju.ac.vn/" target="_blank" rel="noopener noreferrer" className="vju-float-button vju-float-red">NỘP HỒ SƠ<br />ONLINE</a>
+            <div className="vju-float-socials">
+                <a href="tel:+84966954736" aria-label="Gọi tư vấn" className="vju-phone-bubble"><PhoneIcon width={30} height={30} /></a>
+                <a href="https://zalo.me/0966954736" target="_blank" rel="noopener noreferrer" aria-label="Zalo" className="vju-zalo-bubble">Zalo</a>
+            </div>
+        </aside>
+    );
+}
+
+export function PublicFloatingActions() {
+    return <FloatingActions />;
+}
 
 export default function Footer() {
     const { site, menus } = useShared();
-    const t = useT();
-    const items = menus?.footer ?? [];
-    const { phone, email, address, map_url } = site.contact ?? {};
-    // PHP serialises an empty settings array as [], so accept both shapes.
-    const social = Object.entries(site.social ?? {}).filter(([, url]) => typeof url === 'string' && url);
-    const groups = items.filter((i) => i.children.length);
-    const singles = items.filter((i) => !i.children.length);
+    const { phone, email, address } = site.contact ?? {};
+    const social = { ...FALLBACK_SOCIAL, ...(site.social ?? {}) };
+    const footerItems = menus?.footer ?? [];
 
     return (
-        <footer className="mt-16 bg-primary-950 text-white/85">
-            <div className="container-site grid gap-10 py-12 md:grid-cols-2 lg:grid-cols-4">
-                <div className="lg:col-span-2">
-                    <p className="text-lg font-bold text-white">{site.name}</p>
-                    {site.description && <p className="mt-2 max-w-prose text-sm">{site.description}</p>}
-                    {(address || phone || email) && (
-                        <address className="mt-6 space-y-2 text-sm not-italic">
-                            <h2 className="sr-only">{t('contact')}</h2>
-                            {address && (
-                                <p className="flex gap-2">
-                                    <PinIcon width={18} height={18} className="mt-0.5 shrink-0 text-accent-500" />
-                                    {map_url ? (
-                                        <a href={map_url} target="_blank" rel="noopener noreferrer" className="hover:text-white hover:underline">
-                                            {address}
-                                        </a>
-                                    ) : (
-                                        <span>{address}</span>
-                                    )}
-                                </p>
-                            )}
-                            {phone && (
-                                <p className="flex gap-2">
-                                    <PhoneIcon width={18} height={18} className="mt-0.5 shrink-0 text-accent-500" />
-                                    <a href={`tel:${phone.replace(/[^\d+]/g, '')}`} className="hover:text-white hover:underline">
-                                        {phone}
-                                    </a>
-                                </p>
-                            )}
-                            {email && (
-                                <p className="flex gap-2">
-                                    <MailIcon width={18} height={18} className="mt-0.5 shrink-0 text-accent-500" />
-                                    <a href={`mailto:${email}`} className="hover:text-white hover:underline">
-                                        {email}
-                                    </a>
-                                </p>
-                            )}
-                        </address>
-                    )}
+        <footer className="vju-footer">
+            <div className="vju-footer-main container-site">
+                <div className="vju-footer-contact">
+                    <img src="/assets/vju-logo.png" alt={site.name} width={444} height={107} className="vju-footer-logo" />
+                    <ul className="vju-footer-contact-list">
+                        <li><strong>HOTLINE</strong><br />Hotline tuyển sinh:<br />+ (+84) 966 954 736<br />+ (+84) 969 638 426<br />Liên hệ chung: + 024.7306.6001</li>
+                        <li><strong>EMAIL</strong><br /><a href={`mailto:${email ?? 'admission@vju.ac.vn'}`}>{email ?? 'admission@vju.ac.vn'}</a></li>
+                    </ul>
                 </div>
 
-                {groups.map((group, i) => (
-                    <nav key={i} aria-label={group.label}>
-                        <h2 className="mb-3 text-sm font-bold uppercase tracking-wider text-white">{group.label}</h2>
-                        <ul className="space-y-2 text-sm">
-                            {group.children.map((child, j) => (
-                                <li key={j}>
-                                    <SmartLink href={child.url} target={child.target} className="hover:text-white hover:underline">
-                                        {child.label}
-                                    </SmartLink>
-                                </li>
-                            ))}
+                <div className="vju-footer-address">
+                    <h2>Cơ sở VJU</h2>
+                    <div className="vju-map-placeholder" role="img" aria-label="Bản đồ cơ sở Đại học Việt Nhật">ĐẠI HỌC VIỆT NHẬT</div>
+                    <p><strong>CƠ SỞ MỸ ĐÌNH:</strong><br />{address || 'Đường Lưu Hữu Phước, phường Từ Liêm, thành phố Hà Nội'}</p>
+                    <p><strong>CƠ SỞ HÒA LẠC:</strong><br />Khu đô thị Đại học Quốc gia Hà Nội tại Hòa Lạc, Hà Nội</p>
+                </div>
+
+                {FOOTER_GROUPS.map((group) => (
+                    <nav key={group.title} className="vju-footer-column" aria-label={group.title}>
+                        <h2>{group.title}</h2>
+                        <ul>
+                            {group.links.map((label) => {
+                                const match = footerItems.find((item) => item.label.toLowerCase() === label.toLowerCase());
+                                return <li key={label}>{match ? <SmartLink href={match.url} target={match.target}>{label}</SmartLink> : <a href="#">{label}</a>}</li>;
+                            })}
                         </ul>
                     </nav>
                 ))}
+            </div>
 
-                {(singles.length > 0 || social.length > 0) && (
-                    <div className="space-y-6">
-                        {singles.length > 0 && (
-                            <nav aria-label={t('menu')}>
-                                <ul className="space-y-2 text-sm">
-                                    {singles.map((item, i) => (
-                                        <li key={i}>
-                                            <SmartLink href={item.url} target={item.target} className="hover:text-white hover:underline">
-                                                {item.label}
-                                            </SmartLink>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </nav>
-                        )}
-                        {social.length > 0 && (
-                            <div>
-                                <h2 className="mb-3 text-sm font-bold uppercase tracking-wider text-white">{t('follow_us')}</h2>
-                                <ul className="flex flex-wrap gap-2">
-                                    {social.map(([key, url]) => {
-                                        const Icon = SocialIcons[key];
-                                        return (
-                                            <li key={key}>
-                                                <a
-                                                    href={url as string}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-accent-600"
-                                                >
-                                                    {Icon ? <Icon /> : key.slice(0, 2)}
-                                                    <span className="sr-only">{SOCIAL_NAMES[key] ?? key}</span>
-                                                </a>
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
-                            </div>
-                        )}
-                    </div>
-                )}
+            <div className="vju-footer-follow container-site">
+                <div>
+                    <h2>Theo dõi</h2>
+                    <ul className="vju-social-list">
+                        {Object.entries(social).filter(([, url]) => typeof url === 'string' && url).map(([key, url]) => {
+                            const Icon = SocialIcons[key];
+                            return <li key={key}><a href={url as string} target="_blank" rel="noopener noreferrer" aria-label={key}>{Icon ? <Icon width={24} height={24} /> : key.slice(0, 2)}</a></li>;
+                        })}
+                    </ul>
+                </div>
+                <div className="vju-footer-brand-text">{site.description || 'Trường Đại học Việt Nhật, Đại học Quốc gia Hà Nội'}</div>
             </div>
-            <div className="border-t border-white/10">
-                <p className="container-site py-4 text-xs text-white/70">
-                    © {new Date().getFullYear()} {site.name}
-                </p>
-            </div>
+
+            <div className="vju-footer-bottom"><div className="container-site">© {new Date().getFullYear()} Vietnam Japan University · VNU</div></div>
         </footer>
     );
 }

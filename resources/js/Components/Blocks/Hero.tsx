@@ -35,19 +35,20 @@ export default function Hero({ data, id, first, asTitle }: BlockProps<Data>) {
     }, [index, multiple, paused, reducedMotion, slides.length]);
 
     const caption = slides[index]?.caption;
+    const imageOnly = Boolean(slides[0]?.image && Number(slides[0].image.width) / Math.max(1, Number(slides[0].image.height)) > 2.3);
 
     return (
         <section
             id={id}
             aria-roledescription={multiple ? 'carousel' : undefined}
-            aria-labelledby={`${id}-h`}
-            className="relative isolate overflow-hidden bg-primary-900 text-white"
+            aria-labelledby={data.heading && !imageOnly ? `${id}-h` : undefined}
+            className={`vju-hero relative isolate overflow-hidden ${imageOnly ? 'vju-hero-image-only' : 'bg-primary-900 text-white'}`}
         >
             {slides.map((slide, i) => (
                 <div
                     key={i}
                     aria-hidden={i !== index}
-                    className={`absolute inset-0 -z-20 transition-opacity duration-1000 ${i === index ? 'opacity-100' : 'opacity-0'}`}
+                    className={`absolute inset-0 transition-opacity duration-1000 ${i === index ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
                 >
                     <Picture
                         image={slide.image as MediaImage}
@@ -57,24 +58,23 @@ export default function Hero({ data, id, first, asTitle }: BlockProps<Data>) {
                     />
                 </div>
             ))}
-            {/* Gradient keeps text readable over any photo. */}
-            <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-primary-950/90 via-primary-900/70 to-primary-900/20" />
-            <div aria-hidden="true" className="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-primary-950/70 to-transparent" />
+            {!imageOnly && <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-primary-950/90 via-primary-900/70 to-primary-900/20" />}
+            {!imageOnly && <div aria-hidden="true" className="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-gradient-to-t from-primary-950/70 to-transparent" />}
 
-            <div className="container-site flex min-h-[26rem] flex-col justify-center py-16 sm:min-h-[32rem] lg:min-h-[36rem]">
-                <div className="max-w-3xl">
-                    <H id={`${id}-h`} className="text-3xl font-extrabold leading-tight drop-shadow sm:text-5xl lg:text-6xl">
-                        {str(data.heading)}
-                    </H>
-                    {data.subheading && <p className="mt-4 max-w-2xl text-lg text-white/90 sm:text-xl">{data.subheading}</p>}
-                    <div className="mt-8">
-                        <Buttons buttons={list<ButtonData>(data.buttons)} dark />
+            {!imageOnly && (
+                <div className="container-site flex min-h-[26rem] flex-col justify-center py-16 sm:min-h-[32rem] lg:min-h-[36rem]">
+                    <div className="max-w-3xl">
+                        <H id={`${id}-h`} className="text-3xl font-extrabold leading-tight drop-shadow sm:text-5xl lg:text-6xl">
+                            {str(data.heading)}
+                        </H>
+                        {data.subheading && <p className="mt-4 max-w-2xl text-lg text-white/90 sm:text-xl">{data.subheading}</p>}
+                        <div className="mt-8"><Buttons buttons={list<ButtonData>(data.buttons)} dark /></div>
                     </div>
                 </div>
-            </div>
+            )}
 
             {(multiple || caption) && (
-                <div className="container-site absolute inset-x-0 bottom-4 flex items-center justify-between gap-4">
+                <div className={`container-site absolute inset-x-0 bottom-4 flex items-center justify-between gap-4 ${imageOnly ? 'vju-hero-controls' : ''}`}>
                     {multiple ? (
                         <div className="flex items-center gap-2">
                             <button

@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react';
 import { useEffect, useState, type ReactNode } from 'react';
-import Footer from '@/Components/Footer/Footer';
+import Footer, { PublicFloatingActions } from '@/Components/Footer/Footer';
 import Header from '@/Components/Header/Header';
 import { CloseIcon } from '@/Components/Navigation/Icons';
 import { useShared } from '@/Hooks/useShared';
@@ -65,6 +65,7 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
                     {children}
                 </main>
                 <Footer />
+                <PublicFloatingActions />
             </div>
             <Flash />
         </>

@@ -53,6 +53,15 @@ php artisan wp:report                          # migration-report.json/csv + url
 php artisan wp:harvest-redirects               # REST source: copy redirects the live WordPress site applies
 ```
 
+If a crawl export contains legacy images that the REST API could not download, mount the split ZIP files and import
+them idempotently. `--rewrite` replaces matching image URLs in imported content with local media URLs:
+
+```powershell
+docker compose run --rm --no-deps -T `
+  -v "C:\Users\Justin\Downloads\image:/crawl:ro" app `
+  php artisan wp:import-crawl-images /crawl --rewrite
+```
+
 Options: `--source=rest|db`, `--locale=vi`, `--id=123`, `--since="2026-08-01 00:00:00"|last-run`, `--limit=100`, `--force`.
 Details: [docs/runbooks/migration-cutover.md](docs/runbooks/migration-cutover.md).
 
