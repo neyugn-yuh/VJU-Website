@@ -43,7 +43,7 @@ export function PublicFloatingActions() {
 
 export default function Footer() {
     const { site, menus } = useShared();
-    const { phone, email, address } = site.contact ?? {};
+    const { email, address } = site.contact ?? {};
     const social = { ...FALLBACK_SOCIAL, ...(site.social ?? {}) };
     const footerItems = menus?.footer ?? [];
 

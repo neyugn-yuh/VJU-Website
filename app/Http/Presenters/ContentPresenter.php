@@ -17,9 +17,13 @@ class ContentPresenter
     public function __construct(private readonly ContentRenderer $renderer) {}
 
     /** Eager loads needed by card(). */
-    public const CARD_RELATIONS = ['translations:id,content_id,locale,title,slug,path,excerpt', 'featuredMedia', 'categories.translations'];
+    public const CARD_RELATIONS = [
+        'translations:id,content_id,locale,title,slug,path,excerpt',
+        'featuredMedia',
+        'categories.translations:id,category_id,locale,name,slug,path',
+    ];
 
-    public function card(Content $content, string $locale): array
+    public function card(Content $content, string $locale, ?Collection $fieldMedia = null): array
     {
         $t = $content->translation($locale);
         $category = $content->categories->first();
@@ -33,19 +37,48 @@ class ContentPresenter
             'date' => $content->published_at?->toIso8601String(),
             'image' => $content->featuredMedia?->toPublicArray(),
             'category' => $category && ($ct = $category->translation($locale)) ? ['name' => $ct->name, 'url' => $ct->url()] : null,
-            'fields' => $this->fields($content),
+            'fields' => $this->fields($content, $fieldMedia),
         ];
     }
 
     /** @param  iterable<Content>  $contents */
     public function cards(iterable $contents, string $locale): array
     {
-        return collect($contents)->map(fn (Content $c) => $this->card($c, $locale))->values()->all();
+        $contents = collect($contents);
+        $fileIds = $contents
+            ->map(fn (Content $content) => (int) data_get($content->fields, 'file_id'))
+            ->filter()
+            ->unique()
+            ->values();
+        $fieldMedia = $fileIds->isEmpty()
+            ? collect()
+            : Media::whereIn('id', $fileIds)->get()->keyBy('id');
+
+        return $contents->map(fn (Content $c) => $this->card($c, $locale, $fieldMedia))->values()->all();
     }
 
     public function full(Content $content, string $locale): array
     {
-        $content->loadMissing(['translations', 'author:id,name', 'featuredMedia', 'categories.translations', 'tags.translations', 'parent.translations']);
+        $content->loadMissing([
+            'author:id,name',
+            'featuredMedia',
+            'categories.translations:id,category_id,locale,name,slug,path',
+            'tags.translations:id,tag_id,locale,name,slug',
+            'parent.translations:id,content_id,locale,title,slug,path',
+        ]);
+
+        // The body and blocks are large. Load them only for the active locale;
+        // alternate URLs are fetched as a small projection in alternates().
+        $currentTranslation = $content->relationLoaded('translations')
+            ? $content->translations->firstWhere('locale', $locale)
+            : null;
+        if (! $currentTranslation
+            || ! array_key_exists('body', $currentTranslation->getAttributes())
+            || ! array_key_exists('blocks', $currentTranslation->getAttributes())) {
+            $content->setRelation('translations', $content->translations()
+                ->where('locale', $locale)
+                ->get(['id', 'content_id', 'locale', 'title', 'slug', 'path', 'excerpt', 'body', 'blocks']));
+        }
         $t = $content->translation($locale);
 
         return [
@@ -120,14 +153,17 @@ class ContentPresenter
     }
 
     /** Structured-type fields with the attached file resolved. */
-    private function fields(Content $content): ?array
+    private function fields(Content $content, ?Collection $fieldMedia = null): ?array
     {
         if (! $content->fields) {
             return null;
         }
 
         $fields = $content->fields;
-        if (! empty($fields['file_id']) && $file = Media::find($fields['file_id'])) {
+        $file = ! empty($fields['file_id'])
+            ? ($fieldMedia?->get((int) $fields['file_id']) ?? Media::find($fields['file_id']))
+            : null;
+        if ($file) {
             $fields['file'] = ['url' => $file->url(), 'mime' => $file->mime_type, 'size' => $file->humanSize(), 'name' => $file->filename];
         } elseif (! empty($fields['file_url'])) {
             $fields['file'] = ['url' => $fields['file_url'], 'mime' => null, 'size' => null, 'name' => basename(parse_url($fields['file_url'], PHP_URL_PATH) ?: '')];
@@ -139,7 +175,9 @@ class ContentPresenter
     /** hreflang alternates for a content item: only locales that really exist. */
     public function alternates(Content $content): array
     {
-        return $content->translations->sortBy(fn ($t) => array_search($t->locale, Locales::codes(), true))
+        return $content->translations()
+            ->get(['id', 'content_id', 'locale', 'path'])
+            ->sortBy(fn ($t) => array_search($t->locale, Locales::codes(), true))
             ->map(fn ($t) => ['locale' => $t->locale, 'url' => $t->url()])->values()->all();
     }
 }

@@ -23,7 +23,7 @@ export default function ErrorPage() {
                     {missing ? t('not_found') : t('error')}
                 </h1>
                 {missing && <p className="mx-auto mt-3 max-w-xl text-muted">{t('not_found_text')}</p>}
-                <Link href={home} className="mt-8 inline-flex rounded-md bg-primary-700 px-6 py-3 font-semibold text-white hover:bg-primary-800">
+                <Link prefetch="hover" viewTransition href={home} className="mt-8 inline-flex rounded-md bg-primary-700 px-6 py-3 font-semibold text-white hover:bg-primary-800">
                     {t('back_home')}
                 </Link>
             </div>

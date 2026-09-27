@@ -277,7 +277,7 @@ export function TagList({ tags }: { tags: ContentFull['tags'] }) {
             <ul className="flex flex-wrap gap-2">
                 {tags.map((tag) => (
                     <li key={tag.url}>
-                        <Link href={tag.url} className="inline-block rounded-full border border-line px-3 py-1 text-sm text-primary-800 hover:border-primary-700 hover:bg-primary-50">
+                        <Link prefetch="hover" viewTransition href={tag.url} className="inline-block rounded-full border border-line px-3 py-1 text-sm text-primary-800 hover:border-primary-700 hover:bg-primary-50">
                             #{tag.name}
                         </Link>
                     </li>

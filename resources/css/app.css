@@ -39,6 +39,24 @@
     --color-surface: #f5f7fb;
 }
 
+/* Give real Inertia visits immediate visual feedback while the next page is
+   fetched and its lazy-loaded chunk is evaluated. Prefetch requests stay
+   invisible so hovering a link never dims the current page. */
+@media (prefers-reduced-motion: no-preference) {
+    #main-content {
+        transition: opacity 160ms ease;
+    }
+
+    html.inertia-loading #main-content {
+        opacity: 0.78;
+    }
+
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+        animation-duration: 180ms;
+    }
+}
+
 @layer base {
     html {
         color: var(--color-ink);
@@ -145,7 +163,11 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
 
 .vju-section-heading { justify-content: center; }
 .vju-section-heading h2 { color: #3b3b3b; text-align: center; text-transform: uppercase; letter-spacing: .01em; font-weight: 400; }
-.vju-section-heading h2::after { left: 50%; width: 158px; height: 2px; transform: translateX(-50%); background: #b22624; border-radius: 0; }
+.vju-section-heading h2::after,
+.sub-title-border-center h2::after,
+.sub-title-border-center .elementor-heading-title::after { left: 50%; width: 158px; height: 2px; transform: translateX(-50%); background: #AB2523; margin: 16px auto 0; border-radius: 0; content: ''; display: block; }
+.sub-title h2::after,
+.sub-title .elementor-heading-title::after { content: ''; display: block; width: 158px; height: 2px; background: #AB2523; margin-top: 16px; }
 .vju-page-hero { position: relative; overflow: hidden; background: #f5f5f5; border-bottom: 1px solid #e5e5e5; }
 .vju-page-hero-image { min-height: 400px; color: #fff; }
 .vju-page-hero-image > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -192,17 +214,43 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
 .vju-category-page-content .vju-legacy-body { margin-top: 0; }
 .vju-category-page-content .vju-legacy-body > h2:first-child { margin-top: 0; }
 .vju-category-page-research { grid-template-columns: 18rem minmax(0, 1fr); gap: 2rem; }
-.vju-category-aside { align-self: start; background: #f1f1f1; padding: 2.25rem 2rem; }
+.vju-category-page-admissions { grid-template-columns: 18.5rem minmax(0, 1fr); gap: 2.5rem; }
+.vju-category-aside { align-self: start; background: #f1f1f1; padding: 2.25rem 2rem; border-radius: 8px; }
 .vju-category-aside ul { display: grid; gap: 1.15rem; margin: 0; padding: 0; list-style: none; }
 .vju-category-aside li { line-height: 1.35; }
-.vju-category-aside a { color: #4d5560; text-decoration: none; }
-.vju-category-aside li.is-active a, .vju-category-aside a:hover { color: #b22624; }
+.vju-category-aside a { color: #4d5560; text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
+.vju-category-aside li.is-active a, .vju-category-aside a:hover { color: #b22624; font-weight: 600; }
 .vju-category-aside-contact { display: block; margin-top: 4rem; color: #b22624 !important; font-weight: 700; }
+.vju-category-aside-admissions ul { gap: 0.85rem; }
+.vju-category-aside-admissions li a { color: #343434; font-weight: 500; }
+.vju-category-aside-admissions li.is-active a { color: #ab2523; font-weight: 700; }
+.vju-tuition-intro-box { background: #f9fafb; border-left: 4px solid #007F3E; padding: 1.25rem 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 2rem; }
+.vju-tuition-intro-box p { margin: 0 0 0.75rem; color: #374151; font-size: 0.98rem; line-height: 1.6; }
+.vju-tuition-intro-box p:last-child { margin-bottom: 0; }
+.vju-tuition-doc-btn { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; padding: 0.6rem 1.25rem; background: #007F3E; color: #fff !important; font-weight: 600; font-size: 0.9rem; border-radius: 6px; text-decoration: none !important; transition: background 0.2s ease; }
+.vju-tuition-doc-btn:hover { background: #006030; }
+.vju-tuition-section-title { font-family: "Open Sans", sans-serif; font-size: 1.35rem; font-weight: 700; color: #202020; margin: 2rem 0 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
+.vju-tuition-grid { display: flex; flex-direction: column; gap: 0.85rem; margin-bottom: 2.5rem; }
+.vju-tuition-card { display: flex; align-items: center; justify-content: space-between; gap: 1.25rem; background: #F1F1F1; border-radius: 8px; padding: 1.15rem 1.4rem; transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease; border: 1px solid transparent; }
+.vju-tuition-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); background: #e9ecef; border-color: #d1d5db; }
+.vju-tuition-card-main { min-width: 0; flex: 1; }
+.vju-tuition-card-title { margin: 0; font-family: "Open Sans", sans-serif; font-size: 0.98rem; font-weight: 600; line-height: 1.4; }
+.vju-tuition-card-title a { display: inline-flex; align-items: flex-start; gap: 0.65rem; color: #007F3E; text-decoration: none; transition: color 0.2s ease; }
+.vju-tuition-card-title a svg { flex-shrink: 0; margin-top: 3px; color: #007F3E; }
+.vju-tuition-card:hover .vju-tuition-card-title a { color: #AB2523; }
+.vju-tuition-card:hover .vju-tuition-card-title a svg { color: #AB2523; }
+.vju-tuition-card-subtitle { margin: 0.35rem 0 0 1.65rem; font-size: 0.84rem; color: #7C7C7C; font-style: italic; }
+.vju-tuition-card-action { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.85rem; font-weight: 600; color: #AB2523; flex-shrink: 0; text-decoration: none; white-space: nowrap; }
+.vju-tuition-card-action:hover { text-decoration: underline; }
+.vju-tuition-note-box { background: #f9fafb; border-radius: 8px; padding: 1.25rem 1.5rem; border: 1px solid #e5e7eb; color: #4b5563; font-size: 0.95rem; line-height: 1.6; }
+.vju-tuition-note-box a { color: #007F3E; font-weight: 600; text-decoration: underline; }
+.vju-tuition-note-box a:hover { color: #AB2523; }
 .vju-category-page-document { padding-top: 2rem; }
 .vju-category-page-document .vju-category-page-content > nav { margin-bottom: 1rem; }
-.vju-category-page-document .vju-legacy-body > h2 { margin-top: 2.25rem; color: #b22624; font-size: clamp(1.55rem, 2.35vw, 2.15rem); font-weight: 500; border-bottom: 2px solid #b22624; padding-bottom: .8rem; }
+.vju-category-page-document .vju-legacy-body > h2 { margin-top: 2.5rem; color: #2a2a2a; font-family: "Open Sans", sans-serif; font-size: clamp(1.4rem, 2.2vw, 1.85rem); font-weight: 700; border-bottom: none; padding-bottom: 0; }
 .vju-category-page-document .vju-legacy-body > h2:first-child { margin-top: 0; }
-.vju-category-page-document .vju-legacy-body > p:has(> a[href]) { margin-top: .7rem; }
+.vju-category-page-document .vju-legacy-body > h2::after { display: block; width: 158px; height: 2px; margin-top: 16px; background: #AB2523; content: ''; }
+.vju-category-page-document .vju-legacy-body > p:has(> a[href]) { margin-top: .75rem; }
 .vju-event-feature { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(18rem, .85fr); min-width: 0; margin-top: 0; background: #b22624; color: #fff; }
 .vju-event-feature .vju-event-card { display: contents; }
 .vju-event-feature .vju-event-card-image { min-height: 34rem; }
@@ -223,55 +271,59 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
 .vju-event-card-copy p { margin: .75rem 0 0; color: #536070; font-size: .9rem; line-height: 1.55; }
 .vju-event-card-copy .vju-event-read-more { margin-top: .65rem; color: #b22624; font-size: .85rem; }
 .vju-research-directory { min-width: 0; }
-.vju-research-directory > h2 { margin: 0; color: #2a2a2a; font-size: clamp(1.7rem, 2.5vw, 2.25rem); font-weight: 700; line-height: 1.25; }
-.vju-research-directory > h2::after { display: block; width: 9.5rem; height: 2px; margin-top: .7rem; background: #b22624; content: ''; }
+.vju-research-directory > h2 { margin: 0; color: #2a2a2a; font-family: "Open Sans", sans-serif; font-size: clamp(1.7rem, 2.5vw, 2.25rem); font-weight: 700; line-height: 1.25; }
+.vju-research-directory > h2::after { display: block; width: 158px; height: 2px; margin-top: 16px; background: #AB2523; content: ''; }
 .vju-research-feature { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr); align-items: center; gap: clamp(1.5rem, 3vw, 2.7rem); margin-top: 2.3rem; }
 .vju-research-feature-secondary { margin-top: 3rem; }
 .vju-research-image { min-width: 0; }
 .vju-research-image img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; clip-path: polygon(50% 0, 88% 22%, 100% 68%, 69% 100%, 28% 90%, 0 47%, 15% 13%); }
 .vju-research-copy { min-width: 0; color: #68707a; font-size: 1rem; line-height: 1.55; }
-.vju-research-copy h3 { margin: 0 0 1.1rem; color: #2a2a2a; font-size: clamp(1.4rem, 2.1vw, 1.85rem); line-height: 1.3; }
+.vju-research-copy h3 { margin: 0 0 1.1rem; color: #2a2a2a; font-family: "Open Sans", sans-serif; font-size: clamp(1.4rem, 2.1vw, 1.85rem); font-weight: 600; line-height: 1.3; }
 .vju-research-copy p { margin: 0; }
 .vju-research-stats { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: start; gap: 1.5rem; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #777; }
 .vju-research-stats-heading { grid-column: 1 / -1; justify-self: end; width: min(62%, 31rem); margin: 0 0 .4rem; padding: .75rem 1.5rem .75rem 2.5rem; clip-path: polygon(7% 0, 100% 0, 100% 100%, 7% 100%, 0 50%); background: #b22624; color: #fff; text-align: center; font-size: clamp(1.25rem, 2vw, 1.8rem); font-weight: 700; line-height: 1.25; }
 .vju-research-stats-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .85rem; }
-.vju-research-stat { display: grid; min-height: 8rem; align-content: center; justify-items: center; gap: .65rem; padding: 1rem; background: #f1f1f1; text-align: center; }
-.vju-research-stat strong { color: #07853c; font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 700; line-height: 1; }
+.vju-research-stat { display: grid; min-height: 8rem; align-content: center; justify-items: center; gap: .65rem; padding: 1.25rem; background: #f1f1f1; border-radius: 8px; text-align: center; }
+.vju-research-stat strong { color: #007F3E; font-family: "Outfit", sans-serif; font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 700; line-height: 1; }
 .vju-research-stat p { margin: 0; color: #30363d; font-size: .9rem; line-height: 1.4; }
 .vju-research-stats-metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1.2rem; }
 .vju-research-metric { display: grid; grid-template-columns: 4rem minmax(0, 1fr); align-items: center; gap: .7rem; min-width: 0; padding: .85rem 0; border-bottom: 1px solid #dedede; }
-.vju-research-metric strong { color: #07853c; font-size: 1.75rem; font-weight: 700; line-height: 1; }
+.vju-research-metric strong { color: #007F3E; font-family: "Outfit", sans-serif; font-size: 1.75rem; font-weight: 700; line-height: 1; }
 .vju-research-metric p { margin: 0; color: #30363d; font-size: .82rem; line-height: 1.35; }
-.vju-category-archive { padding-top: 2rem; padding-bottom: 5rem; }
-.vju-category-archive > h1 { margin: 1.2rem 0 1.3rem; color: #2a2a2a; font-size: clamp(2rem, 3.3vw, 3rem); font-weight: 400; }
-.vju-category-archive-list { display: grid; gap: 1.45rem; }
-.vju-category-archive-item { min-width: 0; }
-.vju-category-archive-title { display: block; margin-bottom: .8rem; color: #cc2f6b; font-size: clamp(1.45rem, 2.5vw, 2.05rem); line-height: 1.25; }
-.vju-category-archive-title:hover { color: #ab2523; }
-.vju-category-archive-image { display: block; overflow: hidden; }
+.vju-category-archive { max-width: 1140px; margin-left: auto; margin-right: auto; padding-top: 2rem; padding-bottom: 5rem; }
+.vju-category-archive-heading { margin: 1.5rem 0 2.5rem; color: #202020; font-family: "Open Sans", sans-serif; font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 600; line-height: 1.25; }
+.vju-category-archive-heading span { color: #AB2523; }
+.vju-category-archive-list { display: flex; flex-direction: column; gap: 3rem; }
+.vju-category-archive-item { min-width: 0; padding-bottom: 2.75rem; border-bottom: 1px solid #e5e7eb; }
+.vju-category-archive-item:last-child { border-bottom: none; padding-bottom: 0.5rem; }
+.vju-category-archive-title { margin: 0 0 1rem; font-family: "Open Sans", sans-serif; font-size: clamp(1.35rem, 2vw, 1.75rem); font-weight: 600; line-height: 1.35; }
+.vju-category-archive-title a { color: #202020; text-decoration: none; transition: color 0.2s ease; }
+.vju-category-archive-title a:hover { color: #AB2523; }
+.vju-category-archive-image { display: block; margin-bottom: 1.25rem; overflow: hidden; border-radius: 8px; background-color: #f3f4f6; }
 .vju-category-archive-image picture, .vju-category-archive-image img { display: block; width: 100%; }
-.vju-category-archive-image img { max-height: 38rem; object-fit: cover; }
-.vju-category-archive-item p { margin: .7rem 0 0; color: #3f4854; line-height: 1.55; }
+.vju-category-archive-image img { max-height: 480px; width: 100%; object-fit: cover; aspect-ratio: 16 / 9; border-radius: 8px; transition: transform 0.3s ease; }
+.vju-category-archive-image:hover img { transform: scale(1.015); }
+.vju-category-archive-excerpt { margin: 0; font-family: "Open Sans", sans-serif; font-size: 1rem; line-height: 1.65; color: #4b5563; }
 .vju-staff-page { padding-top: 3rem; padding-bottom: 5rem; }
 .vju-staff-page .vju-legacy-body { font-size: .95rem; line-height: 1.55; }
-.vju-staff-page .vju-legacy-body > h2:first-child { margin-top: 0; color: #2a2a2a; font-size: clamp(1.7rem, 2.4vw, 2.2rem); font-weight: 700; }
-.vju-staff-page .vju-legacy-body > h2:first-child::after { display: block; width: 124px; height: 2px; margin-top: .55rem; background: #b22624; content: ''; }
+.vju-staff-page .vju-legacy-body > h2:first-child { margin-top: 0; color: #2a2a2a; font-family: "Open Sans", sans-serif; font-size: clamp(1.7rem, 2.4vw, 2.2rem); font-weight: 700; }
+.vju-staff-page .vju-legacy-body > h2:first-child::after { display: block; width: 158px; height: 2px; margin-top: 16px; background: #AB2523; content: ''; }
 .vju-staff-page .vju-legacy-body > p,
 .vju-staff-page .vju-legacy-body > ul { max-width: 100%; }
 .vju-staff-page .vju-legacy-body > ul { margin-top: .8rem; }
 .vju-staff-divider { margin: 3.5rem 0 4.25rem; border-top-color: #bdbdbd; }
-.vju-staff-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3.25rem 2.5rem; }
-.vju-staff-card { display: grid; grid-template-columns: 5.4rem minmax(0, 1fr); grid-template-rows: auto auto; column-gap: 1.65rem; align-items: start; min-width: 0; }
+.vju-staff-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem 2rem; }
+.vju-staff-card { display: grid; grid-template-columns: 140px minmax(0, 1fr); grid-template-rows: auto auto; column-gap: 1.5rem; align-items: start; min-width: 0; }
 .vju-staff-card > p:first-child { grid-column: 1; grid-row: 1 / span 2; margin: 0; }
-.vju-staff-card > p:first-child img { display: block; width: 5.4rem; height: 6.9rem; object-fit: cover; border-radius: .45rem; background: #f4f5f7; }
-.vju-staff-card > p:last-child { grid-column: 2; grid-row: 1; min-width: 0; margin: 0; padding: .35rem 0 .8rem; border-bottom: 1px solid #aaa; line-height: 1.35; }
+.vju-staff-card > p:first-child img { display: block; width: 140px; height: 140px; object-fit: cover; border-radius: 8px; background: #f4f5f7; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+.vju-staff-card > p:last-child { grid-column: 2; grid-row: 1; min-width: 0; margin: 0; padding: .15rem 0 .65rem; border-bottom: 1px solid #e0e0e0; line-height: 1.4; }
 .vju-staff-card > p:last-child strong,
-.vju-staff-card > p:last-child b { color: #b22624; font-size: .84rem; font-weight: 700; }
-.vju-staff-card > p:last-child i { color: #222; font-size: .82rem; }
-.vju-staff-card > ul { grid-column: 2; grid-row: 2; margin: .75rem 0 0; padding: 0; list-style: none; color: #4d5560; font-size: .78rem; line-height: 1.45; }
-.vju-staff-card > ul > li { display: flex; min-width: 0; gap: .45rem; margin: 0; overflow-wrap: anywhere; }
-.vju-staff-card > ul > li + li { margin-top: .15rem; }
-.vju-staff-card > ul > li::before { flex: 0 0 .8rem; color: #6c747d; font-size: .8rem; line-height: 1.4; }
+.vju-staff-card > p:last-child b { color: #b22624; font-size: .95rem; font-weight: 700; }
+.vju-staff-card > p:last-child i { color: #4b5563; font-size: .85rem; }
+.vju-staff-card > ul { grid-column: 2; grid-row: 2; margin: .65rem 0 0; padding: 0; list-style: none; color: #343434; font-size: .825rem; line-height: 1.5; }
+.vju-staff-card > ul > li { display: flex; min-width: 0; gap: .5rem; margin: 0; overflow-wrap: anywhere; }
+.vju-staff-card > ul > li + li { margin-top: .25rem; }
+.vju-staff-card > ul > li::before { flex: 0 0 1rem; color: #64748b; font-size: .85rem; line-height: 1.4; }
 .vju-staff-card > ul > li:first-child::before { content: '✉'; }
 .vju-staff-card > ul > li:nth-child(2)::before { content: '⌖'; }
 .vju-staff-card > ul > li:nth-child(n + 3)::before { content: '⌖'; }
@@ -317,47 +369,51 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
 /* Pages made from the old download-button widgets still arrive as plain
    paragraphs. Keep the title and download action together as compact rows. */
 .vju-document-directory > h4 { margin-top: 1.5rem; color: #2a2a2a; font-size: 1.1rem; }
-.vju-document-directory > p:has(> a[href]) { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: .75rem; border: 1px solid #e1e6ed; border-radius: 8px; padding: .85rem 1rem; background: #fff; }
-.vju-document-directory > p:has(> a[href]) a { display: inline-flex; flex: 0 0 auto; align-items: center; border-radius: 5px; background: #ab2523; padding: .55rem 1rem; color: #fff; font-size: .875rem; font-weight: 600; text-decoration: none; }
-.vju-document-directory > p:has(> a[href]) a:hover { background: #8f1f1d; color: #fff; }
+.vju-document-directory > p:has(> a[href]) { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: .75rem; border: 1px solid #e5e5e5; border-radius: 8px; padding: .85rem 1.25rem; background: #f1f1f1; }
+.vju-document-directory > p:has(> a[href]) a { display: inline-flex; flex: 0 0 auto; align-items: center; gap: .4rem; border-radius: 8px; background: #007F3E; padding: .6rem 1.25rem; color: #fff !important; font-family: "Outfit", sans-serif; font-size: .9rem; font-weight: 600; text-decoration: none !important; box-shadow: 0 2px 6px rgba(0,127,62,.2); transition: background .2s ease; }
+.vju-document-directory > p:has(> a[href]) a:hover { background: #006632; color: #fff !important; }
 .vju-graduate-page,
 .vju-documents-page { padding-top: 3.5rem; padding-bottom: 5rem; }
 .vju-graduate-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(20rem, .82fr); gap: clamp(2.5rem, 6vw, 6rem); align-items: start; }
 .vju-graduate-content { min-width: 0; }
-.vju-graduate-content > h2,
-.vju-documents-directory .vju-document-section > h2 { margin: 0; padding-bottom: .75rem; border-bottom: 2px solid #b22624; color: #2a2a2a; font-size: clamp(1.65rem, 2.7vw, 2.35rem); font-weight: 500; line-height: 1.25; }
-.vju-graduate-content > h2::after,
-.vju-documents-directory .vju-document-section > h2::after { display: block; width: 7rem; height: 2px; margin-top: .75rem; background: #b22624; content: ''; }
-.vju-graduate-kicker { margin: 1.6rem 0 0; color: #b22624; font-size: .85rem; font-weight: 700; line-height: 1.55; }
+.vju-graduate-content > h2 { margin: 0; color: #2a2a2a; font-family: "Open Sans", sans-serif; font-size: clamp(1.65rem, 2.7vw, 2.35rem); font-weight: 700; line-height: 1.25; }
+.vju-graduate-content > h2::after { display: block; width: 158px; height: 2px; margin-top: 16px; background: #AB2523; content: ''; }
+.vju-graduate-kicker { margin: 1.5rem 0 0; color: #b22624; font-size: .875rem; font-weight: 700; letter-spacing: .03em; line-height: 1.5; }
 .vju-graduate-instructions { margin-top: 1rem; color: #555d67; font-size: 1rem; line-height: 1.7; }
 .vju-graduate-instructions > p { margin-top: .8rem; }
 .vju-graduate-instructions strong { color: #2e343b; }
-.vju-graduate-form { display: grid; gap: 1rem; min-width: 0; border: 1px solid #e0e3e7; border-radius: 4px; padding: clamp(1.3rem, 3vw, 2.15rem); background: #f5f5f5; box-shadow: 0 7px 22px rgba(0,0,0,.06); }
+.vju-graduate-form { display: grid; gap: 1.15rem; min-width: 0; border: 1px solid #e2e8f0; border-radius: 8px; padding: clamp(1.4rem, 3.2vw, 2.25rem); background: #f8f9fa; box-shadow: 0 7px 22px rgba(0,0,0,.05); }
 .vju-graduate-form-heading { margin-bottom: .35rem; }
-.vju-graduate-form-heading h2 { margin: 0; color: #2a2a2a; font-size: 1.55rem; font-weight: 500; line-height: 1.3; }
+.vju-graduate-form-heading h2 { margin: 0; color: #2a2a2a; font-size: 1.55rem; font-weight: 600; line-height: 1.3; }
 .vju-graduate-form-heading p { margin: .45rem 0 0; color: #68707a; font-size: .9rem; line-height: 1.5; }
 .vju-graduate-form label { display: grid; gap: .4rem; color: #3a4149; font-size: .9rem; font-weight: 500; line-height: 1.35; }
 .vju-graduate-form input,
-.vju-graduate-form select { width: 100%; min-height: 2.7rem; border: 1px solid #d3d8de; border-radius: 3px; padding: .55rem .7rem; background: #fff; color: #2a2f35; font: inherit; font-weight: 400; }
-.vju-graduate-form input::placeholder { color: #9ba2aa; }
+.vju-graduate-form select { width: 100%; min-height: 2.75rem; border: 1px solid #cbd5e1; border-radius: 6px; padding: .6rem .85rem; background: #fff; color: #1e293b; font: inherit; font-size: .95rem; }
+.vju-graduate-form input::placeholder { color: #94a3b8; }
 .vju-graduate-form input:focus,
 .vju-graduate-form select:focus { border-color: #b22624; outline: 2px solid rgba(178,38,36,.2); outline-offset: 1px; }
-.vju-graduate-form button { justify-self: start; min-width: 8rem; margin-top: .35rem; border: 0; border-radius: 3px; padding: .7rem 1.5rem; background: #b22624; color: #fff; font: inherit; font-weight: 700; cursor: pointer; transition: background .2s ease, transform .2s ease; }
+.vju-graduate-form button { justify-self: start; min-width: 8.5rem; margin-top: .5rem; border: 0; border-radius: 6px; padding: .75rem 1.75rem; background: #b22624; color: #fff; font-family: "Outfit", sans-serif; font-size: .95rem; font-weight: 600; letter-spacing: .02em; cursor: pointer; box-shadow: 0 2px 6px rgba(178,38,36,.25); transition: background .2s ease, transform .2s ease; }
 .vju-graduate-form button:hover { background: #8f1f1d; transform: translateY(-1px); }
 .vju-documents-directory { display: grid; gap: 3.5rem; }
 .vju-document-section { min-width: 0; }
-.vju-document-section > h2 { margin-bottom: 1.35rem; }
-.vju-document-notices { display: grid; gap: .55rem; margin: 0 0 1.25rem; padding: 0 0 0 1.25rem; color: #525d6e; font-size: .96rem; line-height: 1.55; }
+.vju-document-section > h2 { margin: 0 0 1.5rem; color: #2a2a2a; font-family: "Open Sans", sans-serif; font-size: clamp(1.65rem, 2.7vw, 2.25rem); font-weight: 700; line-height: 1.25; }
+.vju-document-section > h2::after { display: block; width: 158px; height: 2px; margin-top: 16px; background: #AB2523; content: ''; }
+.vju-document-notices { display: grid; gap: .55rem; margin: 0 0 1.5rem; padding: 0 0 0 1.25rem; color: #525d6e; font-size: .96rem; line-height: 1.55; }
 .vju-document-notices li::marker { color: #b22624; }
-.vju-document-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-.vju-document-card { display: flex; min-width: 0; flex-direction: column; border: 1px solid #e1e5e9; border-radius: 4px; padding: 1.2rem 1.25rem 1.1rem; background: #fff; box-shadow: 0 3px 12px rgba(0,0,0,.06); }
-.vju-document-card-icon { display: flex; align-items: center; justify-content: center; width: 2.4rem; height: 2.75rem; margin-bottom: .75rem; border-radius: 2px; background: #f8d8d7; color: #b22624; font-size: 1.35rem; line-height: 1; }
-.vju-document-card h3 { min-width: 0; margin: 0; color: #333940; font-size: .98rem; font-weight: 600; line-height: 1.45; overflow-wrap: anywhere; }
-.vju-document-card-actions { display: flex; align-items: center; justify-content: space-between; gap: .7rem; margin-top: 1.2rem; }
-.vju-document-view { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border: 1px solid #d7dce2; border-radius: 50%; color: #68707a; font-size: .9rem; text-decoration: none; }
-.vju-document-view:hover { border-color: #b22624; color: #b22624; }
-.vju-document-download { display: inline-flex; align-items: center; gap: .4rem; border-radius: 3px; padding: .5rem .85rem; background: #b22624; color: #fff !important; font-size: .8rem; font-weight: 700; text-decoration: none !important; }
-.vju-document-download:hover { background: #8f1f1d; color: #fff !important; }
+.vju-document-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.vju-document-card { display: flex; min-height: 104px; flex-direction: row; align-items: center; justify-content: space-between; gap: 1.25rem; padding: 1.25rem 1.5rem; background: #f1f1f1; background-image: linear-gradient(180deg, #F1F1F1 0%, #F1F1F1 100%); border: 1px solid #e5e5e5; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.03); transition: transform .2s ease, box-shadow .2s ease; }
+.vju-document-card:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,.07); }
+.vju-document-card-main { display: flex; align-items: center; gap: 1rem; min-width: 0; flex: 1 1 auto; }
+.vju-document-card-icon { display: flex; align-items: center; justify-content: center; width: 2.75rem; height: 2.75rem; flex-shrink: 0; border-radius: 6px; background: #e2e8f0; color: #475569; line-height: 1; }
+.vju-document-card-icon svg { display: block; width: 20px; height: 20px; fill: currentColor; }
+.vju-document-card h3 { min-width: 0; margin: 0; color: #343434; font-family: "Open Sans", sans-serif; font-size: .95rem; font-weight: 600; line-height: 1.45; overflow-wrap: anywhere; }
+.vju-document-card-actions { display: flex; align-items: center; gap: .75rem; flex-shrink: 0; }
+.vju-document-view { display: inline-flex; align-items: center; justify-content: center; width: 2.25rem; height: 2.25rem; border: 1px solid #cbd5e1; border-radius: 50%; background: #fff; color: #475569; text-decoration: none; transition: all .2s ease; }
+.vju-document-view svg { display: block; width: 16px; height: 16px; fill: currentColor; }
+.vju-document-view:hover { border-color: #007F3E; color: #007F3E; background: #f0fdf4; }
+.vju-document-download { display: inline-flex; align-items: center; gap: .5rem; border-radius: 8px; padding: .65rem 1.25rem; background: #007F3E; color: #fff !important; font-family: "Outfit", sans-serif; font-size: .925rem; font-weight: 600; letter-spacing: .02em; text-decoration: none !important; box-shadow: 0 2px 6px rgba(0,127,62,.2); transition: background .2s ease, transform .2s ease; }
+.vju-document-download svg { display: block; width: 14px; height: 14px; fill: currentColor; }
+.vju-document-download:hover { background: #006632; color: #fff !important; transform: translateY(-1px); }
 .vju-legacy-contact-maps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 28px; }
 .vju-legacy-contact-maps figure { min-width: 0; margin: 0; overflow: hidden; border: 1px solid #e1e6ed; border-radius: 8px; background: #f5f7fb; }
 .vju-legacy-contact-maps figcaption { padding: 12px 16px; color: #2a2a2a; font-weight: 600; }
@@ -427,14 +483,16 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
     .vju-staff-page { padding-top: 2.25rem; padding-bottom: 3.5rem; }
     .vju-staff-divider { margin: 2.5rem 0 3rem; }
     .vju-legacy-page-hero { height: 25rem; }
-    .vju-staff-card { grid-template-columns: 1fr; grid-template-rows: auto auto auto; row-gap: .7rem; }
+    .vju-staff-card { grid-template-columns: 1fr; grid-template-rows: auto auto auto; row-gap: .85rem; }
     .vju-staff-card > p:first-child { grid-column: 1; grid-row: 1; }
-    .vju-staff-card > p:first-child img { width: 8.75rem; height: 8.75rem; }
-    .vju-staff-card > p:last-child { grid-column: 1; grid-row: 2; padding-bottom: .7rem; }
+    .vju-staff-card > p:first-child img { width: 140px; height: 140px; }
+    .vju-staff-card > p:last-child { grid-column: 1; grid-row: 2; padding-bottom: .5rem; }
     .vju-staff-card > ul { grid-column: 1; grid-row: 3; margin-top: 0; }
-    .vju-category-page, .vju-category-page-research { grid-template-columns: 1fr; gap: 1.5rem; padding-top: 2.25rem; padding-bottom: 3.5rem; }
+    .vju-category-page, .vju-category-page-research, .vju-category-page-admissions { grid-template-columns: 1fr; gap: 1.5rem; padding-top: 2.25rem; padding-bottom: 3.5rem; }
     .vju-category-aside { order: 2; padding: 1.5rem; }
     .vju-category-aside-contact { margin-top: 2rem; }
+    .vju-tuition-card { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+    .vju-tuition-card-action { align-self: flex-end; }
     .vju-event-feature { grid-template-columns: 1fr; }
     .vju-event-feature .vju-event-card-image { min-height: 0; aspect-ratio: 4 / 3; }
     .vju-event-feature .vju-event-card-copy { padding: 1.5rem; }
@@ -454,7 +512,9 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
     .vju-graduate-page, .vju-documents-page { padding-top: 2.25rem; padding-bottom: 3.5rem; }
     .vju-graduate-layout { grid-template-columns: 1fr; gap: 2rem; }
     .vju-graduate-form { order: -1; }
-    .vju-document-grid { grid-template-columns: 1fr; }
+    .vju-document-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .vju-document-card { flex-direction: column; align-items: stretch; gap: .85rem; padding: 1.1rem; }
+    .vju-document-card-actions { justify-content: flex-end; }
     .vju-legacy-contact-maps { grid-template-columns: 1fr; }
     .vju-page-hero-image { min-height: 210px; }
     .vju-inner-layout, .vju-inner-layout-with-aside { grid-template-columns: 1fr; gap: 24px; padding-top: 30px; padding-bottom: 48px; }

@@ -33,7 +33,7 @@ export default function Header() {
         <header className="vju-header relative z-40">
             <div className="vju-header-primary">
                 <div className="vju-header-inner">
-                    <Link href={home} className="vju-brand" aria-label={site.name}>
+                    <Link prefetch="hover" viewTransition href={home} className="vju-brand" aria-label={site.name}>
                         <img src={logo} alt={site.name} width={444} height={107} className="vju-brand-logo" />
                     </Link>
 

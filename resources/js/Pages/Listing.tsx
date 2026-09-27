@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import Breadcrumb from '@/Components/Breadcrumb/Breadcrumb';
 import Picture from '@/Components/Media/Picture';
 import Pagination from '@/Components/Pagination/Pagination';
@@ -17,13 +17,23 @@ function LegacyCategoryArchive({ title, breadcrumbs, items, pagination }: Pick<L
         <PublicLayout>
             <div className="container-site vju-category-archive">
                 <Breadcrumb items={breadcrumbs} />
-                <h1>Danh mục: {title}</h1>
+                <h1 className="vju-category-archive-heading">
+                    Danh mục: <span>{title}</span>
+                </h1>
                 <div className="vju-category-archive-list">
-                    {items.map((item) => (
+                    {items.map((item, index) => (
                         <article key={item.id} className="vju-category-archive-item">
-                            <Link href={item.url} className="vju-category-archive-title">{item.title}</Link>
-                            {item.image && <Link href={item.url} className="vju-category-archive-image"><Picture image={item.image} priority={item.id === items[0]?.id} decorative /></Link>}
-                            {item.excerpt && <p>{item.excerpt}</p>}
+                            <h2 className="vju-category-archive-title">
+                                <Link prefetch="hover" viewTransition href={item.url}>
+                                    {item.title}
+                                </Link>
+                            </h2>
+                            {item.image && (
+                                <Link prefetch="hover" viewTransition href={item.url} className="vju-category-archive-image">
+                                    <Picture image={item.image} priority={index === 0} decorative />
+                                </Link>
+                            )}
+                            {item.excerpt && <p className="vju-category-archive-excerpt">{item.excerpt}</p>}
                         </article>
                     ))}
                 </div>
@@ -35,9 +45,10 @@ function LegacyCategoryArchive({ title, breadcrumbs, items, pagination }: Pick<L
 
 export default function Listing() {
     const { title, description, type, items = [], pagination, subcategories = [], breadcrumbs = [] } = useShared<ListingProps>();
+    const { url } = usePage();
     const t = useT();
     const compact = type !== null && COMPACT.includes(type);
-    const legacyCategoryArchive = typeof window !== 'undefined' && window.location.pathname.startsWith('/news-vn/');
+    const legacyCategoryArchive = url.startsWith('/news-vn/');
 
     if (legacyCategoryArchive) {
         return <LegacyCategoryArchive title={title} breadcrumbs={breadcrumbs} items={items} pagination={pagination} />;
@@ -50,6 +61,8 @@ export default function Listing() {
                     {subcategories.map((c) => (
                         <li key={c.url}>
                             <Link
+                                prefetch="hover"
+                                viewTransition
                                 href={c.url}
                                 className="inline-block rounded-full border border-primary-200 bg-white px-4 py-1.5 text-sm font-medium text-primary-800 hover:border-primary-700 hover:bg-primary-700 hover:text-white"
                             >

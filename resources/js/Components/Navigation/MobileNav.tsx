@@ -53,8 +53,11 @@ export default function MobileNav({ items, children }: { items: MenuNode[]; chil
     const panel = useRef<HTMLDivElement>(null);
     const id = useId();
 
-    // Close when an Inertia visit starts (a link inside the drawer was followed).
-    useEffect(() => router.on('start', () => setOpen(false)), []);
+    // Close when a real Inertia visit starts (a hover prefetch must not close
+    // the drawer before the user has tapped a link).
+    useEffect(() => router.on('start', ({ detail: { visit } }) => {
+        if (!visit.prefetch) setOpen(false);
+    }), []);
 
     useEffect(() => {
         if (!open) return;

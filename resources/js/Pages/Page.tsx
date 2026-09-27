@@ -17,7 +17,7 @@ const BANDS: Record<string, string> = {
 
 interface FormattedBody {
     html: string;
-    variant: 'default' | 'program-directory' | 'news-directory' | 'event-directory' | 'research-directory' | 'document-directory' | 'staff-directory';
+    variant: 'default' | 'program-directory' | 'news-directory' | 'event-directory' | 'research-directory' | 'document-directory' | 'staff-directory' | 'tuition-directory';
 }
 
 const LEGACY_PAGE_HEROES: Record<string, string> = {
@@ -30,7 +30,78 @@ const LEGACY_CATEGORY_HEROES: Record<string, string> = {
     '/tin-tuc-va-su-kien/tin-tuc/': '/storage/media/2023/07/derivatives/news-banner-web.jpg',
     '/tin-tuc-va-su-kien/su-kien/': '/storage/media/2023/10/derivatives/rectangle-22-web.png',
     '/nghien-cuu/thong-tin-nhanh/': '/storage/media/2023/07/derivatives/research-web.jpg',
+    '/tuyensinhdaihoc/hoc-phi/': '/storage/media/2023/10/derivatives/rectangle-22-web.png',
 };
+
+const ADMISSIONS_SIDEBAR_LINKS = [
+    { label: 'Thông tin tuyển sinh', url: 'https://vju.vnu.edu.vn/ttts2026/' },
+    { label: 'Hướng dẫn đăng ký', url: '#' },
+    { label: 'Hạn nộp hồ sơ', url: '/tuyensinhdaihoc/huong-dan-dang-ky/han-nop-ho-so/' },
+    { label: 'Phương thức tuyển sinh', url: '/tuyensinhdaihoc/huong-dan-dang-ky/phuong-thuc-tuyen-sinh/' },
+    { label: 'Quy trình tuyển sinh', url: '#' },
+    { label: 'Hồ sơ dự tuyển', url: '#' },
+    { label: 'Lệ phí và thanh toán', url: '#' },
+    { label: 'Học phí', url: '/tuyensinhdaihoc/hoc-phi/' },
+    { label: 'Học bổng', url: '/tuyensinhdaihoc/hoc-bong/' },
+    { label: 'Ký túc xá', url: '/tuyensinhdaihoc/ky-tuc-xa/' },
+    { label: 'Câu hỏi thường gặp', url: '#' },
+];
+
+const TUITION_NOTICES = [
+    {
+        title: 'THÔNG BÁO THU HỌC PHÍ ĐỢT 1 CHƯƠNG TRÌNH TIẾN SĨ - KHÓA 1',
+        url: 'https://vju.vnu.edu.vn/thong-bao-thu-hoc-phi-dot-1-chuong-trinh-tien-si-khoa-1/',
+    },
+    {
+        title: 'QUYẾT ĐỊNH THU HỌC PHÍ HỌC VIÊN KHÓA X ĐỢT 1',
+        url: 'https://vju.vnu.edu.vn/quyet-dinh-thu-hoc-phi-hoc-vien-khoa-x-dot-1/',
+    },
+    {
+        title: 'THÔNG BÁO THU HỌC PHÍ ĐỢT 1 - VJU2025',
+        url: 'https://vju.vnu.edu.vn/thong-bao-thu-hoc-phi-dot-1-vju2025/',
+    },
+    {
+        title: 'Thông báo thu học phí các chương trình đạo tạo đại học, học kỳ 2 năm học 2024-2025',
+        url: '/thong-bao-thu-hoc-phi-cac-chuong-trinh-dai-hoc-hoc-ky-2-nam-hoc-2024-2025/',
+    },
+    {
+        title: 'Thông báo thu học phí đại học HK1, năm học 2024-2025 (Khóa VJU2024)',
+        url: '/upload_images/files/DH-CV_-thong-bao-thu-hoc-phi-dot-1-VJU2024.pdf',
+    },
+    {
+        title: 'Thông báo về thu học phí đợt 2 – Khóa VJU2022 (2022-2026)',
+        subtitle: '* Thời gian thu học phí từ ngày 21/04/2023 đến hết ngày 12/5/2023.',
+        url: '/upload_images/files/Thong-bao-thu-HP-Ky-1-Khoa-1-Cu-nhan-Nhat-Ban-hoc.pdf',
+    },
+    {
+        title: 'Thông báo về thu học phí Kỳ 1 – Khóa 1 Cử nhân Nhật Bản học (2020-2024)',
+        url: '/upload_images/files/Thong-bao-thu-HP-Ky-1-Khoa-1-Cu-nhan-Nhat-Ban-hoc.pdf',
+    },
+    {
+        title: 'Thông báo về thu học phí Kỳ 1 – Khóa 5 (2020-2022)',
+        subtitle: '* Thời hạn thu học phí: Từ ngày 17/12/2020 đến hết ngày 31/12/2020.',
+        url: '/upload_images/files/Thong-bao-thu-HP-Ky-1-Khoa-5-Thac-sy.pdf',
+    },
+    {
+        title: 'Thông báo về thu học phí Kỳ 3 – Khóa 4 Thạc sỹ (2019-2021)',
+        subtitle: '* Thời hạn thu học phí: Từ ngày 17/12/2020 đến hết ngày 31/12/2020.',
+        url: '/upload_images/files/Thong-bao-thu-HP-Ky-3-Khoa-4-Thac-sy.pdf',
+    },
+    {
+        title: 'Thông báo về thu học phí Kỳ 2 – Cao học Khóa 4 (2019-2021)',
+        subtitle: '* Thời hạn thu học phí: Từ ngày 11/6/2021 đến hết ngày 20/6/2021.',
+        url: '/upload_images/files/TM%20CV372%20-K4K4.pdf',
+    },
+    {
+        title: 'Thông báo về thu học phí đợt 2 năm học 2020-2021 cao học Khóa 5 (2020-2022)',
+        subtitle: '* Thời hạn thu học phí: Từ ngày 11/6/2021 đến hết ngày 20/6/2021.',
+        url: '/upload_images/files/TM%20371-K5K2.pdf',
+    },
+    {
+        title: 'HƯỚNG DẪN NỘP HỌC PHÍ MỚI NHẤT NĂM 2023',
+        url: '/upload_images/files/HUONG-DAN-NOP-HOC-PHI-EN-VN1-1.pdf',
+    },
+];
 
 /**
  * A few migrated directory pages still contain the old WordPress markup:
@@ -122,13 +193,21 @@ function formatLegacyBody(html: string): FormattedBody {
     }
 
     const downloadCount = (html.match(/>\s*download\s*</gi) ?? []).length;
-    const documentHeadings = Array.from(html.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi));
+    const footerStart = html.search(/<h2\b[^>]*>\s*THEO DÕI\s*<\/h2>/i);
+    const contentHtml = footerStart !== -1 ? html.slice(0, footerStart) : html;
+    const documentHeadings = Array.from(contentHtml.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi));
+    const isDocumentDirectory = downloadCount >= 2 && documentHeadings.length >= 2 && (
+        /Tài liệu và hướng dẫn/i.test(documentHeadings[0][1]) ||
+        /Thông báo/i.test(documentHeadings[0][1]) ||
+        /văn bản/i.test(contentHtml) ||
+        /khao-thi/i.test(html)
+    );
 
-    if (downloadCount >= 2 && documentHeadings.length >= 2 && /Tài liệu và hướng dẫn/i.test(documentHeadings[0][1])) {
+    if (isDocumentDirectory) {
         const sections = documentHeadings.slice(1).map((heading, index) => {
             const start = (heading.index ?? 0) + heading[0].length;
-            const end = documentHeadings[index + 2]?.index ?? html.length;
-            const sectionHtml = html.slice(start, end);
+            const end = documentHeadings[index + 2]?.index ?? contentHtml.length;
+            const sectionHtml = contentHtml.slice(start, end);
             const blocks = Array.from(sectionHtml.matchAll(/(<p\b[^>]*>[\s\S]*?<\/p>|<ul\b[^>]*>[\s\S]*?<\/ul>)/gi));
             const notices = blocks
                 .filter((block) => /^<ul\b/i.test(block[1]))
@@ -137,7 +216,8 @@ function formatLegacyBody(html: string): FormattedBody {
                 .filter(Boolean)
                 .map((notice) => `<li>${notice}</li>`)
                 .join('');
-            const links = Array.from(sectionHtml.matchAll(/<p\b[^>]*>\s*<a\b[^>]*href=["']([^"']+)["'][^>]*>[\s\S]*?<\/a>\s*<\/p>/gi));
+            const links = Array.from(sectionHtml.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi))
+                .filter((m) => /download/i.test(m[0]) || /\.pdf/i.test(m[1]));
             const cards = links.map((link) => {
                 const preceding = blocks.filter((block) => (block.index ?? 0) < (link.index ?? 0));
                 const titleBlock = [...preceding].reverse().find((block) => /<b\b/i.test(block[1]))
@@ -146,11 +226,20 @@ function formatLegacyBody(html: string): FormattedBody {
                 const title = titleBlock?.[1].replace(/<[^>]+>/g, ' ').replace(/&nbsp;/gi, ' ').replace(/\s+/g, ' ').trim() ?? 'Tài liệu';
 
                 return `<article class="vju-document-card">
-                    <div class="vju-document-card-icon" aria-hidden="true">▤</div>
-                    <h3>${title}</h3>
+                    <div class="vju-document-card-main">
+                        <div class="vju-document-card-icon" aria-hidden="true">
+                            <svg viewBox="0 0 384 512" width="20" height="20" fill="currentColor"><path d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm64 236c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-64c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-72v8c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12zm96-114.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"/></svg>
+                        </div>
+                        <h3>${title}</h3>
+                    </div>
                     <div class="vju-document-card-actions">
-                        <a href="${link[1]}" class="vju-document-view" target="_blank" rel="noreferrer" aria-label="Xem ${title}">◉</a>
-                        <a href="${link[1]}" class="vju-document-download">Download <span aria-hidden="true">↓</span></a>
+                        <a href="${link[1]}" class="vju-document-view" target="_blank" rel="noreferrer" aria-label="Xem ${title}">
+                            <svg viewBox="0 0 576 512" width="16" height="16" fill="currentColor"><path d="M288 144a110.94 110.94 0 0 0-31.24 5 55.4 55.4 0 0 1 7.24 27 56 56 0 0 1-56 56 55.4 55.4 0 0 1-27-7.24A111.71 111.71 0 1 0 288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400c-98.65 0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 400 288 400z"/></svg>
+                        </a>
+                        <a href="${link[1]}" class="vju-document-download" target="_blank" rel="noreferrer">
+                            Download
+                            <svg viewBox="0 0 512 512" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg>
+                        </a>
                     </div>
                 </article>`;
             }).join('');
@@ -160,7 +249,7 @@ function formatLegacyBody(html: string): FormattedBody {
                 ${notices ? `<ul class="vju-document-notices">${notices}</ul>` : ''}
                 <div class="vju-document-grid">${cards}</div>
             </section>`;
-        }).join('');
+        }).filter(Boolean).join('');
 
         return {
             html: `<div class="vju-documents-directory">${sections}</div>`,
@@ -218,6 +307,51 @@ function formatLegacyBody(html: string): FormattedBody {
         };
     }
 
+    const isTuition = /292\/QD-DHVN/i.test(html) || (/Học\s*phí/i.test(html) && /khóa\s*học/i.test(html));
+    if (isTuition) {
+        const cleanedHtml = html.replace(/^\s*<h2\b[^>]*>\s*Học\s*phí\s*<\/h2>\s*/i, '');
+        const paragraphs = Array.from(cleanedHtml.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi), (m) => m[0]);
+        const introP = paragraphs[0] ?? '';
+        const noteP = paragraphs.slice(2).join('') || paragraphs[0];
+
+        const cards = TUITION_NOTICES.map((item) => `
+            <article class="vju-tuition-card">
+                <div class="vju-tuition-card-main">
+                    <h3 class="vju-tuition-card-title">
+                        <a href="${item.url}" target="_blank" rel="noreferrer">
+                            <svg viewBox="0 0 384 512" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm64 236c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-64c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-72v8c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12zm96-114.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"/></svg>
+                            <span>${item.title}</span>
+                        </a>
+                    </h3>
+                    ${item.subtitle ? `<p class="vju-tuition-card-subtitle">${item.subtitle}</p>` : ''}
+                </div>
+                <a href="${item.url}" class="vju-tuition-card-action" target="_blank" rel="noreferrer">
+                    <span>Xem thông báo</span>
+                    <svg viewBox="0 0 256 512" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.5-96.4-96.5c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"/></svg>
+                </a>
+            </article>
+        `).join('');
+
+        return {
+            html: `
+                <div class="vju-tuition-page-body">
+                    <div class="vju-tuition-intro-box">
+                        ${introP}
+                        <p><a href="/upload_images/files/Signed_292.pdf" class="vju-tuition-doc-btn" target="_blank" rel="noreferrer"><svg viewBox="0 0 384 512" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm64 236c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-64c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-72v8c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12zm96-114.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"/></svg> <span>Tải Quyết định số 292/QD-DHVN (PDF)</span></a></p>
+                    </div>
+                    <h2 class="vju-tuition-section-title">Danh sách thông báo học phí</h2>
+                    <div class="vju-tuition-grid">
+                        ${cards}
+                    </div>
+                    <div class="vju-tuition-note-box">
+                        ${noteP}
+                    </div>
+                </div>
+            `,
+            variant: 'tuition-directory' as const,
+        };
+    }
+
     return { html, variant: downloadCount >= 2 ? 'document-directory' : 'default' };
 }
 
@@ -246,7 +380,24 @@ function LegacyPageHero({ title, image, breadcrumbs, category = false }: { title
     );
 }
 
-function LegacyCategoryAside({ research = false }: { research?: boolean }) {
+function LegacyCategoryAside({ research = false, admissions = false, currentUrl = '' }: { research?: boolean; admissions?: boolean; currentUrl?: string }) {
+    if (admissions) {
+        return (
+            <aside className="vju-category-aside vju-category-aside-admissions" aria-label="Menu tuyển sinh">
+                <ul>
+                    {ADMISSIONS_SIDEBAR_LINKS.map((link) => {
+                        const isActive = currentUrl === link.url || (link.url !== '#' && !link.url.startsWith('http') && currentUrl.startsWith(link.url));
+                        return (
+                            <li key={link.label} className={isActive ? 'is-active' : undefined}>
+                                <a href={link.url}>{link.label}</a>
+                            </li>
+                        );
+                    })}
+                </ul>
+            </aside>
+        );
+    }
+
     const links = research
         ? ['Tin tức nhanh', 'Các lĩnh vực nghiên cứu chính', 'Nhóm nghiên cứu', 'Hồ sơ chuyên gia', 'Nghiên cứu tiên tiến', 'Các dự án nghiên cứu', 'Cơ sở Dữ liệu Nghiên cứu', 'Cơ sở vật chất và trang thiết bị', 'Phòng thí nghiệm', 'Hợp tác nghiên cứu', 'Đề tài nghiên cứu khoa học các năm']
         : [];
@@ -351,7 +502,7 @@ export default function Page() {
     const blocks = content.blocks ?? [];
     const template = content.template ?? 'default';
     const legacyHero = LEGACY_PAGE_HEROES[content.url ?? ''];
-    const categoryHero = LEGACY_CATEGORY_HEROES[content.url ?? ''];
+    const categoryHero = LEGACY_CATEGORY_HEROES[content.url ?? ''] ?? (content.url?.startsWith('/tuyensinhdaihoc/') ? '/storage/media/2023/10/derivatives/rectangle-22-web.png' : undefined);
     const isExamNotices = content.url === '/khao-thi/thong-bao/';
     const isGraduateLookup = content.url === '/collaboration-vn/tra-cuu-thong-tin-tot-nghiep/';
     const isDocumentsPage = content.url === '/tai-lieu-va-huong-dan-2/';
@@ -494,11 +645,12 @@ export default function Page() {
 
     if (categoryHero) {
         const isResearch = content.url === '/nghien-cuu/thong-tin-nhanh/';
+        const isAdmissions = Boolean(content.url?.startsWith('/tuyensinhdaihoc/'));
         return (
             <PublicLayout>
                 <LegacyPageHero title={content.title} image={categoryHero} breadcrumbs={breadcrumbs} category />
-                <div className={`container-site vju-category-page ${isResearch ? 'vju-category-page-research' : ''}`}>
-                    <LegacyCategoryAside research={isResearch} />
+                <div className={`container-site vju-category-page ${isResearch ? 'vju-category-page-research' : ''} ${isAdmissions ? 'vju-category-page-admissions' : ''}`}>
+                    <LegacyCategoryAside research={isResearch} admissions={isAdmissions} currentUrl={content.url} />
                     <article className="vju-category-page-content">
                         <LegacyBody html={content.body} />
                     </article>

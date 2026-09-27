@@ -13,6 +13,7 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -30,7 +31,13 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login(Login::class)
             ->brandName('VJU CMS')
-            ->colors(['primary' => Color::hex('#0b3d91')])
+            ->colors(['primary' => Color::hex('#5e6ad2')])
+            ->font('Inter')
+            ->darkMode(true)
+            ->renderHook(
+                PanelsRenderHook::HEAD_END,
+                fn (): string => '<link rel="stylesheet" href="/css/filament/linear-theme.css?v='.(file_exists(public_path('css/filament/linear-theme.css')) ? filemtime(public_path('css/filament/linear-theme.css')) : time()).'">',
+            )
             ->navigationGroups([
                 NavigationGroup::make('Content'),
                 NavigationGroup::make('Structured content')->collapsed(),

@@ -1,0 +1,556 @@
+/* ==========================================================================
+   VJU CMS — Linear Inspired Design System Theme
+   Referenced from: awesome-design-md (linear.app design analysis)
+   Crafted for dual-theme parity (Light & Dark)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --vju-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --vju-radius-sm: 6px;
+    --vju-radius-md: 8px;
+    --vju-radius-lg: 12px;
+    --vju-radius-xl: 16px;
+    --vju-radius-pill: 9999px;
+    
+    /* Light Theme Tokens */
+    --vju-canvas: #f8fafc;
+    --vju-canvas-subtle: #f1f5f9;
+    --vju-surface-card: #ffffff;
+    --vju-surface-elevated: #ffffff;
+    --vju-surface-hover: #f8fafc;
+    --vju-hairline: rgba(15, 23, 42, 0.08);
+    --vju-hairline-hover: rgba(15, 23, 42, 0.16);
+    --vju-ink-primary: #0f172a;
+    --vju-ink-secondary: #334155;
+    --vju-ink-muted: #64748b;
+    --vju-ink-faint: #94a3b8;
+    --vju-accent-primary: #4f46e5;
+    --vju-accent-hover: #4338ca;
+    --vju-accent-glow: rgba(79, 70, 229, 0.15);
+    --vju-card-shadow: 0 1px 3px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.03);
+    --vju-card-hover-shadow: 0 8px 20px rgba(15, 23, 42, 0.07), 0 2px 4px rgba(15, 23, 42, 0.04);
+}
+
+.dark {
+    /* Dark Theme Tokens (Linear Near-Black aesthetic) */
+    --vju-canvas: #0b0c0e;
+    --vju-canvas-subtle: #0f1013;
+    --vju-surface-card: #131518;
+    --vju-surface-elevated: #181a1f;
+    --vju-surface-hover: #1b1e24;
+    --vju-hairline: rgba(255, 255, 255, 0.08);
+    --vju-hairline-hover: rgba(255, 255, 255, 0.16);
+    --vju-ink-primary: #f7f8f8;
+    --vju-ink-secondary: #d0d6e0;
+    --vju-ink-muted: #8a8f98;
+    --vju-ink-faint: #525866;
+    --vju-accent-primary: #5e6ad2;
+    --vju-accent-hover: #717de8;
+    --vju-accent-glow: rgba(94, 106, 210, 0.25);
+    --vju-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    --vju-card-hover-shadow: 0 10px 28px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+}
+
+/* ==========================================================================
+   Base Typography & Polish
+   ========================================================================== */
+
+html, body, .fi-body {
+    font-family: var(--vju-font-sans) !important;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+body {
+    background-color: var(--vju-canvas) !important;
+}
+
+.dark body {
+    background-color: #0b0c0e !important;
+    background-image: 
+        radial-gradient(ellipse 70% 35% at 50% -10%, rgba(94, 106, 210, 0.12), transparent 70%),
+        radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.04), transparent 40%) !important;
+    background-attachment: fixed;
+}
+
+/* ==========================================================================
+   Header & Navigation
+   ========================================================================== */
+
+.fi-topbar {
+    backdrop-filter: blur(16px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+    border-bottom: 1px solid var(--vju-hairline) !important;
+    transition: all 0.2s ease;
+}
+
+:not(.dark) .fi-topbar {
+    background-color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.dark .fi-topbar {
+    background-color: rgba(11, 12, 14, 0.85) !important;
+}
+
+.fi-sidebar {
+    border-right: 1px solid var(--vju-hairline) !important;
+}
+
+:not(.dark) .fi-sidebar {
+    background-color: #ffffff !important;
+}
+
+.dark .fi-sidebar {
+    background-color: #0e0f12 !important;
+}
+
+.fi-sidebar-item-btn {
+    border-radius: var(--vju-radius-md) !important;
+    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    font-weight: 500 !important;
+}
+
+.fi-sidebar-item-btn:hover {
+    transform: translateX(2px);
+}
+
+/* ==========================================================================
+   Cards, Widgets & Panels (Linear Hairline Aesthetic)
+   ========================================================================== */
+
+.fi-wi-widget,
+.fi-section,
+.fi-ta-ctn,
+.fi-stats-overview-stat {
+    border: 1px solid var(--vju-hairline) !important;
+    border-radius: var(--vju-radius-lg) !important;
+    box-shadow: var(--vju-card-shadow) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+:not(.dark) .fi-wi-widget,
+:not(.dark) .fi-section,
+:not(.dark) .fi-ta-ctn,
+:not(.dark) .fi-stats-overview-stat {
+    background-color: var(--vju-surface-card) !important;
+}
+
+.dark .fi-wi-widget,
+.dark .fi-section,
+.dark .fi-ta-ctn,
+.dark .fi-stats-overview-stat {
+    background-color: var(--vju-surface-card) !important;
+}
+
+.fi-stats-overview-stat:hover,
+.fi-section:hover {
+    border-color: var(--vju-hairline-hover) !important;
+    box-shadow: var(--vju-card-hover-shadow) !important;
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Stats Cards Typography & Micro-Interactions
+   ========================================================================== */
+
+.fi-stats-overview-stat-value {
+    font-family: var(--vju-font-sans) !important;
+    font-size: 1.85rem !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.035em !important;
+    line-height: 1.1 !important;
+}
+
+.fi-stats-overview-stat-label {
+    font-family: var(--vju-font-sans) !important;
+    font-size: 0.8125rem !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.01em !important;
+    text-transform: none !important;
+    color: var(--vju-ink-muted) !important;
+}
+
+.fi-stats-overview-stat .fi-stats-overview-stat-description {
+    font-size: 0.775rem !important;
+    font-weight: 500 !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: var(--vju-radius-pill);
+    margin-top: 6px;
+}
+
+:not(.dark) .fi-stats-overview-stat .fi-stats-overview-stat-description {
+    background-color: rgba(15, 23, 42, 0.04);
+}
+
+.dark .fi-stats-overview-stat .fi-stats-overview-stat-description {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ==========================================================================
+   Custom Linear Hero Welcome Banner (.vju-linear-hero)
+   ========================================================================== */
+
+.vju-linear-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--vju-radius-xl);
+    border: 1px solid var(--vju-hairline);
+    box-shadow: var(--vju-card-shadow);
+    padding: 1.75rem 2rem;
+    transition: all 0.25s ease;
+}
+
+:not(.dark) .vju-linear-hero {
+    background: linear-gradient(135deg, #ffffff 0%, #f8faff 50%, #f1f5f9 100%);
+    border-color: rgba(79, 70, 229, 0.15);
+}
+
+.dark .vju-linear-hero {
+    background: linear-gradient(135deg, #13151a 0%, #161820 50%, #101216 100%);
+    border-color: rgba(94, 106, 210, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.vju-linear-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(94, 106, 210, 0.4), transparent);
+}
+
+.vju-hero-glow {
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(60px);
+}
+
+:not(.dark) .vju-hero-glow {
+    background: radial-gradient(circle, rgba(79, 70, 229, 0.08) 0%, transparent 70%);
+}
+
+.dark .vju-hero-glow {
+    background: radial-gradient(circle, rgba(94, 106, 210, 0.15) 0%, transparent 70%);
+}
+
+.vju-hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.vju-hero-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.vju-hero-info {
+    flex: 1;
+    min-width: 280px;
+}
+
+.vju-hero-status-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.vju-hero-date {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--vju-ink-muted);
+}
+
+.vju-hero-greeting {
+    font-size: 1.625rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.25;
+    margin: 0;
+    color: var(--vju-ink-primary);
+}
+
+.vju-hero-name {
+    background: linear-gradient(135deg, var(--vju-accent-primary) 0%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.vju-hero-sub {
+    font-size: 0.84rem;
+    line-height: 1.5;
+    color: var(--vju-ink-muted);
+    margin: 0.35rem 0 0 0;
+}
+
+.vju-hero-pills-status {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid var(--vju-hairline);
+    border-radius: var(--vju-radius-lg);
+    padding: 0.75rem 1.125rem;
+    gap: 1rem;
+}
+
+.dark .vju-hero-pills-status {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.vju-mini-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.vju-mini-stat-val {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.vju-mini-stat-lbl {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--vju-ink-muted);
+    margin-top: 3px;
+}
+
+.vju-mini-divider {
+    width: 1px;
+    height: 28px;
+    background-color: var(--vju-hairline);
+}
+
+.vju-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: var(--vju-radius-pill);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border: 1px solid var(--vju-hairline);
+}
+
+:not(.dark) .vju-hero-badge {
+    background: rgba(79, 70, 229, 0.08);
+    color: #4f46e5;
+    border-color: rgba(79, 70, 229, 0.2);
+}
+
+.dark .vju-hero-badge {
+    background: rgba(94, 106, 210, 0.12);
+    color: #8b95f2;
+    border-color: rgba(94, 106, 210, 0.25);
+}
+
+.vju-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #10b981;
+    box-shadow: 0 0 8px #10b981;
+    display: inline-block;
+    animation: vjuPulse 2.5s infinite;
+}
+
+@keyframes vjuPulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.vju-hero-actions-container {
+    margin-top: 1.35rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--vju-hairline);
+}
+
+.vju-hero-actions-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.71875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--vju-ink-muted);
+    margin-bottom: 0.75rem;
+}
+
+.vju-icon-bolt {
+    color: var(--vju-accent-primary);
+}
+
+.vju-command-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+}
+
+.vju-command-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: var(--vju-radius-md);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    border: 1px solid var(--vju-hairline);
+    text-decoration: none;
+    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+}
+
+:not(.dark) .vju-command-pill {
+    background: #ffffff;
+    color: var(--vju-ink-primary);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+:not(.dark) .vju-command-pill:hover {
+    background: #f8fafc;
+    border-color: var(--vju-accent-primary);
+    color: var(--vju-accent-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.1);
+}
+
+.dark .vju-command-pill {
+    background: #17191e;
+    color: var(--vju-ink-secondary);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.dark .vju-command-pill:hover {
+    background: #1f2229;
+    border-color: rgba(94, 106, 210, 0.4);
+    color: #f7f8f8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+:not(.dark) .vju-command-pill-primary {
+    background: #4f46e5;
+    color: #ffffff !important;
+    border-color: #4338ca;
+}
+
+:not(.dark) .vju-command-pill-primary:hover {
+    background: #4338ca;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+.dark .vju-command-pill-primary {
+    background: #5e6ad2;
+    color: #ffffff !important;
+    border-color: #717de8;
+}
+
+.dark .vju-command-pill-primary:hover {
+    background: #717de8;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px rgba(94, 106, 210, 0.35);
+}
+
+.vju-command-pill kbd {
+    font-family: var(--vju-font-mono, monospace);
+    font-size: 0.6875rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--vju-hairline);
+    opacity: 0.7;
+}
+
+:not(.dark) .vju-command-pill kbd {
+    background: #f1f5f9;
+}
+
+.dark .vju-command-pill kbd {
+    background: #252830;
+}
+
+.vju-command-pill-primary kbd {
+    background: rgba(255, 255, 255, 0.2) !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* ==========================================================================
+   Table & Audit Activity Refinements
+   ========================================================================== */
+
+.fi-ta-header-cell {
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    color: var(--vju-ink-muted) !important;
+}
+
+.fi-ta-row {
+    transition: background-color 0.12s ease !important;
+}
+
+:not(.dark) .fi-ta-row:hover {
+    background-color: rgba(15, 23, 42, 0.02) !important;
+}
+
+.dark .fi-ta-row:hover {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* ==========================================================================
+   Custom Scrollbar (Linear Minimalist)
+   ========================================================================== */
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+:not(.dark) ::-webkit-scrollbar-thumb {
+    background: rgba(15, 23, 42, 0.12);
+    border-radius: 9999px;
+}
+
+:not(.dark) ::-webkit-scrollbar-thumb:hover {
+    background: rgba(15, 23, 42, 0.25);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.28);
+}

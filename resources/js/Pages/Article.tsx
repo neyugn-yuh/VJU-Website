@@ -57,7 +57,7 @@ export default function Article() {
                     <div className="flex flex-wrap gap-2">
                         {typeLabel && <span className="rounded bg-primary-700 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-white">{typeLabel}</span>}
                         {content.categories.map((c) => (
-                            <Link key={c.url} href={c.url} className="rounded-full bg-accent-50 px-3 py-0.5 text-xs font-semibold text-accent-700 hover:bg-accent-100">
+                            <Link prefetch="hover" viewTransition key={c.url} href={c.url} className="rounded-full bg-accent-50 px-3 py-0.5 text-xs font-semibold text-accent-700 hover:bg-accent-100">
                                 {c.name}
                             </Link>
                         ))}

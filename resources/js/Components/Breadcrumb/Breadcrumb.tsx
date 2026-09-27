@@ -19,7 +19,7 @@ export default function Breadcrumb({ items, invert = false }: { items: Crumb[]; 
                         <li key={i} className="flex items-center gap-1">
                             {i > 0 && <ChevronRight width={14} height={14} className="shrink-0 opacity-60" />}
                             {c.url && !last ? (
-                                <Link href={c.url} className={`underline-offset-2 hover:underline ${invert ? 'hover:text-white' : 'hover:text-primary-700'}`}>
+                                <Link prefetch="hover" viewTransition href={c.url} className={`underline-offset-2 hover:underline ${invert ? 'hover:text-white' : 'hover:text-primary-700'}`}>
                                     {c.label}
                                 </Link>
                             ) : (

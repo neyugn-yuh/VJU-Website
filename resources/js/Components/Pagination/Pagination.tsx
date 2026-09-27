@@ -15,7 +15,7 @@ export default function Pagination({ pagination }: { pagination: PaginationData 
             <ul className="flex flex-wrap items-center justify-center gap-2">
                 {prev && (
                     <li>
-                        <Link href={prev} rel="prev" className={`${item} border-line bg-white text-primary-700 hover:border-primary-700`}>
+                        <Link prefetch="hover" viewTransition href={prev} rel="prev" className={`${item} border-line bg-white text-primary-700 hover:border-primary-700`}>
                             <ChevronLeft width={16} height={16} />
                             <span>{t('previous')}</span>
                         </Link>
@@ -34,7 +34,7 @@ export default function Pagination({ pagination }: { pagination: PaginationData 
                                 {p.n}
                             </span>
                         ) : (
-                            <Link href={p.url} className={`${item} border-line bg-white text-ink hover:border-primary-700 hover:text-primary-700`}>
+                            <Link prefetch="hover" viewTransition href={p.url} className={`${item} border-line bg-white text-ink hover:border-primary-700 hover:text-primary-700`}>
                                 <span className="sr-only">{t('page')} </span>
                                 {p.n}
                             </Link>
@@ -48,7 +48,7 @@ export default function Pagination({ pagination }: { pagination: PaginationData 
                 )}
                 {next && (
                     <li>
-                        <Link href={next} rel="next" className={`${item} border-line bg-white text-primary-700 hover:border-primary-700`}>
+                        <Link prefetch="hover" viewTransition href={next} rel="next" className={`${item} border-line bg-white text-primary-700 hover:border-primary-700`}>
                             <span>{t('next')}</span>
                             <ChevronRight width={16} height={16} />
                         </Link>

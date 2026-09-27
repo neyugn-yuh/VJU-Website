@@ -93,7 +93,9 @@ class PublicController extends Controller
     private function home(string $locale): Response
     {
         $homeId = app(SiteSettings::class)->home_page_id;
-        $home = $homeId ? Content::published()->with('translations')->find($homeId) : null;
+        $home = $homeId ? Content::published()->with([
+            'translations' => fn ($query) => $query->where('locale', $locale),
+        ])->find($homeId) : null;
         $translation = $home?->translation($locale);
 
         return Inertia::render('Home', [
@@ -107,8 +109,11 @@ class PublicController extends Controller
 
     private function resolve(string $locale, string $path, int $page): ?Response
     {
-        if ($page === 1 && $translation = ContentTranslation::where('locale', $locale)->where('path', $path)->first()) {
-            $content = Content::with(['translations', 'seo.ogImage'])->find($translation->content_id);
+        $contentId = $page === 1
+            ? ContentTranslation::where('locale', $locale)->where('path', $path)->value('content_id')
+            : null;
+        if ($contentId) {
+            $content = Content::with('seo.ogImage')->find($contentId);
             if ($content?->isPublished()) {
                 return $this->contentResponse($content, $locale);
             }
@@ -184,8 +189,17 @@ class PublicController extends Controller
 
     private function categoryArchive(CategoryTranslation $translation, string $locale, int $page): Response
     {
-        $category = Category::with(['children.translations', 'translations'])->find($translation->category_id);
-        $crumbs = Category::with('translations')->findMany($category->ancestorIds())
+        $category = Category::with([
+            'children.translations' => fn ($query) => $query
+                ->where('locale', $locale)
+                ->select(['id', 'category_id', 'locale', 'name', 'path']),
+            'translations:id,category_id,locale,name,description,slug,path',
+        ])->find($translation->category_id);
+        $crumbs = Category::with([
+            'translations' => fn ($query) => $query
+                ->where('locale', $locale)
+                ->select(['id', 'category_id', 'locale', 'name', 'path']),
+        ])->findMany($category->ancestorIds())
             ->sortBy(fn ($c) => array_search($c->id, $category->ancestorIds(), true))
             ->map(fn ($c) => ($t = $c->translation($locale)) ? ['label' => $t->name, 'url' => $t->url()] : null)
             ->filter()->push(['label' => $translation->name, 'url' => $translation->url()])->values()->all();

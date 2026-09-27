@@ -21,7 +21,7 @@ export default function SmartLink({ href, target, children, ...rest }: Props) {
     }
     if (isInternal(href)) {
         return (
-            <Link href={href} {...rest}>
+            <Link href={href} prefetch="hover" viewTransition {...rest}>
                 {children}
             </Link>
         );

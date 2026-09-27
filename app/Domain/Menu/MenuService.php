@@ -63,7 +63,14 @@ class MenuService
                 return [];
             }
 
-            $items = $menu->items()->with(['content.translations', 'category.translations'])->get();
+            $items = $menu->items()->with([
+                'content:id,status,published_at',
+                'content.translations' => fn ($query) => $query
+                    ->where('locale', $locale)
+                    ->select(['id', 'content_id', 'locale', 'path']),
+                'category:id',
+                'category.translations:id,category_id,locale,name,path',
+            ])->get();
             $grouped = $items->groupBy(fn (MenuItem $i) => $i->parent_id ?? 0);
 
             $build = function (int $parentId) use (&$build, $grouped, $locale) {

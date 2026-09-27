@@ -39,7 +39,7 @@ class WpImportCrawlImages extends Command
 
     public function handle(): int
     {
-        $directory = rtrim((string) $this->argument('path'), "\\/");
+        $directory = rtrim((string) $this->argument('path'), '\\/');
         $archives = glob($directory.DIRECTORY_SEPARATOR.'*.zip') ?: [];
         sort($archives);
 

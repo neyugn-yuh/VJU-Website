@@ -18,7 +18,7 @@ function Meta({ item }: { item: ContentCard }) {
     return (
         <div className="relative z-10 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
             {item.category && (
-                <Link href={item.category.url} className="rounded-full bg-accent-50 px-2.5 py-0.5 font-semibold text-accent-700 hover:bg-accent-100">
+                <Link prefetch="hover" viewTransition href={item.category.url} className="rounded-full bg-accent-50 px-2.5 py-0.5 font-semibold text-accent-700 hover:bg-accent-100">
                     {item.category.name}
                 </Link>
             )}
@@ -36,7 +36,7 @@ function Meta({ item }: { item: ContentCard }) {
 function Title({ item, as: H, className }: { item: ContentCard; as: 'h2' | 'h3'; className: string }) {
     return (
         <H className={className}>
-            <Link href={item.url} className="after:absolute after:inset-0 hover:text-primary-700 focus-visible:after:rounded-lg">
+            <Link prefetch="hover" viewTransition href={item.url} className="after:absolute after:inset-0 hover:text-primary-700 focus-visible:after:rounded-lg">
                 {item.title}
             </Link>
         </H>
@@ -55,7 +55,7 @@ export default function PostCard({ item, variant = 'card', headingLevel = 'h3', 
             <article className="flex flex-col gap-3 border-b border-line py-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="min-w-0">
                     <H className="font-semibold text-ink">
-                        <Link href={item.url} className="hover:text-primary-700 hover:underline">
+                        <Link prefetch="hover" viewTransition href={item.url} className="hover:text-primary-700 hover:underline">
                             {item.title}
                         </Link>
                     </H>
