@@ -7,10 +7,18 @@
 @source '../**/*.ts';
 @source '../**/*.tsx';
 
+@font-face {
+    font-family: 'San Francisco';
+    src: url('/fonts/san-francisco.woff2') format('woff2'), url('/fonts/san-francisco.woff') format('woff');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
 @theme {
-    --font-sans: Arial, 'Helvetica Neue', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif,
+    --font-sans: 'San Francisco', Arial, 'Helvetica Neue', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji';
-    --font-ja: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, 'Be Vietnam Pro', sans-serif;
+    --font-ja: 'San Francisco', 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
 
     /* VJU navy (#0b3d91 = 700) */
     --color-primary-50: #f7f7f7;
@@ -103,7 +111,7 @@
 }
 
 /* VJU visual system reconstructed from the crawled WordPress pages. */
-body { font-family: Arial, 'Helvetica Neue', sans-serif; color: #252525; }
+body { font-family: 'San Francisco', Arial, 'Helvetica Neue', sans-serif; color: #252525; }
 
 .vju-header { background: #fff; box-shadow: 0 1px 0 rgba(0,0,0,.08); }
 .vju-header-primary { background: #b22624; color: #fff; }
