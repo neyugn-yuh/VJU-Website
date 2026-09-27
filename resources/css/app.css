@@ -178,8 +178,17 @@ body { font-family: Arial, 'Helvetica Neue', sans-serif; color: #252525; }
 .vju-inner-article { min-width: 0; }
 .vju-content-title { position: relative; padding-bottom: 17px; color: #2a2a2a; font-size: clamp(2rem, 3.1vw, 2.9rem); font-weight: 400; line-height: 1.2; }
 .vju-content-title::after { position: absolute; bottom: 0; left: 0; width: 158px; height: 2px; background: #b22624; content: ''; }
-.vju-inner-article .prose-content { max-width: 850px; font-size: 1rem; line-height: 1.6; }
+.vju-inner-article .prose-content { max-width: 100%; font-size: 1rem; line-height: 1.6; }
 .vju-inner-article .prose-content h2 { color: #2a2a2a; font-size: clamp(1.8rem, 2.5vw, 2.35rem); font-weight: 400; padding-bottom: 14px; border-bottom: 2px solid #b22624; }
+.vju-program-directory { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 24px; }
+.vju-program-directory > h2 { grid-column: 1 / -1; margin-top: 0; }
+.vju-program-directory > .vju-program-card { display: flex; min-width: 0; flex-direction: column; margin-top: 0; overflow: hidden; border: 1px solid #e6e6e6; border-radius: 8px; background: #fff; box-shadow: 0 3px 12px rgba(0,0,0,.08); transition: transform .2s ease, box-shadow .2s ease; }
+.vju-program-directory > .vju-program-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.12); }
+.vju-program-directory > .vju-program-card > p { order: 1; margin: 0; }
+.vju-program-directory > .vju-program-card > p img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.vju-program-directory > .vju-program-card > h2 { order: 2; margin: 0; border: 0; padding: 16px 18px 18px; font-size: 1.15rem; line-height: 1.35; }
+.vju-program-directory > .vju-program-card > h2 a { color: inherit; text-decoration: none; }
+.vju-program-directory > .vju-program-card > h2 a:hover { color: #ab2523; }
 .vju-cards-section { background: #f5f5f5; }
 .vju-cards-section li { border: 0; border-radius: 8px; box-shadow: 0 3px 12px rgba(0,0,0,.08); }
 .vju-cards-section li > div:first-child { aspect-ratio: 1.45 / 1; }
@@ -198,6 +207,7 @@ body { font-family: Arial, 'Helvetica Neue', sans-serif; color: #252525; }
         aspect-ratio: 2560 / 767;
     }
     .vju-listing-featured { grid-template-columns: 1fr; gap: 28px; }
+    .vju-program-directory { grid-template-columns: 1fr; gap: 20px; }
     .vju-page-hero-image { min-height: 210px; }
     .vju-inner-layout, .vju-inner-layout-with-aside { grid-template-columns: 1fr; gap: 24px; padding-top: 30px; padding-bottom: 48px; }
     .vju-inner-aside { order: 2; }

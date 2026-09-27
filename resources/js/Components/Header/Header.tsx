@@ -1,5 +1,6 @@
 import { Link } from '@inertiajs/react';
 import { useShared } from '@/Hooks/useShared';
+import type { MenuNode } from '@/Types';
 import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
 import DesktopNav from '../Navigation/DesktopNav';
 import MobileNav from '../Navigation/MobileNav';
@@ -22,8 +23,9 @@ export default function Header() {
     const home = locales.find((l) => l.code === locale)?.home ?? '/';
     const nav = menus?.header ?? [];
     const byLabel = (label: string) => nav.find((item) => item.label === label);
-    const topNav = TOP_LABELS.map(byLabel).filter(Boolean);
-    const mainNav = MAIN_LABELS.map(byLabel).filter(Boolean);
+    const present = (item: MenuNode | undefined): item is MenuNode => Boolean(item);
+    const topNav = TOP_LABELS.map(byLabel).filter(present);
+    const mainNav = MAIN_LABELS.map(byLabel).filter(present);
     const mobileNav = [...topNav, ...mainNav];
     const logo = site.logo ?? '/assets/vju-logo.png';
 

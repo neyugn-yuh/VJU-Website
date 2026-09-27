@@ -15,12 +15,42 @@ const BANDS: Record<string, string> = {
     research: 'from-primary-950 via-primary-900 to-accent-800',
 };
 
-const Body = ({ html }: { html: string }) =>
-    html ? (
-        <div className="container-site py-10">
-            <div className="prose-content mx-auto max-w-3xl" dangerouslySetInnerHTML={{ __html: html }} />
-        </div>
-    ) : null;
+interface FormattedBody {
+    html: string;
+    isProgramDirectory: boolean;
+}
+
+/**
+ * A few migrated directory pages still contain the old WordPress markup:
+ * section headings followed by image paragraphs and linked headings. Group
+ * those pairs so the page can use the same responsive cards as the rest of
+ * the site while leaving ordinary article HTML untouched.
+ */
+function formatLegacyBody(html: string): FormattedBody {
+    const imageHeadingPair = /(<p\b[^>]*>[\s\S]*?<img\b[^>]*\/?\s*>[\s\S]*?<\/p>)\s*(<h[23]\b[^>]*>[\s\S]*?<\/h[23]>)/gi;
+    const pairs = html.match(imageHeadingPair);
+
+    if (!/^\s*<h2\b/i.test(html) || !pairs || pairs.length < 3) {
+        return { html, isProgramDirectory: false };
+    }
+
+    return {
+        html: html.replace(imageHeadingPair, '<div class="vju-program-card">$1$2</div>'),
+        isProgramDirectory: true,
+    };
+}
+
+function LegacyBody({ html }: { html: string }) {
+    if (!html) return null;
+
+    const formatted = formatLegacyBody(html);
+    return (
+        <div
+            className={`prose-content mt-8 ${formatted.isProgramDirectory ? 'vju-program-directory' : ''}`}
+            dangerouslySetInnerHTML={{ __html: formatted.html }}
+        />
+    );
+}
 
 function TitleHeader({ content }: { content: ContentFull }) {
     const { breadcrumbs = [] } = useShared<PageProps>();
@@ -113,7 +143,7 @@ export default function Page() {
                     </div>
                 </div>
                 <SectionNav blocks={blocks} />
-                <Body html={content.body} />
+                <LegacyBody html={content.body} />
                 <BlockRenderer blocks={blocks} />
             </PublicLayout>
         );
@@ -157,7 +187,7 @@ export default function Page() {
                     <Breadcrumb items={breadcrumbs} />
                     <h1 className="vju-content-title mt-4">{content.title}</h1>
                     {content.excerpt && <p className="mt-3 max-w-3xl text-lg text-muted">{content.excerpt}</p>}
-                    {content.body && <div className="prose-content mt-8" dangerouslySetInnerHTML={{ __html: content.body }} />}
+                    <LegacyBody html={content.body} />
                     <BlockRenderer blocks={blocks} />
                 </article>
             </div>
