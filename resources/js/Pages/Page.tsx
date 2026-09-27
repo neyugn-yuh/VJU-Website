@@ -22,6 +22,8 @@ interface FormattedBody {
 
 const LEGACY_PAGE_HEROES: Record<string, string> = {
     '/trang-chu/dao-tao/gioi-thieu/': '/storage/media/2023/10/derivatives/rectangle-22-web.png',
+    '/collaboration-vn/tra-cuu-thong-tin-tot-nghiep/': '/storage/media/2023/10/derivatives/rectangle-22-1-web.jpg',
+    '/tai-lieu-va-huong-dan-2/': '/storage/media/2023/10/derivatives/rectangle-23-1-web.jpg',
 };
 
 const LEGACY_CATEGORY_HEROES: Record<string, string> = {
@@ -119,6 +121,53 @@ function formatLegacyBody(html: string): FormattedBody {
         };
     }
 
+    const downloadCount = (html.match(/>\s*download\s*</gi) ?? []).length;
+    const documentHeadings = Array.from(html.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi));
+
+    if (downloadCount >= 2 && documentHeadings.length >= 2 && /Tài liệu và hướng dẫn/i.test(documentHeadings[0][1])) {
+        const sections = documentHeadings.slice(1).map((heading, index) => {
+            const start = (heading.index ?? 0) + heading[0].length;
+            const end = documentHeadings[index + 2]?.index ?? html.length;
+            const sectionHtml = html.slice(start, end);
+            const blocks = Array.from(sectionHtml.matchAll(/(<p\b[^>]*>[\s\S]*?<\/p>|<ul\b[^>]*>[\s\S]*?<\/ul>)/gi));
+            const notices = blocks
+                .filter((block) => /^<ul\b/i.test(block[1]))
+                .map((block) => Array.from(block[1].matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/gi), (item) => item[1].replace(/<[^>]+>/g, ' ').replace(/&nbsp;/gi, ' ').replace(/\s+/g, ' ').trim()))
+                .flat()
+                .filter(Boolean)
+                .map((notice) => `<li>${notice}</li>`)
+                .join('');
+            const links = Array.from(sectionHtml.matchAll(/<p\b[^>]*>\s*<a\b[^>]*href=["']([^"']+)["'][^>]*>[\s\S]*?<\/a>\s*<\/p>/gi));
+            const cards = links.map((link) => {
+                const preceding = blocks.filter((block) => (block.index ?? 0) < (link.index ?? 0));
+                const titleBlock = [...preceding].reverse().find((block) => /<b\b/i.test(block[1]))
+                    ?? [...preceding].reverse().find((block) => /<strong\b/i.test(block[1]))
+                    ?? preceding[preceding.length - 1];
+                const title = titleBlock?.[1].replace(/<[^>]+>/g, ' ').replace(/&nbsp;/gi, ' ').replace(/\s+/g, ' ').trim() ?? 'Tài liệu';
+
+                return `<article class="vju-document-card">
+                    <div class="vju-document-card-icon" aria-hidden="true">▤</div>
+                    <h3>${title}</h3>
+                    <div class="vju-document-card-actions">
+                        <a href="${link[1]}" class="vju-document-view" target="_blank" rel="noreferrer" aria-label="Xem ${title}">◉</a>
+                        <a href="${link[1]}" class="vju-document-download">Download <span aria-hidden="true">↓</span></a>
+                    </div>
+                </article>`;
+            }).join('');
+
+            return `<section class="vju-document-section">
+                <h2>${heading[1]}</h2>
+                ${notices ? `<ul class="vju-document-notices">${notices}</ul>` : ''}
+                <div class="vju-document-grid">${cards}</div>
+            </section>`;
+        }).join('');
+
+        return {
+            html: `<div class="vju-documents-directory">${sections}</div>`,
+            variant: 'document-directory',
+        };
+    }
+
     const eventHeadings = Array.from(html.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi), (match) => match[1]).filter((heading) => !/Sự kiện/i.test(heading));
     const eventImages = Array.from(html.matchAll(/<img\b[^>]*>/gi), (match) => match[0]);
     const eventDescriptions = Array.from(html.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi), (match) => match[1])
@@ -147,8 +196,6 @@ function formatLegacyBody(html: string): FormattedBody {
     const pairs = html.match(imageHeadingPair);
     const hasNewsFeature = /<p\b[^>]*>[\s\S]*?<img\b[\s\S]*?<\/p>\s*<h[34]\b[\s\S]*?<\/h[34]>\s*<p\b[\s\S]*?<\/p>\s*<p\b[\s\S]*?<\/p>/i.test(html);
     const hasNewsItems = /<ul\b[^>]*>[\s\S]*?<li\b[\s\S]*?<img\b[\s\S]*?<\/li>[\s\S]*?<\/ul>/i.test(html);
-    const downloadCount = (html.match(/>\s*download\s*</gi) ?? []).length;
-
     if (hasNewsFeature && hasNewsItems) {
         // The old news page stores the featured item and the side list as
         // adjacent paragraphs/list markup. Restore the two-column structure
@@ -306,6 +353,9 @@ export default function Page() {
     const legacyHero = LEGACY_PAGE_HEROES[content.url ?? ''];
     const categoryHero = LEGACY_CATEGORY_HEROES[content.url ?? ''];
     const isExamNotices = content.url === '/khao-thi/thong-bao/';
+    const isGraduateLookup = content.url === '/collaboration-vn/tra-cuu-thong-tin-tot-nghiep/';
+    const isDocumentsPage = content.url === '/tai-lieu-va-huong-dan-2/';
+    const isStaffLegacyPage = content.url === '/trang-chu/dao-tao/gioi-thieu/';
 
     if (template === 'landing') {
         const heroIsTitle = startsWithHero(blocks);
@@ -354,7 +404,83 @@ export default function Page() {
         );
     }
 
-    if (legacyHero) {
+    if (isGraduateLookup && legacyHero) {
+        const graduateInstructions = content.body
+            .replace(/^\s*(?:<h2\b[^>]*>[\s\S]*?<\/h2>\s*){2}/i, '')
+            .replace(/^\s*<h5\b[^>]*>[\s\S]*?<\/h5>\s*/i, '');
+
+        return (
+            <PublicLayout>
+                <LegacyPageHero title={content.title} image={legacyHero} breadcrumbs={breadcrumbs} />
+                <main className="container-site vju-graduate-page">
+                    <section className="vju-graduate-layout">
+                        <article className="vju-graduate-content">
+                            <h2>Hệ thống tra cứu thông tin tốt nghiệp</h2>
+                            <p className="vju-graduate-kicker">TRA CỨU THÔNG TIN NGƯỜI HỌC ĐƯỢC CÔNG NHẬN VÀ CẤP BẰNG TỐT NGHIỆP</p>
+                            <div
+                                className="prose-content vju-graduate-instructions"
+                                dangerouslySetInnerHTML={{ __html: graduateInstructions }}
+                            />
+                        </article>
+                        <form className="vju-graduate-form" onSubmit={(event) => event.preventDefault()}>
+                            <div className="vju-graduate-form-heading">
+                                <h2>Tra cứu thông tin</h2>
+                                <p>Vui lòng nhập đầy đủ thông tin để tra cứu văn bằng.</p>
+                            </div>
+                            <label>
+                                Loại văn bằng
+                                <select name="degree_type" defaultValue="">
+                                    <option value="" disabled>Chọn loại văn bằng</option>
+                                    <option value="dai-hoc">Đại học</option>
+                                    <option value="thac-si">Thạc sĩ</option>
+                                    <option value="tien-si">Tiến sĩ</option>
+                                </select>
+                            </label>
+                            <label>
+                                Năm cấp bằng
+                                <select name="issue_year" defaultValue="">
+                                    <option value="" disabled>Chọn năm cấp bằng</option>
+                                    {Array.from({ length: 8 }, (_, index) => 2018 + index).map((year) => <option key={year} value={year}>{year}</option>)}
+                                </select>
+                            </label>
+                            <label>
+                                Số vào sổ
+                                <input name="register_number" type="text" placeholder="Nhập số vào sổ" />
+                            </label>
+                            <label>
+                                Số hiệu văn bằng
+                                <input name="diploma_number" type="text" placeholder="Nhập số hiệu văn bằng" />
+                            </label>
+                            <label>
+                                Ngày cấp
+                                <input name="issue_date" type="text" placeholder="dd/mm/yyyy" inputMode="numeric" />
+                            </label>
+                            <label>
+                                Số định danh cá nhân
+                                <input name="personal_id" type="text" placeholder="Nhập số định danh cá nhân" inputMode="numeric" />
+                            </label>
+                            <button type="submit">Tìm kiếm</button>
+                        </form>
+                    </section>
+                </main>
+                <BlockRenderer blocks={blocks} />
+            </PublicLayout>
+        );
+    }
+
+    if (isDocumentsPage && legacyHero) {
+        return (
+            <PublicLayout>
+                <LegacyPageHero title={content.title} image={legacyHero} breadcrumbs={breadcrumbs} />
+                <main className="container-site vju-documents-page">
+                    <LegacyBody html={content.body} />
+                </main>
+                <BlockRenderer blocks={blocks} />
+            </PublicLayout>
+        );
+    }
+
+    if (legacyHero && isStaffLegacyPage) {
         return (
             <PublicLayout>
                 <LegacyPageHero title={content.title} image={legacyHero} breadcrumbs={breadcrumbs} />

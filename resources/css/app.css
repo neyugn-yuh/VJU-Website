@@ -320,6 +320,44 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
 .vju-document-directory > p:has(> a[href]) { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: .75rem; border: 1px solid #e1e6ed; border-radius: 8px; padding: .85rem 1rem; background: #fff; }
 .vju-document-directory > p:has(> a[href]) a { display: inline-flex; flex: 0 0 auto; align-items: center; border-radius: 5px; background: #ab2523; padding: .55rem 1rem; color: #fff; font-size: .875rem; font-weight: 600; text-decoration: none; }
 .vju-document-directory > p:has(> a[href]) a:hover { background: #8f1f1d; color: #fff; }
+.vju-graduate-page,
+.vju-documents-page { padding-top: 3.5rem; padding-bottom: 5rem; }
+.vju-graduate-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(20rem, .82fr); gap: clamp(2.5rem, 6vw, 6rem); align-items: start; }
+.vju-graduate-content { min-width: 0; }
+.vju-graduate-content > h2,
+.vju-documents-directory .vju-document-section > h2 { margin: 0; padding-bottom: .75rem; border-bottom: 2px solid #b22624; color: #2a2a2a; font-size: clamp(1.65rem, 2.7vw, 2.35rem); font-weight: 500; line-height: 1.25; }
+.vju-graduate-content > h2::after,
+.vju-documents-directory .vju-document-section > h2::after { display: block; width: 7rem; height: 2px; margin-top: .75rem; background: #b22624; content: ''; }
+.vju-graduate-kicker { margin: 1.6rem 0 0; color: #b22624; font-size: .85rem; font-weight: 700; line-height: 1.55; }
+.vju-graduate-instructions { margin-top: 1rem; color: #555d67; font-size: 1rem; line-height: 1.7; }
+.vju-graduate-instructions > p { margin-top: .8rem; }
+.vju-graduate-instructions strong { color: #2e343b; }
+.vju-graduate-form { display: grid; gap: 1rem; min-width: 0; border: 1px solid #e0e3e7; border-radius: 4px; padding: clamp(1.3rem, 3vw, 2.15rem); background: #f5f5f5; box-shadow: 0 7px 22px rgba(0,0,0,.06); }
+.vju-graduate-form-heading { margin-bottom: .35rem; }
+.vju-graduate-form-heading h2 { margin: 0; color: #2a2a2a; font-size: 1.55rem; font-weight: 500; line-height: 1.3; }
+.vju-graduate-form-heading p { margin: .45rem 0 0; color: #68707a; font-size: .9rem; line-height: 1.5; }
+.vju-graduate-form label { display: grid; gap: .4rem; color: #3a4149; font-size: .9rem; font-weight: 500; line-height: 1.35; }
+.vju-graduate-form input,
+.vju-graduate-form select { width: 100%; min-height: 2.7rem; border: 1px solid #d3d8de; border-radius: 3px; padding: .55rem .7rem; background: #fff; color: #2a2f35; font: inherit; font-weight: 400; }
+.vju-graduate-form input::placeholder { color: #9ba2aa; }
+.vju-graduate-form input:focus,
+.vju-graduate-form select:focus { border-color: #b22624; outline: 2px solid rgba(178,38,36,.2); outline-offset: 1px; }
+.vju-graduate-form button { justify-self: start; min-width: 8rem; margin-top: .35rem; border: 0; border-radius: 3px; padding: .7rem 1.5rem; background: #b22624; color: #fff; font: inherit; font-weight: 700; cursor: pointer; transition: background .2s ease, transform .2s ease; }
+.vju-graduate-form button:hover { background: #8f1f1d; transform: translateY(-1px); }
+.vju-documents-directory { display: grid; gap: 3.5rem; }
+.vju-document-section { min-width: 0; }
+.vju-document-section > h2 { margin-bottom: 1.35rem; }
+.vju-document-notices { display: grid; gap: .55rem; margin: 0 0 1.25rem; padding: 0 0 0 1.25rem; color: #525d6e; font-size: .96rem; line-height: 1.55; }
+.vju-document-notices li::marker { color: #b22624; }
+.vju-document-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.vju-document-card { display: flex; min-width: 0; flex-direction: column; border: 1px solid #e1e5e9; border-radius: 4px; padding: 1.2rem 1.25rem 1.1rem; background: #fff; box-shadow: 0 3px 12px rgba(0,0,0,.06); }
+.vju-document-card-icon { display: flex; align-items: center; justify-content: center; width: 2.4rem; height: 2.75rem; margin-bottom: .75rem; border-radius: 2px; background: #f8d8d7; color: #b22624; font-size: 1.35rem; line-height: 1; }
+.vju-document-card h3 { min-width: 0; margin: 0; color: #333940; font-size: .98rem; font-weight: 600; line-height: 1.45; overflow-wrap: anywhere; }
+.vju-document-card-actions { display: flex; align-items: center; justify-content: space-between; gap: .7rem; margin-top: 1.2rem; }
+.vju-document-view { display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border: 1px solid #d7dce2; border-radius: 50%; color: #68707a; font-size: .9rem; text-decoration: none; }
+.vju-document-view:hover { border-color: #b22624; color: #b22624; }
+.vju-document-download { display: inline-flex; align-items: center; gap: .4rem; border-radius: 3px; padding: .5rem .85rem; background: #b22624; color: #fff !important; font-size: .8rem; font-weight: 700; text-decoration: none !important; }
+.vju-document-download:hover { background: #8f1f1d; color: #fff !important; }
 .vju-legacy-contact-maps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 28px; }
 .vju-legacy-contact-maps figure { min-width: 0; margin: 0; overflow: hidden; border: 1px solid #e1e6ed; border-radius: 8px; background: #f5f7fb; }
 .vju-legacy-contact-maps figcaption { padding: 12px 16px; color: #2a2a2a; font-weight: 600; }
@@ -413,6 +451,10 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
     .vju-news-side > ul > li { grid-template-columns: 92px minmax(0, 1fr); gap: 10px; }
     .vju-news-side > ul > li img { width: 92px; height: 66px; }
     .vju-document-directory > p:has(> a[href]) { align-items: flex-start; flex-direction: column; }
+    .vju-graduate-page, .vju-documents-page { padding-top: 2.25rem; padding-bottom: 3.5rem; }
+    .vju-graduate-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .vju-graduate-form { order: -1; }
+    .vju-document-grid { grid-template-columns: 1fr; }
     .vju-legacy-contact-maps { grid-template-columns: 1fr; }
     .vju-page-hero-image { min-height: 210px; }
     .vju-inner-layout, .vju-inner-layout-with-aside { grid-template-columns: 1fr; gap: 24px; padding-top: 30px; padding-bottom: 48px; }
