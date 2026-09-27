@@ -180,6 +180,37 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
 .vju-inner-article .prose-content { max-width: 100%; min-width: 0; font-size: 1rem; line-height: 1.6; }
 .vju-inner-article .prose-content h2 { color: #2a2a2a; font-size: clamp(1.8rem, 2.5vw, 2.35rem); font-weight: 400; padding-bottom: 14px; border-bottom: 2px solid #b22624; }
 .vju-legacy-body { min-width: 0; }
+.vju-legacy-page-hero { position: relative; height: clamp(17rem, 31vw, 27.95rem); overflow: hidden; background: #263c35; color: #fff; }
+.vju-legacy-page-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.vju-legacy-page-hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.42); }
+.vju-legacy-page-hero-content { position: relative; z-index: 1; display: flex; height: 100%; flex-direction: column; justify-content: flex-end; padding-top: 2rem; padding-bottom: clamp(2.5rem, 6vw, 5rem); }
+.vju-legacy-page-hero-content h1 { margin: .65rem 0 0; color: #fff; font-size: clamp(2rem, 3.4vw, 3.25rem); font-weight: 700; line-height: 1.1; text-transform: uppercase; }
+.vju-legacy-page-hero-content nav { font-size: .92rem; }
+.vju-staff-page { padding-top: 3rem; padding-bottom: 5rem; }
+.vju-staff-page .vju-legacy-body { font-size: .95rem; line-height: 1.55; }
+.vju-staff-page .vju-legacy-body > h2:first-child { margin-top: 0; color: #2a2a2a; font-size: clamp(1.7rem, 2.4vw, 2.2rem); font-weight: 700; }
+.vju-staff-page .vju-legacy-body > h2:first-child::after { display: block; width: 124px; height: 2px; margin-top: .55rem; background: #b22624; content: ''; }
+.vju-staff-page .vju-legacy-body > p,
+.vju-staff-page .vju-legacy-body > ul { max-width: 100%; }
+.vju-staff-page .vju-legacy-body > ul { margin-top: .8rem; }
+.vju-staff-divider { margin: 3.5rem 0 4.25rem; border-top-color: #bdbdbd; }
+.vju-staff-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3.25rem 2.5rem; }
+.vju-staff-card { display: grid; grid-template-columns: 5.4rem minmax(0, 1fr); grid-template-rows: auto auto; column-gap: 1.65rem; align-items: start; min-width: 0; }
+.vju-staff-card > p:first-child { grid-column: 1; grid-row: 1 / span 2; margin: 0; }
+.vju-staff-card > p:first-child img { display: block; width: 5.4rem; height: 6.9rem; object-fit: cover; border-radius: .45rem; background: #f4f5f7; }
+.vju-staff-card > p:last-child { grid-column: 2; grid-row: 1; min-width: 0; margin: 0; padding: .35rem 0 .8rem; border-bottom: 1px solid #aaa; line-height: 1.35; }
+.vju-staff-card > p:last-child strong,
+.vju-staff-card > p:last-child b { color: #b22624; font-size: .84rem; font-weight: 700; }
+.vju-staff-card > p:last-child i { color: #222; font-size: .82rem; }
+.vju-staff-card > ul { grid-column: 2; grid-row: 2; margin: .75rem 0 0; padding: 0; list-style: none; color: #4d5560; font-size: .78rem; line-height: 1.45; }
+.vju-staff-card > ul > li { display: flex; min-width: 0; gap: .45rem; margin: 0; overflow-wrap: anywhere; }
+.vju-staff-card > ul > li + li { margin-top: .15rem; }
+.vju-staff-card > ul > li::before { flex: 0 0 .8rem; color: #6c747d; font-size: .8rem; line-height: 1.4; }
+.vju-staff-card > ul > li:first-child::before { content: '✉'; }
+.vju-staff-card > ul > li:nth-child(2)::before { content: '⌖'; }
+.vju-staff-card > ul > li:nth-child(n + 3)::before { content: '⌖'; }
+.vju-staff-card > ul a { color: inherit; text-decoration: none; }
+.vju-staff-card > ul a:hover { color: #ab2523; text-decoration: underline; }
 .vju-program-directory { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 24px; }
 .vju-program-directory > h2 { grid-column: 1 / -1; margin-top: 0; }
 .vju-program-directory > .vju-program-card { display: flex; min-width: 0; flex-direction: column; margin-top: 0; overflow: hidden; border: 1px solid #e6e6e6; border-radius: 8px; background: #fff; box-shadow: 0 3px 12px rgba(0,0,0,.08); transition: transform .2s ease, box-shadow .2s ease; }
@@ -288,6 +319,15 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
     }
     .vju-listing-featured { grid-template-columns: 1fr; gap: 28px; }
     .vju-program-directory { grid-template-columns: 1fr; gap: 20px; }
+    .vju-staff-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .vju-staff-page { padding-top: 2.25rem; padding-bottom: 3.5rem; }
+    .vju-staff-divider { margin: 2.5rem 0 3rem; }
+    .vju-legacy-page-hero { height: 25rem; }
+    .vju-staff-card { grid-template-columns: 1fr; grid-template-rows: auto auto auto; row-gap: .7rem; }
+    .vju-staff-card > p:first-child { grid-column: 1; grid-row: 1; }
+    .vju-staff-card > p:first-child img { width: 8.75rem; height: 8.75rem; }
+    .vju-staff-card > p:last-child { grid-column: 1; grid-row: 2; padding-bottom: .7rem; }
+    .vju-staff-card > ul { grid-column: 1; grid-row: 3; margin-top: 0; }
     .vju-news-directory { grid-template-columns: 1fr; gap: 24px; }
     .vju-news-directory > h2 { grid-column: 1; }
     .vju-news-side > ul > li { grid-template-columns: 92px minmax(0, 1fr); gap: 10px; }
@@ -313,6 +353,12 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
        narrow article column instead of widening the document viewport. */
     html, body { overflow-x: hidden; }
     .container-site, .vju-inner-layout, .vju-inner-article, .vju-legacy-body, .vju-article-content { width: 100%; min-width: 0; max-width: 100%; }
+    .vju-staff-page { width: 100%; min-width: 0; max-width: 100%; box-sizing: border-box; overflow-x: hidden; }
+    .vju-staff-page .vju-legacy-body { width: 100%; box-sizing: border-box; overflow-wrap: anywhere; word-break: normal; }
+    .vju-staff-page .vju-legacy-body > * { max-width: 100%; overflow-wrap: anywhere; }
+    .vju-staff-page .vju-staff-card { min-width: 0; max-width: 100%; }
+    .vju-staff-page .vju-staff-card > p,
+    .vju-staff-page .vju-staff-card > ul { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
     .vju-inner-article > *, .vju-legacy-body > * { max-width: 100%; }
     .vju-inner-article p, .vju-inner-article li, .vju-inner-article span,
     .vju-inner-article div { overflow-wrap: anywhere; }

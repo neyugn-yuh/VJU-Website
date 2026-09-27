@@ -17,8 +17,12 @@ const BANDS: Record<string, string> = {
 
 interface FormattedBody {
     html: string;
-    variant: 'default' | 'program-directory' | 'news-directory' | 'document-directory';
+    variant: 'default' | 'program-directory' | 'news-directory' | 'document-directory' | 'staff-directory';
 }
+
+const LEGACY_PAGE_HEROES: Record<string, string> = {
+    '/trang-chu/dao-tao/gioi-thieu/': '/storage/media/2023/10/derivatives/rectangle-22-web.png',
+};
 
 /**
  * A few migrated directory pages still contain the old WordPress markup:
@@ -27,6 +31,30 @@ interface FormattedBody {
  * the site while leaving ordinary article HTML untouched.
  */
 function formatLegacyBody(html: string): FormattedBody {
+    const staffIntro = /^\s*<h2\b[^>]*>\s*GIỚI THIỆU\s*<\/h2>\s*(?=<h2\b[^>]*>\s*Phòng Đào tạo và Công tác sinh viên\s*<\/h2>)/i;
+    const staffRecord = /(<p\b[^>]*>\s*<img\b[^>]*>\s*<\/p>)\s*(<ul\b[^>]*>[\s\S]*?<\/ul>)\s*(<p\b[^>]*>[\s\S]*?<\/(?:p)>)/i;
+    const isStaffPage = staffIntro.test(html) && /<img\b[^>]*alt=["']Nguyen Thi An Hang["']/i.test(html);
+
+    if (isStaffPage) {
+        const withoutPageHeading = html.replace(staffIntro, '');
+        const firstDivider = /<hr\b[^>]*>/i.exec(withoutPageHeading);
+
+        if (firstDivider?.index !== undefined) {
+            const intro = withoutPageHeading.slice(0, firstDivider.index);
+            const staffMarkup = withoutPageHeading.slice(firstDivider.index + firstDivider[0].length);
+            const records = Array.from(staffMarkup.matchAll(new RegExp(staffRecord.source, 'gi')), (match) => (
+                `<article class="vju-staff-card">${match[1]}${match[2]}${match[3]}</article>`
+            ));
+
+            if (records.length >= 2) {
+                return {
+                    html: `${intro}<hr class="vju-staff-divider"><div class="vju-staff-grid">${records.join('')}</div>`,
+                    variant: 'staff-directory',
+                };
+            }
+        }
+    }
+
     const imageHeadingPair = /(<p\b[^>]*>[\s\S]*?<img\b[^>]*\/?\s*>[\s\S]*?<\/p>)\s*(<h[234]\b[^>]*>[\s\S]*?<\/h[234]>)/gi;
     const pairs = html.match(imageHeadingPair);
     const hasNewsFeature = /<p\b[^>]*>[\s\S]*?<img\b[\s\S]*?<\/p>\s*<h[34]\b[\s\S]*?<\/h[34]>\s*<p\b[\s\S]*?<\/p>\s*<p\b[\s\S]*?<\/p>/i.test(html);
@@ -66,6 +94,19 @@ function LegacyBody({ html }: { html: string }) {
             className={`prose-content mt-8 vju-legacy-body vju-legacy-body-${formatted.variant} vju-${formatted.variant}`}
             dangerouslySetInnerHTML={{ __html: formatted.html }}
         />
+    );
+}
+
+function LegacyPageHero({ title, image, breadcrumbs }: { title: string; image: string; breadcrumbs: PageProps['breadcrumbs'] }) {
+    return (
+        <section className="vju-legacy-page-hero">
+            <img src={image} alt="" aria-hidden="true" />
+            <div className="vju-legacy-page-hero-overlay" aria-hidden="true" />
+            <div className="container-site vju-legacy-page-hero-content">
+                <Breadcrumb items={breadcrumbs} invert />
+                <h1>{title}</h1>
+            </div>
+        </section>
     );
 }
 
@@ -157,6 +198,7 @@ export default function Page() {
     const t = useT();
     const blocks = content.blocks ?? [];
     const template = content.template ?? 'default';
+    const legacyHero = LEGACY_PAGE_HEROES[content.url ?? ''];
 
     if (template === 'landing') {
         const heroIsTitle = startsWithHero(blocks);
@@ -199,6 +241,18 @@ export default function Page() {
                         {content.body && <div className="prose-content" dangerouslySetInnerHTML={{ __html: content.body }} />}
                     </div>
                     <ContactCard />
+                </div>
+                <BlockRenderer blocks={blocks} />
+            </PublicLayout>
+        );
+    }
+
+    if (legacyHero) {
+        return (
+            <PublicLayout>
+                <LegacyPageHero title={content.title} image={legacyHero} breadcrumbs={breadcrumbs} />
+                <div className="container-site vju-staff-page">
+                    <LegacyBody html={content.body} />
                 </div>
                 <BlockRenderer blocks={blocks} />
             </PublicLayout>
