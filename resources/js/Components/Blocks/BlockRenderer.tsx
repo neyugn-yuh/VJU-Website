@@ -3,6 +3,7 @@ import type { Block } from '@/Types';
 import { blockAnchor } from '@/Utils/anchors';
 import { Cards, Cta, Documents, Faq, Logos, PostList, RichText, Stats, Steps, Video } from './ContentBlocks';
 import Hero from './Hero';
+import { ActivityGallery, Contact, Intro, Programs } from './HomeSections';
 import type { BlockProps } from './shared';
 
 // Keys match app/Filament/Forms/PageBlocks.php. Unknown types render nothing.
@@ -19,6 +20,10 @@ const BLOCKS: Record<string, ComponentType<BlockProps<any>>> = {
     cta: Cta,
     logos: Logos,
     video: Video,
+    intro: Intro,
+    programs: Programs,
+    activity_gallery: ActivityGallery,
+    contact: Contact,
 };
 
 /** `heroIsTitle`: the page has no other <h1>, so a leading hero heading becomes it. */

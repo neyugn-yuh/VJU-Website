@@ -110,6 +110,38 @@ class PageBlocks
                     TextInput::make('url')->label('YouTube URL')->url()->required(),
                     TextInput::make('caption'),
                 ]),
+                Block::make('intro')->label('Homepage introduction')->icon('heroicon-o-building-office-2')->schema([
+                    TextInput::make('heading'),
+                    MediaPicker::make('image_id')->label('Portrait image'),
+                    CmsRichEditor::make('body')->required(),
+                    TextInput::make('youtube_id')->label('YouTube video ID'),
+                    self::buttons(),
+                ]),
+                Block::make('programs')->label('Program flip cards')->icon('heroicon-o-academic-cap')->schema([
+                    TextInput::make('heading'),
+                    Repeater::make('items')->schema([
+                        TextInput::make('title')->required(),
+                        TextInput::make('text'),
+                        MediaPicker::make('image_id')->label('Background image'),
+                        TextInput::make('url')->label('Link'),
+                    ])->columns(2)->collapsible()->itemLabel(fn (array $state) => $state['title'] ?? null),
+                ]),
+                Block::make('activity_gallery')->label('Activity gallery')->icon('heroicon-o-photo')->schema([
+                    TextInput::make('heading'),
+                    Repeater::make('items')->schema([
+                        MediaPicker::make('image_id')->label('Image')->required(),
+                        TextInput::make('title'),
+                        TextInput::make('url')->label('Link'),
+                    ])->columns(3)->collapsible(),
+                ]),
+                Block::make('contact')->label('Homepage contact')->icon('heroicon-o-map-pin')->schema([
+                    TextInput::make('heading'),
+                    TextInput::make('map_url')->label('Google Maps embed URL')->url(),
+                    Textarea::make('address')->label('Mỹ Đình address'),
+                    Textarea::make('address_hola')->label('Hòa Lạc address'),
+                    TextInput::make('phone')->label('Hotline'),
+                    TextInput::make('email')->email(),
+                ]),
             ]);
     }
 

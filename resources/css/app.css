@@ -195,6 +195,48 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
 .vju-cards-section li h3 { color: #2b2b2b; font-weight: 500; }
 .vju-post-list-section .group { border-radius: 8px; border-color: #e5e5e5; box-shadow: 0 2px 9px rgba(0,0,0,.07); }
 .prose-content img, .prose-content video { border-radius: 0; }
+
+/* Homepage sections reconstructed from the WordPress/Elementor crawl. */
+.vju-home-intro { background: #fff; }
+.vju-home-intro-grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.35fr) minmax(0, 1fr); gap: 28px; align-items: stretch; }
+.vju-home-intro-image { position: relative; min-height: 360px; margin: 0; overflow: hidden; }
+.vju-home-intro-image picture, .vju-home-intro-image picture img { display: block; width: 100%; height: 100%; }
+.vju-home-intro-image figcaption { position: absolute; right: 0; bottom: 0; left: 0; padding: 8px 12px; background: rgba(0,0,0,.58); color: #fff; font-size: .72rem; line-height: 1.35; }
+.vju-home-intro-copy { min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+.vju-home-intro-copy .prose-content { font-size: .95rem; line-height: 1.75; }
+.vju-home-intro-copy .prose-content p:first-child { margin-bottom: 12px; font-size: 1.03rem; }
+.vju-home-intro-copy .prose-content strong { color: #222; }
+.vju-home-intro-copy .vju-button, .vju-home-intro-copy > div:last-child { margin-top: 22px; }
+.vju-home-video { min-width: 0; align-self: center; }
+.vju-home-programs { background: #f4f4f4; }
+.vju-home-program-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 0; list-style: none; }
+.vju-home-program-card { position: relative; min-height: 240px; overflow: hidden; background: linear-gradient(135deg, #b22624, #681c1b); }
+.vju-home-program-card:nth-child(2) { background: linear-gradient(135deg, #007e46, #17482f); }
+.vju-home-program-card:nth-child(3) { background: linear-gradient(135deg, #31567f, #172b45); }
+.vju-home-program-card > picture { position: absolute; inset: 0; display: block; }
+.vju-home-program-card > picture img { width: 100%; height: 100%; object-fit: cover; opacity: .46; transition: transform .35s ease, opacity .35s ease; }
+.vju-home-program-card:hover > picture img { transform: scale(1.06); opacity: .62; }
+.vju-home-program-overlay { position: relative; z-index: 1; display: flex; min-height: 240px; flex-direction: column; align-items: center; justify-content: center; padding: 24px; color: #fff; text-align: center; background: linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.35)); }
+.vju-home-program-overlay h3 { margin: 0; font-size: 1.55rem; font-weight: 500; }
+.vju-home-program-overlay p { margin: 8px 0 0; font-size: .9rem; color: rgba(255,255,255,.9); }
+.vju-home-program-link { margin-top: 18px; border: 1px solid rgba(255,255,255,.75); padding: 8px 16px; color: #fff; font-size: .85rem; }
+.vju-home-program-link:hover { background: #fff; color: #8f1f1d; }
+.vju-home-activities { background: #fff; }
+.vju-home-activity-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 145px; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.vju-home-activity-item { position: relative; overflow: hidden; }
+.vju-home-activity-item-1 { grid-column: span 2; grid-row: span 2; }
+.vju-home-activity-item-4 { grid-column: span 2; }
+.vju-home-activity-item picture, .vju-home-activity-item picture img { display: block; width: 100%; height: 100%; }
+.vju-home-activity-item span { position: absolute; right: 0; bottom: 0; left: 0; padding: 8px 12px; background: linear-gradient(transparent, rgba(0,0,0,.72)); color: #fff; font-size: .83rem; }
+.vju-home-contact { background: #f4f4f4; }
+.vju-home-contact-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(290px, .85fr); gap: 32px; align-items: stretch; }
+.vju-home-map { min-height: 300px; overflow: hidden; background: #dfe7e2; }
+.vju-home-map iframe { display: block; width: 100%; height: 100%; min-height: 300px; border: 0; }
+.vju-home-contact-details { display: grid; align-content: center; gap: 18px; margin: 0; padding: 28px; background: #fff; color: #333; font-size: .94rem; font-style: normal; line-height: 1.55; }
+.vju-home-contact-details p { margin: 0; }
+.vju-home-contact-details strong { color: #a32422; text-transform: uppercase; font-size: .82rem; }
+.vju-home-contact-details a { color: #a32422; text-decoration: underline; text-underline-offset: 2px; }
+.vju-home-contact-details a:hover { color: #731815; }
 @media (width < 48rem) {
     /* Keep the wide, text-in-image banner at its source ratio on phones. A
        desktop minimum height makes it wider than the viewport and causes
@@ -212,6 +254,13 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
     .vju-inner-aside { order: 2; }
     .vju-section-heading { flex-direction: column; align-items: center; }
     .vju-section-heading > a { align-self: center; }
+    .vju-home-intro-grid, .vju-home-contact-grid { grid-template-columns: 1fr; gap: 22px; }
+    .vju-home-intro-image { min-height: 260px; }
+    .vju-home-program-grid { grid-template-columns: 1fr; gap: 16px; }
+    .vju-home-program-card, .vju-home-program-overlay { min-height: 190px; }
+    .vju-home-activity-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 130px; }
+    .vju-home-activity-item-1, .vju-home-activity-item-4 { grid-column: span 2; }
+    .vju-home-contact-details { padding: 22px; }
 }
 
 .vju-footer { margin-top: 0; background: #303030; color: #f1f1f1; }
