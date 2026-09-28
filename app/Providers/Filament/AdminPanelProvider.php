@@ -31,6 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login(Login::class)
             ->brandName('VJU CMS')
+            ->favicon('/favicon.svg')
             ->colors(['primary' => Color::hex('#5e6ad2')])
             ->font('Inter')
             ->darkMode(true)
