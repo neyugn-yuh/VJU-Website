@@ -8,8 +8,8 @@
 @source '../**/*.tsx';
 
 @theme {
-    --font-sans: "Roboto", sans-serif;
-    --font-ja: "Roboto", "Noto Sans JP", sans-serif;
+    --font-sans: "Open Sans", sans-serif;
+    --font-ja: "Open Sans", "Noto Sans JP", sans-serif;
 
     /* VJU navy (#0b3d91 = 700) */
     --color-primary-50: #f7f7f7;
@@ -120,7 +120,7 @@
 }
 
 /* VJU visual system reconstructed from the crawled WordPress pages. */
-body { font-family: "Roboto", sans-serif; color: #252525; }
+body { font-family: "Open Sans", sans-serif; color: #252525; }
 
 .vju-header { background: #fff; box-shadow: 0 1px 0 rgba(0,0,0,.08); font-family: "Open Sans", sans-serif; }
 .vju-header-primary { background: #b22624; color: #fff; }
