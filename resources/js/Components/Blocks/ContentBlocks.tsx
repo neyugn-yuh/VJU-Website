@@ -257,7 +257,7 @@ type LogoItem = { name?: string; image?: MediaImage | null; url?: string };
 export function Logos({ data, id }: BlockProps<{ heading?: string; items?: LogoItem[] }>) {
     return (
         <Section id={id} heading={str(data.heading)}>
-            <ul className="grid grid-cols-2 items-center gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+            <ul className="grid grid-cols-2 items-center gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7">
                 {list<LogoItem>(data.items).map((item, i) => {
                     const img = item.image ? (
                         <img
@@ -267,7 +267,7 @@ export function Logos({ data, id }: BlockProps<{ heading?: string; items?: LogoI
                             height={item.image.height ?? undefined}
                             loading="lazy"
                             decoding="async"
-                            className="mx-auto max-h-16 w-auto object-contain grayscale transition hover:grayscale-0"
+                            className="mx-auto max-h-16 w-auto object-contain"
                         />
                     ) : (
                         <span className="font-semibold text-muted">{item.name}</span>
