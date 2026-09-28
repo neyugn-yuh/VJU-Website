@@ -4,6 +4,8 @@ import type { MenuNode } from '@/Types';
 import { CaretDown, ChevronRight } from './Icons';
 import SmartLink from './SmartLink';
 
+export const isPlaceholder = (url: string | null | undefined) => !url || url === '#';
+
 /**
  * Main navigation (>= lg). Submenus open on hover and when focus enters the item;
  * the chevron button toggles them (touch / screen readers) and Escape closes.
@@ -45,9 +47,16 @@ function Item({ node, depth }: { node: MenuNode; depth: number }) {
             onKeyDown={hasChildren ? onKeyDown : undefined}
         >
             <div className="flex items-center">
-                <SmartLink href={node.url} target={node.target} className={linkClass}>
-                    {node.label}
-                </SmartLink>
+                {isPlaceholder(node.url) ? (
+                    // Imported "#" items have no page: open the submenu instead of jumping to the top.
+                    <span className={`${linkClass} cursor-default`} onClick={hasChildren ? () => setOpen(!open) : undefined}>
+                        {node.label}
+                    </span>
+                ) : (
+                    <SmartLink href={node.url} target={node.target} className={linkClass}>
+                        {node.label}
+                    </SmartLink>
+                )}
                 {hasChildren && (
                     <button
                         ref={button}

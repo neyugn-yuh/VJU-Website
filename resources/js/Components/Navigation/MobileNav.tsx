@@ -3,6 +3,7 @@ import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { useT } from '@/Hooks/useT';
 import type { MenuNode } from '@/Types';
 import { ChevronDown, CloseIcon, MenuIcon } from './Icons';
+import { isPlaceholder } from './DesktopNav';
 import SmartLink from './SmartLink';
 
 function Item({ node, depth }: { node: MenuNode; depth: number }) {
@@ -13,14 +14,29 @@ function Item({ node, depth }: { node: MenuNode; depth: number }) {
     return (
         <li>
             <div className="flex items-stretch border-b border-line/70">
-                <SmartLink
-                    href={node.url}
-                    target={node.target}
-                    className="flex-1 py-3 pr-2 text-ink hover:text-primary-700"
-                    style={{ paddingLeft: `${1 + depth}rem` }}
-                >
-                    <span className={depth === 0 ? 'font-semibold' : 'text-sm'}>{node.label}</span>
-                </SmartLink>
+                {isPlaceholder(node.url) ? (
+                    // "#" items have no page: tapping the label toggles its submenu like the chevron.
+                    <button
+                        type="button"
+                        disabled={!hasChildren}
+                        aria-expanded={hasChildren ? open : undefined}
+                        aria-controls={hasChildren ? id : undefined}
+                        onClick={() => setOpen(!open)}
+                        className="flex-1 py-3 pr-2 text-left text-ink hover:text-primary-700 disabled:hover:text-ink"
+                        style={{ paddingLeft: `${1 + depth}rem` }}
+                    >
+                        <span className={depth === 0 ? 'font-semibold' : 'text-sm'}>{node.label}</span>
+                    </button>
+                ) : (
+                    <SmartLink
+                        href={node.url}
+                        target={node.target}
+                        className="flex-1 py-3 pr-2 text-ink hover:text-primary-700"
+                        style={{ paddingLeft: `${1 + depth}rem` }}
+                    >
+                        <span className={depth === 0 ? 'font-semibold' : 'text-sm'}>{node.label}</span>
+                    </SmartLink>
+                )}
                 {hasChildren && (
                     <button
                         type="button"
