@@ -1,4 +1,5 @@
 import { useShared } from '@/Hooks/useShared';
+import { NAV_LABELS } from '../Header/Header';
 import { PhoneIcon, SocialIcons } from '../Navigation/Icons';
 import SmartLink from '../Navigation/SmartLink';
 
@@ -67,6 +68,60 @@ const FOOTER_GROUPS: { title: string; links: [string, string][] }[] = [
     },
 ];
 
+// The English footer has its own groups; its last column mirrors the main menu. Japanese reuses the Vietnamese footer like the old site.
+const EN_FOOTER_GROUPS: { title: string; links: [string, string][] }[] = [
+    {
+        title: 'QUALITY ASSURANCE',
+        links: [
+            ['Guidelines', '/en/guidelines/'],
+            ['Quality assurance system', '/en/quality-assurance-system-qa/'],
+            ['Notices, dispatches', '/en/internal-information/notices-dispatches/'],
+            ['Support teaching innovation', '/en/support-teaching-innovation/'],
+        ],
+    },
+    {
+        title: 'RESEARCH',
+        links: [
+            ['Research Overview', '/en/collaboration/overview/'],
+            ['Key Research Areas', '/en/research/key-research-areas/'],
+            ['Research Capabilities', '/en/research/sources-of-funding/'],
+            ['Research Publications', '/en/research/international-research-cooperation-1/'],
+        ],
+    },
+    {
+        title: 'COLLABORATION',
+        links: [
+            ['Enterprises Collaboration', '/en/collaboration/enterprises-collaboration/'],
+            ['Partner University', '/en/collaboration/partner-university/'],
+            ['Coordinating University', '/en/collaboration/coordinating-university/'],
+            ['Collaboration Overview', '/en/collaboration/overview/'],
+        ],
+    },
+    {
+        title: 'ADMISSIONS',
+        links: [
+            ['Application Guideline', '/en/admissions/how-to-apply/'],
+            ['Programs', '/en/admissions/'],
+            ['FAQ', '/en/faq/'],
+            ['Accomodation', '/en/accomodation/'],
+            ['Admission fees and the Methods of Payment', '/en/admissions/tuition-fee/'],
+            ['Scholarships', '/en/admissions/scholarships/'],
+        ],
+    },
+    {
+        title: 'ACADEMICS',
+        links: [
+            ['Introduction', '/en/academics/introduce/'],
+            ['Post graduate', '/en/academics/post-graduate/'],
+            ['Undergraduate', '/en/academics/undergraduate/'],
+            ['Internship', '/en/academics/internship/'],
+            ['Short Course', '/en/vju-services/short-courses/'],
+            ['Documents and guidelines', '/en/academics/documents-and-guidelines/'],
+            ['VNU-LIC, VJU Library', 'https://lic.vnu.edu.vn/'],
+        ],
+    },
+];
+
 const FOOTER_MAPS = [
     {
         label: 'Cơ sở Mỹ Đình',
@@ -85,11 +140,18 @@ const FALLBACK_SOCIAL = {
 };
 
 function FloatingActions() {
+    // The English site only keeps the call/Zalo bubbles; the Vietnamese admission buttons stay on vi and ja like the old site.
+    const { locale } = useShared();
+
     return (
         <aside className="vju-floating-actions" aria-label="Tư vấn tuyển sinh">
-            <a href="#admission" className="vju-float-button vju-float-green">TƯ VẤN ĐẠI<br />HỌC</a>
-            <a href="#admission" className="vju-float-button vju-float-green">TƯ VẤN THẠC<br />SĨ</a>
-            <a href="https://tuyensinh.vju.ac.vn/" target="_blank" rel="noopener noreferrer" className="vju-float-button vju-float-red">NỘP HỒ SƠ<br />ONLINE</a>
+            {locale !== 'en' && (
+                <>
+                    <a href="#admission" className="vju-float-button vju-float-green">TƯ VẤN ĐẠI<br />HỌC</a>
+                    <a href="#admission" className="vju-float-button vju-float-green">TƯ VẤN THẠC<br />SĨ</a>
+                    <a href="https://tuyensinh.vju.ac.vn/" target="_blank" rel="noopener noreferrer" className="vju-float-button vju-float-red">NỘP HỒ SƠ<br />ONLINE</a>
+                </>
+            )}
             <div className="vju-float-socials">
                 <a href="tel:+84966954736" aria-label="Gọi tư vấn" className="vju-phone-bubble"><PhoneIcon width={30} height={30} /></a>
                 <a href="https://zalo.me/0966954736" target="_blank" rel="noopener noreferrer" aria-label="Zalo" className="vju-zalo-bubble">Zalo</a>
@@ -103,9 +165,17 @@ export function PublicFloatingActions() {
 }
 
 export default function Footer() {
-    const { site } = useShared();
+    const { site, locale, menus } = useShared();
     const { email, address } = site.contact ?? {};
     const social = { ...FALLBACK_SOCIAL, ...(site.social ?? {}) };
+    const en = locale === 'en';
+    const groups = en
+        ? [...EN_FOOTER_GROUPS, {
+            title: 'ABOUT VJU',
+            links: NAV_LABELS.en.main.map((label): [string, string] => [label, menus?.header?.find((item) => item.label === label)?.url ?? '#']),
+        }]
+        : FOOTER_GROUPS;
+    const mail = (to: string) => <a href={`mailto:${to}`}>{to}</a>;
 
     return (
         <footer className="vju-footer">
@@ -120,14 +190,26 @@ export default function Footer() {
                 </div>
 
                 <div className="vju-footer-contact">
-                    <p><strong>HOTLINE:</strong><br />Hotline Tuyển sinh:<br />+ (+84) 966 954 736<br />+ (+84) 969 638 426<br />Liên hệ chung:<br />+ 024.7306.6001</p>
-                    <p>
-                        <strong>EMAIL:</strong> <a href={`mailto:${email ?? 'admission@vju.ac.vn'}`}>{email ?? 'admission@vju.ac.vn'}</a>
-                        <br /><a href="mailto:info@vju.ac.vn">info@vju.ac.vn</a>
-                    </p>
-                    <p><strong>CƠ SỞ MỸ ĐÌNH:</strong><br />{address || 'Đường Lưu Hữu Phước, phường Từ Liêm, thành phố Hà Nội'}</p>
-                    <p><strong>CƠ SỞ HÒA LẠC:</strong><br />Khu QGHN04, Khu đô thị Đại học Quốc gia Hà Nội tại Hòa Lạc, Xã Hòa Lạc, Thành phố Hà Nội</p>
-                    <h2>THEO DÕI</h2>
+                    {en ? (
+                        <>
+                            <p><strong>HOTLINE (Admission):</strong><br />(+84) 966 954 736<br />(+84) 969 638 426<br />024.7306.6001</p>
+                            <p>
+                                <strong>EMAIL:</strong><br />Admission contact : {mail(email ?? 'admission@vju.ac.vn')}
+                                <br />General information : {mail('info@vju.ac.vn')}
+                                <br />Partner with us : {mail('Cooperation@vju.ac.vn')}
+                            </p>
+                            <p><strong>ADDRESS:</strong><br />Luu Huu Phuoc Road, My Dinh 1 Residential Area, Cau Dien Ward, Nam Tu Liem District, Hanoi, Vietnam</p>
+                            <p>Vietnam Japan University, Hoa Lac, Thach That District, Ha Noi, Vietnam</p>
+                        </>
+                    ) : (
+                        <>
+                            <p><strong>HOTLINE:</strong><br />Hotline Tuyển sinh:<br />+ (+84) 966 954 736<br />+ (+84) 969 638 426<br />Liên hệ chung:<br />+ 024.7306.6001</p>
+                            <p><strong>EMAIL:</strong> {mail(email ?? 'admission@vju.ac.vn')}<br />{mail('info@vju.ac.vn')}</p>
+                            <p><strong>CƠ SỞ MỸ ĐÌNH:</strong><br />{address || 'Đường Lưu Hữu Phước, phường Từ Liêm, thành phố Hà Nội'}</p>
+                            <p><strong>CƠ SỞ HÒA LẠC:</strong><br />Khu QGHN04, Khu đô thị Đại học Quốc gia Hà Nội tại Hòa Lạc, Xã Hòa Lạc, Thành phố Hà Nội</p>
+                        </>
+                    )}
+                    <h2>{en ? 'FOLLOW US' : 'THEO DÕI'}</h2>
                     <ul className="vju-social-list">
                         {Object.entries(social).filter(([, url]) => typeof url === 'string' && url).map(([key, url]) => {
                             const Icon = SocialIcons[key];
@@ -137,7 +219,7 @@ export default function Footer() {
                 </div>
 
                 <div className="vju-footer-links">
-                    {FOOTER_GROUPS.map((group) => (
+                    {groups.map((group) => (
                         <nav key={group.title} className="vju-footer-column" aria-label={group.title}>
                             <h2>{group.title}</h2>
                             <ul>
@@ -147,6 +229,7 @@ export default function Footer() {
                     ))}
                 </div>
             </div>
+            {en && <p className="vju-footer-copyright">Copyright © Vietnam Japan University. All Rights Reserved</p>}
         </footer>
     );
 }

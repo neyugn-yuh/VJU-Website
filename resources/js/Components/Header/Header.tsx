@@ -6,8 +6,21 @@ import DesktopNav from '../Navigation/DesktopNav';
 import MobileNav from '../Navigation/MobileNav';
 import SearchForm from '../Search/SearchForm';
 
-const TOP_LABELS = ['Tuyển sinh', 'Tin tức và sự kiện', 'Về VJU', 'Đăng nhập hệ thống', 'Đăng xuất'];
-const MAIN_LABELS = ['Đào tạo', 'Sinh viên', 'Nghiên cứu', 'Hợp tác phát triển', 'Dịch vụ của VJU', 'Đảm bảo chất lượng', 'Khảo thí', 'VJU Fund', 'Tra cứu'];
+// Top (red) and main (white) rows per locale, in the order the crawled vju.ac.vn header shows them.
+export const NAV_LABELS: Record<string, { top: string[]; main: string[] }> = {
+    vi: {
+        top: ['Tuyển sinh', 'Tin tức và sự kiện', 'Về VJU', 'Đăng nhập hệ thống', 'Đăng xuất'],
+        main: ['Đào tạo', 'Sinh viên', 'Nghiên cứu', 'Hợp tác phát triển', 'Dịch vụ của VJU', 'Đảm bảo chất lượng', 'Khảo thí', 'VJU Fund', 'Tra cứu'],
+    },
+    en: {
+        top: ['Internal for Staff', 'News & Events', 'About VJU'],
+        main: ['Admissions', 'Academics', 'Student', 'Research', 'Collaboration', 'VJU’s Service', 'Quality assurance', 'Education Testing', 'VJU Fund'],
+    },
+    ja: {
+        top: ['ニュース・インベント', '日越大学について'],
+        main: ['入試・入学案内', '教育', '学生生活', '研究', '外部連携', '課外プログラム', '大学評価', '試験・評価', '寄付・ご支援'],
+    },
+};
 
 function HeaderTools({ mobile = false }: { mobile?: boolean }) {
     return (
@@ -24,8 +37,9 @@ export default function Header() {
     const nav = menus?.header ?? [];
     const byLabel = (label: string) => nav.find((item) => item.label === label);
     const present = (item: MenuNode | undefined): item is MenuNode => Boolean(item);
-    const topNav = TOP_LABELS.map(byLabel).filter(present);
-    const mainNav = MAIN_LABELS.map(byLabel).filter(present);
+    const labels = NAV_LABELS[locale] ?? NAV_LABELS.vi;
+    const topNav = labels.top.map(byLabel).filter(present);
+    const mainNav = labels.main.map(byLabel).filter(present);
     const mobileNav = [...topNav, ...mainNav];
     const logo = site.logo ?? '/assets/vju-logo.png';
 

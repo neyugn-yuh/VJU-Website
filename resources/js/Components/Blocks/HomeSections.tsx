@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useT } from '@/Hooks/useT';
 import type { MediaImage } from '@/Types';
 import { PlayIcon } from '../Navigation/Icons';
 import SmartLink from '../Navigation/SmartLink';
@@ -70,6 +71,8 @@ type ProgramItem = { title?: string; text?: string; image?: MediaImage | null; u
 
 /** Hover cards mirror the flip-box program selector from the crawled homepage. */
 export function Programs({ data, id }: BlockProps<{ heading?: string; items?: ProgramItem[] }>) {
+    const t = useT();
+
     return (
         <Section id={id} heading={str(data.heading)} className="vju-home-programs">
             <ul className="vju-home-program-grid">
@@ -81,7 +84,7 @@ export function Programs({ data, id }: BlockProps<{ heading?: string; items?: Pr
                             {item.text && <p>{item.text}</p>}
                             {item.url && (
                                 <SmartLink href={item.url} className="vju-home-program-link">
-                                    Tìm hiểu thêm
+                                    {t('learn_more')}
                                 </SmartLink>
                             )}
                         </div>
@@ -127,6 +130,8 @@ type ContactData = {
 };
 
 export function Contact({ data, id }: BlockProps<ContactData>) {
+    const t = useT();
+
     return (
         <Section id={id} heading={str(data.heading)} className="vju-home-contact">
             <div className="vju-home-contact-grid">
@@ -138,10 +143,10 @@ export function Contact({ data, id }: BlockProps<ContactData>) {
                     )}
                 </div>
                 <address className="vju-home-contact-details">
-                    {data.address && <p><strong>Cơ sở Mỹ Đình:</strong><br />{data.address}</p>}
-                    {data.address_hola && <p><strong>Cơ sở Hòa Lạc:</strong><br />{data.address_hola}</p>}
-                    {data.phone && <p><strong>Hotline:</strong><br />{data.phone}</p>}
-                    {data.email && <p><strong>Email:</strong><br /><a href={`mailto:${data.email}`}>{data.email}</a></p>}
+                    {data.address && <p><strong>{t('campus_my_dinh')}:</strong><br />{data.address}</p>}
+                    {data.address_hola && <p><strong>{t('campus_hoa_lac')}:</strong><br />{data.address_hola}</p>}
+                    {data.phone && <p><strong>{t('hotline')}:</strong><br />{data.phone}</p>}
+                    {data.email && <p><strong>{t('email')}:</strong><br /><a href={`mailto:${data.email}`}>{data.email}</a></p>}
                 </address>
             </div>
         </Section>
