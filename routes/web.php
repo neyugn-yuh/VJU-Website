@@ -24,5 +24,15 @@ if (config('cms.media.disk') !== 'public') {
     Route::get('/storage/{path}', fn (string $path) => redirect()->away(Storage::disk(config('cms.media.disk'))->url($path), 301))->where('path', '.*');
 }
 
+Route::get('/admin-locale/{locale}', function (string $locale) {
+    $allowed = array_keys(config('cms.locales', []));
+    if (in_array($locale, $allowed, true)) {
+        session(['admin_locale' => $locale]);
+        cookie()->queue(cookie()->forever('admin_locale', $locale));
+    }
+
+    return redirect()->back(fallback: url('/admin'));
+})->name('admin.locale');
+
 // Everything else is resolved against content, taxonomy and redirects.
 Route::fallback(PublicController::class);

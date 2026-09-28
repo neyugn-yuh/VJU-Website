@@ -39,6 +39,10 @@ class AdminPanelProvider extends PanelProvider
                 PanelsRenderHook::HEAD_END,
                 fn (): string => '<link rel="stylesheet" href="/css/filament/linear-theme.css?v='.(file_exists(public_path('css/filament/linear-theme.css')) ? filemtime(public_path('css/filament/linear-theme.css')) : time()).'">',
             )
+            ->renderHook(
+                PanelsRenderHook::USER_MENU_BEFORE,
+                fn () => view('filament.hooks.language-switcher'),
+            )
             ->navigationGroups([
                 NavigationGroup::make('Content'),
                 NavigationGroup::make('Structured content')->collapsed(),

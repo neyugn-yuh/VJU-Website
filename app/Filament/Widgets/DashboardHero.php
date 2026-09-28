@@ -19,11 +19,14 @@ class DashboardHero extends Widget
         $user = auth()->user();
         $hour = (int) now()->format('H');
 
-        $greeting = match (true) {
-            $hour >= 5 && $hour < 12 => 'Chào buổi sáng',
-            $hour >= 12 && $hour < 18 => 'Chào buổi chiều',
-            default => 'Chào buổi tối',
+        $greetingKey = match (true) {
+            $hour >= 5 && $hour < 12 => 'admin.greeting_morning',
+            $hour >= 12 && $hour < 18 => 'admin.greeting_afternoon',
+            default => 'admin.greeting_evening',
         };
+
+        $locale = app()->getLocale();
+        $greeting = __($greetingKey);
 
         $draftsCount = Content::where('status', ContentStatus::Draft->value)->count();
         $pendingCount = Content::where('status', ContentStatus::PendingReview->value)->count();
@@ -32,7 +35,7 @@ class DashboardHero extends Widget
         return [
             'user' => $user,
             'greeting' => $greeting,
-            'today' => now()->locale('vi')->isoFormat('dddd, D MMMM, YYYY'),
+            'today' => now()->locale($locale)->isoFormat('dddd, D MMMM, YYYY'),
             'draftsCount' => $draftsCount,
             'pendingCount' => $pendingCount,
             'publishedCount' => $publishedCount,

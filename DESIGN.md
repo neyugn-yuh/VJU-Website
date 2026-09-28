@@ -1,7 +1,7 @@
 ---
-version: 1.0.0
-name: VJU-Linear-Dashboard-Design
-description: "A Linear-inspired design system for VJU CMS Dashboard, balancing university academic authority with Linear's acclaimed software-craft precision. Featuring hairline micro-borders, near-black dark canvas (#0b0c0e), pure crisp light canvas (#f8fafc), signature Indigo/Navy accents (#5e6ad2 / #3b82f6), high-information density, and seamless dual-theme adaptability."
+version: 1.2.0
+name: VJU-Linear-Trilingual-Dashboard-Design
+description: "A Linear-inspired design system for VJU CMS Dashboard, balancing university academic authority with Linear's acclaimed software-craft precision. Featuring hairline micro-borders, near-black dark canvas (#0b0c0e), pure crisp light canvas (#f8fafc), signature Indigo/Navy accents (#5e6ad2 / #4f46e5), high information density, dual-theme parity, and comprehensive trilingual typography (English, Vietnamese, Japanese)."
 
 themes:
   dark:
@@ -55,8 +55,23 @@ themes:
     semantic-info-bg: "rgba(2, 132, 199, 0.08)"
 
 typography:
-  font-family-sans: "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
-  font-family-mono: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+  font-family-sans: "'Inter', 'Noto Sans JP', 'Hiragino Sans', 'BIZ UDPGothic', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+  font-family-mono: "'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+
+  rules_by_locale:
+    en:
+      line-height: "1.45"
+      letter-spacing: "-0.015em"
+      word-break: "normal"
+    vi:
+      line-height: "1.55"
+      letter-spacing: "-0.005em"
+      word-break: "normal"
+    ja:
+      line-height: "1.68"
+      letter-spacing: "0.018em"
+      word-break: "break-all"
+
   headline-xl:
     fontSize: "26px"
     fontWeight: "600"
@@ -103,6 +118,8 @@ components:
     purpose: "Micro-metric card featuring value, label, comparison badge, custom icon container, and sparkline or visual trend indicator."
   command-pill:
     purpose: "Compact, interactive button with subtle border, icon, and hover highlight for rapid administrative tasks."
+  language-switcher:
+    purpose: "Linear-styled segmented pill control situated in the top navigation bar enabling instant switching between VI, EN, and JA."
   chart-panel:
     purpose: "Clean, distraction-free data visualization card using Linear-inspired palettes and subtle gridlines."
   activity-feed:
@@ -115,7 +132,11 @@ This document formalizes the visual language and user experience for the VJU (Vi
 
 ## Core Philosophy
 
-1. **Craft & Quiet Luxury**: Avoid heavy drop-shadows or oversaturated borders. Emphasize razor-sharp 1px hairline dividers, precise typography with negative tracking, and intentional spacing.
-2. **Dual-Theme Parity**: Light and dark themes are designed as first-class citizens. The dark theme leverages OLED near-black (#0b0c0e) with translucent borders; the light theme uses crisp off-white (#f8fafc) and slate neutrals.
-3. **High Information Density**: Present meaningful data (drafts, pending reviews, 30-day views, content velocity) in a compact, scannable layout.
-4. **Action-Oriented Dashboard**: The hero banner provides immediate 1-click workflows for creating articles, building pages, uploading media, and previewing the public university website.
+1. **Craft & Quiet Luxury**: Avoid heavy drop-shadows or oversaturated borders. Emphasize razor-sharp 1px hairline dividers, precise typography with negative tracking for Latin, and intentional spacing.
+2. **Dual-Theme Parity**: Light and dark themes are designed as first-class citizens. The dark theme leverages OLED near-black (`#0b0c0e`) with translucent borders; the light theme uses crisp off-white (`#f8fafc`) and slate neutrals.
+3. **Trilingual Typography Harmony**:
+   - **English (`en`)**: Clean, compact tracking (`-0.015em`) with crisp numbers and concise labels.
+   - **Vietnamese (`vi`)**: Slightly elevated line-height (`1.55`) to prevent diacritic clipping on complex tones (`ề`, `ở`, `ứ`, `ệ`).
+   - **Japanese (`ja`)**: Ample line-height (`1.68`) with subtle positive tracking (`+0.018em`) and CJK fallback typography (`Noto Sans JP`, `Hiragino Sans`) to ensure legibility of intricate kanji strokes.
+4. **High Information Density**: Present meaningful data (drafts, pending reviews, 30-day views, content velocity) in a compact, scannable layout.
+5. **Action-Oriented Dashboard**: The hero banner provides immediate 1-click workflows for creating articles, building pages, uploading media, and previewing the public university website.

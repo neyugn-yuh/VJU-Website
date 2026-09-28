@@ -6,34 +6,34 @@
                 <div class="vju-hero-status-row">
                     <span class="vju-hero-badge">
                         <span class="vju-status-dot"></span>
-                        VJU Academic CMS Engine · Hệ thống sẵn sàng
+                        {{ __('admin.system_ready') }}
                     </span>
                     <span class="vju-hero-date">{{ $today }}</span>
                 </div>
                 <h1 class="vju-hero-greeting">
-                    {{ $greeting }}, <span class="vju-hero-name">{{ $user?->name ?? 'Quản trị viên' }}</span>
+                    {{ $greeting }}, <span class="vju-hero-name">{{ $user?->name ?? __('admin.admin_user') }}</span>
                 </h1>
                 <p class="vju-hero-sub">
-                    Trung tâm điều phối & biên tập nội dung số Trường Đại học Việt Nhật (ĐHQGHN)
+                    {{ __('admin.subheading') }}
                 </p>
             </div>
 
             <div class="vju-hero-pills-status">
                 <div class="vju-mini-stat">
                     <span class="vju-mini-stat-val text-emerald-500">{{ number_format($publishedCount) }}</span>
-                    <span class="vju-mini-stat-lbl">Đã xuất bản</span>
+                    <span class="vju-mini-stat-lbl">{{ __('admin.published') }}</span>
                 </div>
                 <div class="vju-mini-divider"></div>
                 <div class="vju-mini-stat">
                     <span class="vju-mini-stat-val {{ $pendingCount > 0 ? 'text-amber-500' : 'text-slate-400' }}">
                         {{ number_format($pendingCount) }}
                     </span>
-                    <span class="vju-mini-stat-lbl">Chờ kiểm duyệt</span>
+                    <span class="vju-mini-stat-lbl">{{ __('admin.pending_review') }}</span>
                 </div>
                 <div class="vju-mini-divider"></div>
                 <div class="vju-mini-stat">
                     <span class="vju-mini-stat-val text-indigo-400">{{ number_format($draftsCount) }}</span>
-                    <span class="vju-mini-stat-lbl">Bản nháp</span>
+                    <span class="vju-mini-stat-lbl">{{ __('admin.drafts') }}</span>
                 </div>
             </div>
         </div>
@@ -43,54 +43,54 @@
                 <svg class="vju-icon-bolt" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                 </svg>
-                Tác vụ nhanh
+                {{ __('admin.quick_actions') }}
             </div>
 
             <div class="vju-command-pills">
-                <a href="{{ url('/admin/contents/create?type=post') }}" class="vju-command-pill" title="Tạo bài viết tin tức mới (Phím C hoặc N)">
+                <a href="{{ url('/admin/contents/create?type=post') }}" class="vju-command-pill" title="{{ __('admin.new_post') }} (C / N)">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 5v14M5 12h14"/>
                     </svg>
-                    <span>Bài viết mới</span>
+                    <span>{{ __('admin.new_post') }}</span>
                     <kbd>C</kbd>
                 </a>
 
-                <a href="{{ url('/admin/contents/create?type=page') }}" class="vju-command-pill" title="Tạo trang tĩnh mới (Phím P)">
+                <a href="{{ url('/admin/contents/create?type=page') }}" class="vju-command-pill" title="{{ __('admin.new_page') }} (P)">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
                         <line x1="12" x2="12" y1="8" y2="16"/>
                         <line x1="8" x2="16" y1="12" y2="12"/>
                     </svg>
-                    <span>Trang mới</span>
+                    <span>{{ __('admin.new_page') }}</span>
                     <kbd>P</kbd>
                 </a>
 
-                <a href="{{ url('/admin/media') }}" class="vju-command-pill" title="Mở thư viện tài liệu & hình ảnh (Phím M)">
+                <a href="{{ url('/admin/media') }}" class="vju-command-pill" title="{{ __('admin.media_library') }} (M)">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
                         <circle cx="9" cy="9" r="2"/>
                         <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
                     </svg>
-                    <span>Media Library</span>
+                    <span>{{ __('admin.media_library') }}</span>
                     <kbd>M</kbd>
                 </a>
 
-                <a href="{{ url('/admin/manage-site') }}" class="vju-command-pill" title="Cấu hình hệ thống website (Phím S)">
+                <a href="{{ url('/admin/manage-site') }}" class="vju-command-pill" title="{{ __('admin.site_settings') }} (S)">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
                         <circle cx="12" cy="12" r="3"/>
                     </svg>
-                    <span>Cài đặt Site</span>
+                    <span>{{ __('admin.site_settings') }}</span>
                     <kbd>S</kbd>
                 </a>
 
-                <a href="{{ url('/') }}" target="_blank" rel="noopener noreferrer" class="vju-command-pill vju-command-pill-primary" title="Xem giao diện cổng thông tin trực tiếp (Phím V)">
+                <a href="{{ url('/') }}" target="_blank" rel="noopener noreferrer" class="vju-command-pill vju-command-pill-primary" title="{{ __('admin.view_live') }} (V)">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10"/>
                         <line x1="2" x2="22" y1="12" y2="12"/>
                         <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
                     </svg>
-                    <span>Xem Live Website</span>
+                    <span>{{ __('admin.view_live') }}</span>
                     <kbd>V</kbd>
                 </a>
             </div>
