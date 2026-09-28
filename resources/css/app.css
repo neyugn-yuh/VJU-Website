@@ -224,6 +224,20 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
 .vju-category-aside-admissions ul { gap: 0.85rem; }
 .vju-category-aside-admissions li a { color: #343434; font-weight: 500; }
 .vju-category-aside-admissions li.is-active a { color: #ab2523; font-weight: 700; }
+.vju-category-page-masters { grid-template-columns: 18.5rem minmax(0, 1fr); gap: 2rem; padding-top: 1.25rem; }
+.vju-category-aside-masters { padding: 3.5rem 1.25rem 3.75rem; border-radius: 0; }
+.vju-category-aside-masters ul { gap: 1.45rem; margin-top: 1.45rem; }
+.vju-category-aside-title { margin: 0; color: #4d5560; font-size: .95rem; }
+.prose-content.vju-master-body { max-width: 100%; color: #333; font-size: 1rem; line-height: 1.65; }
+.prose-content.vju-master-body h2 { position: relative; margin-top: 2.2rem; padding-bottom: 1.1rem; color: #2a2a2a; font-size: clamp(1.6rem, 2.3vw, 2.2rem); font-weight: 600; }
+.prose-content.vju-master-body h2::after { position: absolute; bottom: 0; left: 0; width: 132px; height: 2px; background: #b22624; content: ''; }
+.prose-content.vju-master-body h2:empty { display: none; }
+.prose-content.vju-master-body h3 { color: #b22624; font-size: clamp(1.4rem, 2vw, 1.85rem); font-weight: 400; text-transform: uppercase; }
+.prose-content.vju-master-body h5, .prose-content.vju-master-body h6 { color: #2a2a2a; font-size: 1.2rem; font-weight: 400; }
+.prose-content.vju-master-body li::marker { color: #b22624; }
+.prose-content.vju-master-body p:has(> img + img) { display: flex; align-items: flex-start; gap: 2rem; }
+.prose-content.vju-master-body p:has(> img + img) > img { width: auto; min-width: 0; height: clamp(10rem, 22vw, 17.5rem); flex: 0 1 auto; object-fit: cover; }
+.prose-content.vju-master-body img { border-radius: 6px; }
 .vju-tuition-intro-box { background: #f9fafb; border-left: 4px solid #007F3E; padding: 1.25rem 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 2rem; }
 .vju-tuition-intro-box p { margin: 0 0 0.75rem; color: #374151; font-size: 0.98rem; line-height: 1.6; }
 .vju-tuition-intro-box p:last-child { margin-bottom: 0; }
@@ -488,7 +502,7 @@ body { font-family: "Roboto", sans-serif; color: #252525; }
     .vju-staff-card > p:first-child img { width: 140px; height: 140px; }
     .vju-staff-card > p:last-child { grid-column: 1; grid-row: 2; padding-bottom: .5rem; }
     .vju-staff-card > ul { grid-column: 1; grid-row: 3; margin-top: 0; }
-    .vju-category-page, .vju-category-page-research, .vju-category-page-admissions { grid-template-columns: 1fr; gap: 1.5rem; padding-top: 2.25rem; padding-bottom: 3.5rem; }
+    .vju-category-page, .vju-category-page-research, .vju-category-page-admissions, .vju-category-page-masters { grid-template-columns: 1fr; gap: 1.5rem; padding-top: 2.25rem; padding-bottom: 3.5rem; }
     .vju-category-aside { order: 2; padding: 1.5rem; }
     .vju-category-aside-contact { margin-top: 2rem; }
     .vju-tuition-card { flex-direction: column; align-items: flex-start; gap: 0.75rem; }

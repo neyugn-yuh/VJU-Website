@@ -47,6 +47,20 @@ const ADMISSIONS_SIDEBAR_LINKS = [
     { label: 'Câu hỏi thường gặp', url: '#' },
 ];
 
+// Master's programme pages share the crawled layout: hero banner plus this sibling-programme sidebar.
+const MASTER_PROGRAM_HERO = '/storage/media/2024/01/derivatives/rectangle-22-web.png';
+const MASTER_PROGRAM_LINKS = [
+    { label: 'Khu vực học', url: '/chuong-trinh-thac-si-khu-vuc-hoc/' },
+    { label: 'Quản trị kinh doanh', url: '/chuong-trinh-thac-si-quan-tri-kinh-doanh/' },
+    { label: 'Biến đổi khí hậu và phát triển', url: '/sau-dai-hoc/chuong-trinh-thac-si-bien-doi-khi-hau-va-phat-trien/' },
+    { label: 'Kỹ thuật xây dựng', url: '/chuong-trinh-thac-si-ky-thuat-xay-dung/' },
+    { label: 'Kỹ thuật môi trường', url: '/sau-dai-hoc/chuong-trinh-thac-si-ky-thuat-moi-truong/' },
+    { label: 'Công nghệ Nano', url: '/cong-nghe-nano/' },
+    { label: 'Chính sách công', url: '/chuong-trinh-thac-sy-chinh-sach-cong/' },
+    { label: 'Lãnh đạo toàn cầu', url: '/chuong-trinh-thac-si-lanh-dao-toan-cau/' },
+    { label: 'Khoa học và Kỹ thuật máy tính', url: '/thac-si-khoa-hoc-va-ky-thuat-may-tinh/' },
+];
+
 const TUITION_NOTICES = [
     {
         title: 'THÔNG BÁO THU HỌC PHÍ ĐỢT 1 CHƯƠNG TRÌNH TIẾN SĨ - KHÓA 1',
@@ -380,12 +394,16 @@ function LegacyPageHero({ title, image, breadcrumbs, category = false }: { title
     );
 }
 
-function LegacyCategoryAside({ research = false, admissions = false, currentUrl = '' }: { research?: boolean; admissions?: boolean; currentUrl?: string }) {
-    if (admissions) {
+function LegacyCategoryAside({ research = false, admissions = false, masters = false, currentUrl = '' }: { research?: boolean; admissions?: boolean; masters?: boolean; currentUrl?: string }) {
+    if (admissions || masters) {
         return (
-            <aside className="vju-category-aside vju-category-aside-admissions" aria-label="Menu tuyển sinh">
+            <aside
+                className={`vju-category-aside ${masters ? 'vju-category-aside-masters' : 'vju-category-aside-admissions'}`}
+                aria-label={masters ? 'Chương trình thạc sĩ' : 'Menu tuyển sinh'}
+            >
+                {masters && <p className="vju-category-aside-title">Chương trình đào tạo</p>}
                 <ul>
-                    {ADMISSIONS_SIDEBAR_LINKS.map((link) => {
+                    {(masters ? MASTER_PROGRAM_LINKS : ADMISSIONS_SIDEBAR_LINKS).map((link) => {
                         const isActive = currentUrl === link.url || (link.url !== '#' && !link.url.startsWith('http') && currentUrl.startsWith(link.url));
                         return (
                             <li key={link.label} className={isActive ? 'is-active' : undefined}>
@@ -637,6 +655,23 @@ export default function Page() {
                 <LegacyPageHero title={content.title} image={legacyHero} breadcrumbs={breadcrumbs} />
                 <div className="container-site vju-staff-page">
                     <LegacyBody html={content.body} />
+                </div>
+                <BlockRenderer blocks={blocks} />
+            </PublicLayout>
+        );
+    }
+
+    if (MASTER_PROGRAM_LINKS.some((link) => link.url === content.url)) {
+        // The body repeats the page title as its first heading; the hero already shows it.
+        const body = content.body.replace(/^\s*<h2\b[^>]*>[\s\S]*?<\/h2>/i, '');
+        return (
+            <PublicLayout>
+                <LegacyPageHero title={content.title} image={MASTER_PROGRAM_HERO} breadcrumbs={breadcrumbs} />
+                <div className="container-site vju-category-page vju-category-page-masters">
+                    <LegacyCategoryAside masters currentUrl={content.url} />
+                    <article className="vju-category-page-content">
+                        <div className="prose-content vju-master-body" dangerouslySetInnerHTML={{ __html: body }} />
+                    </article>
                 </div>
                 <BlockRenderer blocks={blocks} />
             </PublicLayout>
