@@ -1,7 +1,7 @@
 import { useRef, useState, type FocusEvent, type KeyboardEvent } from 'react';
 import { useT } from '@/Hooks/useT';
 import type { MenuNode } from '@/Types';
-import { ChevronDown, ChevronRight } from './Icons';
+import { CaretDown, ChevronRight } from './Icons';
 import SmartLink from './SmartLink';
 
 /**
@@ -32,8 +32,8 @@ function Item({ node, depth }: { node: MenuNode; depth: number }) {
     };
 
     const linkClass = top
-        ? 'flex items-center px-3 py-2 text-[0.9375rem] font-semibold text-primary-900 hover:text-accent-600'
-        : 'flex flex-1 items-center px-4 py-2.5 text-sm text-ink hover:bg-primary-50 hover:text-primary-700';
+        ? 'flex items-center py-2 pl-3 pr-2 text-base text-primary-900 hover:text-accent-600'
+        : 'flex flex-1 items-center px-4 py-2.5 text-sm font-semibold text-ink hover:bg-primary-50 hover:text-primary-700';
 
     return (
         <li
@@ -58,10 +58,10 @@ function Item({ node, depth }: { node: MenuNode; depth: number }) {
                             suppressFocusOpen.current = open;
                             setOpen(!open);
                         }}
-                        className={`${top ? '-ml-2 p-1 text-primary-900' : 'px-3 py-2.5 text-muted'} rounded hover:text-accent-600`}
+                        className={`${top ? 'mr-3 p-0.5 text-primary-900' : 'px-3 py-2.5 text-muted'} rounded hover:text-accent-600`}
                     >
                         {top ? (
-                            <ChevronDown width={16} height={16} className={`transition ${open ? 'rotate-180' : ''}`} />
+                            <CaretDown width={14} height={14} />
                         ) : (
                             <ChevronRight width={16} height={16} />
                         )}

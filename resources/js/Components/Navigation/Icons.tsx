@@ -20,6 +20,11 @@ export const ChevronDown = (p: SVGProps<SVGSVGElement>) => (
         <path d="m6 9 6 6 6-6" />
     </svg>
 );
+export const CaretDown = (p: SVGProps<SVGSVGElement>) => (
+    <svg {...base({ fill: 'currentColor', stroke: 'none', ...p })}>
+        <path d="M6 9h12l-6 7z" />
+    </svg>
+);
 export const ChevronRight = (p: SVGProps<SVGSVGElement>) => (
     <svg {...base(p)}>
         <path d="m9 6 6 6-6 6" />
