@@ -33,7 +33,8 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
-            'serve' => true,
+            // Off: /storage/* is the public disk (or the bucket redirect in routes/web.php).
+            'serve' => false,
             'throw' => false,
             'report' => false,
         ],

@@ -6,6 +6,7 @@ use App\Http\Controllers\HealthController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\SeoController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 Route::get('/health', HealthController::class)->name('health');
 Route::get('/robots.txt', [SeoController::class, 'robots']);
@@ -17,6 +18,11 @@ Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->midd
 
 Route::get('/preview/{content}', [PublicController::class, 'preview'])->middleware('auth')->name('preview');
 Route::post('/comments/{content}', [CommentController::class, 'store'])->middleware('throttle:comments')->name('comments.store');
+
+// Content bodies hard-link /storage/...; when media lives in a bucket, send those links there.
+if (config('cms.media.disk') !== 'public') {
+    Route::get('/storage/{path}', fn (string $path) => redirect()->away(Storage::disk(config('cms.media.disk'))->url($path), 301))->where('path', '.*');
+}
 
 // Everything else is resolved against content, taxonomy and redirects.
 Route::fallback(PublicController::class);
